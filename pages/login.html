@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drift — Sign in</title>
+  <style>
+    :root {
+      --bg: #0a0e1a;
+      --surface: #131829;
+      --surface-2: #1c2238;
+      --border: #262c44;
+      --text: #e8e9ed;
+      --text-2: #8b91a8;
+      --text-3: #5c6377;
+      --accent: #e8a854;
+      --bad: #e87474;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 36px 32px;
+      width: 100%;
+      max-width: 380px;
+    }
+
+    .brand {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .brand h1 {
+      margin: 0 0 4px;
+      font-size: 24px;
+      letter-spacing: -0.02em;
+      font-weight: 600;
+    }
+
+    .brand p {
+      margin: 0;
+      color: var(--text-3);
+      font-size: 13px;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--surface-2);
+      border-radius: 8px;
+      padding: 3px;
+      margin-bottom: 24px;
+    }
+
+    .tabs button {
+      background: none;
+      border: none;
+      color: var(--text-2);
+      font-family: inherit;
+      font-size: 14px;
+      padding: 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .tabs button.active {
+      background: var(--surface);
+      color: var(--text);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      color: var(--text-2);
+      margin-bottom: 6px;
+    }
+
+    input {
+      width: 100%;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      margin-bottom: 16px;
+      transition: border-color 0.15s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .btn-primary {
+      width: 100%;
+      background: var(--accent);
+      color: #1a1208;
+      border: none;
+      padding: 11px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+      margin-top: 4px;
+    }
+
+    .btn-primary:hover { background: #f0b769; }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .error {
+      background: rgba(232, 116, 116, 0.1);
+      border: 1px solid rgba(232, 116, 116, 0.3);
+      color: var(--bad);
+      font-size: 13px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    .error.visible { display: block; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="brand">
+      <h1>Drift</h1>
+      <p>Sleep forecast for your day</p>
+    </div>
+
+    <div class="tabs">
+      <button id="tab-login" class="active" onclick="switchTab('login')">Sign in</button>
+      <button id="tab-register" onclick="switchTab('register')">Create account</button>
+    </div>
+
+    <div id="error" class="error"></div>
+
+    <form id="form" onsubmit="handleSubmit(event)">
+      <label for="username">Username</label>
+      <input id="username" type="text" autocomplete="username" required />
+
+      <label for="password">Password</label>
+      <input id="password" type="password" autocomplete="current-password" required />
+
+      <div id="confirm-wrap" style="display:none">
+        <label for="confirm-password">Confirm password</label>
+        <input id="confirm-password" type="password" autocomplete="new-password" />
+      </div>
+
+      <button class="btn-primary" id="submit-btn" type="submit">Sign in</button>
+    </form>
+  </div>
+
+  <script>
+    let mode = 'login';
+
+    function switchTab(next) {
+      mode = next;
+      const isRegister = next === 'register';
+      document.getElementById('tab-login').classList.toggle('active', !isRegister);
+      document.getElementById('tab-register').classList.toggle('active', isRegister);
+      document.getElementById('submit-btn').textContent = isRegister ? 'Create account' : 'Sign in';
+      document.getElementById('password').autocomplete = isRegister ? 'new-password' : 'current-password';
+      document.getElementById('confirm-wrap').style.display = isRegister ? 'block' : 'none';
+      document.getElementById('confirm-password').required = isRegister;
+      hideError();
+    }
+
+    function showError(msg) {
+      const el = document.getElementById('error');
+      el.textContent = msg;
+      el.classList.add('visible');
+    }
+
+    function hideError() {
+      document.getElementById('error').classList.remove('visible');
+    }
+
+    async function handleSubmit(e) {
+      e.preventDefault();
+      hideError();
+      const btn = document.getElementById('submit-btn');
+      btn.disabled = true;
+
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (mode === 'register') {
+        const confirm = document.getElementById('confirm-password').value;
+        if (password !== confirm) {
+          showError('Passwords do not match');
+          btn.disabled = false;
+          return;
+        }
+      }
+
+      try {
+        const res = await fetch(`/auth/${mode}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          showError(data.error ?? 'Something went wrong');
+        } else {
+          window.location.href = '/';
+        }
+      } catch {
+        showError('Could not reach server');
+      } finally {
+        btn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drift — Profile</title>
+  <link rel="stylesheet" href="/css/app.css" />
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <h1>Drift</h1>
+      <span class="tagline">Sleep forecast for your day</span>
+      <div class="menu-wrap" id="menu-wrap">
+        <button class="menu-trigger" id="menu-trigger" onclick="toggleMenu()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+          </svg>
+        </button>
+        <div class="menu-dropdown" id="menu-dropdown">
+          <a href="/pages/profile.html" class="menu-item">Profile</a>
+          <div class="menu-divider"></div>
+          <button class="menu-item menu-item-danger" onclick="logout()">Sign out</button>
+        </div>
+      </div>
+    </div>
+    <nav class="tabs">
+      <a href="/pages/log.html" class="tab-link">Log</a>
+      <a href="/pages/forecast.html" class="tab-link">Forecast</a>
+      <span class="tab-link disabled">Recommendations <span class="soon">soon</span></span>
+    </nav>
+  </header>
+
+  <main>
+    <div class="card">
+      <h2>Personal</h2>
+      <div class="profile-form">
+        <div class="profile-field">
+          <label for="field-name">Name</label>
+          <input type="text" id="field-name" placeholder="Your name" autocomplete="name" />
+        </div>
+        <div class="profile-field">
+          <label for="field-sex">Sex</label>
+          <select id="field-sex">
+            <option value="">Prefer not to say</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+        <div class="profile-field">
+          <label for="field-height">Height</label>
+          <div class="field-unit-row">
+            <input type="number" id="field-height" placeholder="170" min="0" />
+            <select id="field-height-unit">
+              <option value="cm">cm</option>
+              <option value="in">in</option>
+            </select>
+          </div>
+        </div>
+        <div class="profile-field">
+          <label for="field-weight">Weight</label>
+          <div class="field-unit-row">
+            <input type="number" id="field-weight" placeholder="70" min="0" />
+            <select id="field-weight-unit">
+              <option value="kg">kg</option>
+              <option value="lbs">lbs</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Sleep</h2>
+      <div class="profile-form">
+        <div class="profile-field">
+          <label for="field-bedtime">Target bedtime</label>
+          <input type="time" id="field-bedtime" />
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-actions">
+      <button class="btn-save" onclick="saveProfile()">Save changes</button>
+      <span class="save-confirm" id="save-confirm">Saved</span>
+    </div>
+  </main>
+
+  <script src="/js/types.js"></script>
+  <script src="/js/time.js"></script>
+  <script src="/js/state.js"></script>
+  <script src="/js/nav.js"></script>
+  <script src="/js/profile-page.js"></script>
+</body>
+</html>
