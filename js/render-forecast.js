@@ -1,8 +1,9 @@
 let chart = null;
 
 function renderForecast() {
+  const events = typeof getActiveEvents === 'function' ? getActiveEvents() : STATE.events;
   const bedtime = targetBedtimeDate();
-  const result = scoreAt(STATE.events, bedtime);
+  const result = scoreAt(events, bedtime);
   const interp = interpret(result.score);
 
   const heroEl = document.getElementById("hero-score");
@@ -14,7 +15,7 @@ function renderForecast() {
     `Target bedtime ${fmtTime(bedtime)}`;
 
   renderBreakdown(result.byType);
-  renderChart(bedtime);
+  renderChart(bedtime, events);
 }
 
 function renderBreakdown(byType) {
@@ -43,7 +44,7 @@ function renderBreakdown(byType) {
   }
 }
 
-function renderChart(bedtime) {
+function renderChart(bedtime, events) {
   const ctx = document.getElementById("decay-chart").getContext("2d");
   const now = new Date();
   const end = new Date(bedtime.getTime() + 2 * 3600 * 1000);
@@ -53,7 +54,7 @@ function renderChart(bedtime) {
   const stepMin = 15;
   for (let t = now.getTime(); t <= end.getTime(); t += stepMin * 60 * 1000) {
     const at = new Date(t);
-    const r = scoreAt(STATE.events, at);
+    const r = scoreAt(events, at);
     points.push(r.score);
     labels.push(fmtTime(at));
   }

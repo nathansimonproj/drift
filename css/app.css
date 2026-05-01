@@ -435,6 +435,65 @@ main {
   color-scheme: dark;
 }
 
+/* Mode toggle (Actual / What If) */
+.mode-toggle {
+  display: flex;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 4px;
+  width: fit-content;
+  margin-bottom: 20px;
+}
+
+.mode-btn {
+  background: none;
+  border: none;
+  color: var(--text-2);
+  padding: 8px 20px;
+  border-radius: 7px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.mode-btn.active {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.whatif-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.whatif-card-header h2 {
+  margin: 0;
+}
+
+.whatif-clear {
+  background: none;
+  border: none;
+  color: var(--text-3);
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s;
+}
+
+.whatif-clear:hover {
+  color: var(--bad);
+}
+
+.whatif-form-row {
+  margin-top: 12px;
+}
+
 /* Forecast */
 .forecast-hero {
   text-align: center;

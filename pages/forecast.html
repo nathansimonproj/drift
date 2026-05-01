@@ -33,6 +33,26 @@
   </header>
 
   <main>
+    <div class="mode-toggle">
+      <button class="mode-btn active" id="btn-actual" onclick="setMode('actual')">Actual</button>
+      <button class="mode-btn" id="btn-whatif" onclick="setMode('whatif')">What If</button>
+    </div>
+
+    <div class="card" id="whatif-panel" style="display:none">
+      <div class="whatif-card-header">
+        <h2>Hypothetical events</h2>
+        <button class="whatif-clear" onclick="clearWhatIf()">Clear all</button>
+      </div>
+      <div class="quick-add" id="whatif-quick-add"></div>
+      <div class="form-row whatif-form-row">
+        <select id="whatif-type"></select>
+        <input id="whatif-amount" type="number" placeholder="Amount" />
+        <input id="whatif-time" type="time" />
+        <button class="btn-primary" id="whatif-add">Add</button>
+      </div>
+      <ul class="events-list" id="whatif-events-list"></ul>
+    </div>
+
     <div class="card">
       <div class="forecast-hero">
         <div class="score" id="hero-score">—</div>

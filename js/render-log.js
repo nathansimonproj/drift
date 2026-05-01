@@ -1,7 +1,7 @@
 function renderQuickAdd() {
   const el = document.getElementById("quick-add");
   el.innerHTML = "";
-  for (const key of ["coffee", "energy_drink", "marijuana", "nap", "alcohol"]) {
+  for (const key of ["coffee", "energy_drink", "marijuana", "alcohol", "nap"]) {
     const t = TYPES[key];
     const btn = document.createElement("button");
     btn.innerHTML = `<span class="label">${t.quickLabel}</span><span class="meta">${t.quickMeta}</span>`;
