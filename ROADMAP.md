@@ -1,255 +1,272 @@
 # Drift — Roadmap
 
-A working plan for the sleep forecast app, built from the v0.1 single-file HTML MVP.
+A working plan for the sleep forecast app, now targeting **college students** as the first user cohort.
 
-The doc is organized in three layers: **the full feature map** (everything the app could eventually do, scaffolded out so you can see the shape), **a phased roadmap** (when to build what), and **this week's queue** (the specific ordered work to do next).
-
----
-
-## 0. Where we are right now
-
-A working `index.html` with two screens: a Log screen with quick-add buttons and a custom-entry form, and a Forecast screen with a hero score, a per-contributor breakdown, and a Chart.js decay timeline. State persists in localStorage. The decay engine is a deterministic rule set — believable directionally, not yet calibrated.
-
-What this can already do: let one person log their day, see a live forecast number that responds to their inputs, and watch a chart of how the score evolves toward bedtime. What it can't do: sync across devices, learn from outcomes, recommend interventions, run on mobile natively, or onboard a new user gracefully.
+The doc is organized in five layers: **target cohort** (who this is for and why), **the full feature map** (everything the app could eventually do), **a phased roadmap** (when to build what), **this week's queue** (the concrete ordered work to do next), and **open decisions** (the choices still on the table).
 
 ---
 
-## 1. Feature map (the full scaffold)
+## 0. Target cohort: college students
 
-This is the surface area, organized by app area. Not everything here gets built — but seeing the whole map makes prioritization easier.
+College students have the worst sleep of any large adult cohort — average ~6.5 hours, wildly irregular, with daily mismatches between what they want (focus, performance, fun) and what their bodies are doing. The pain is real, daily, self-aware, and currently underserved by every existing sleep app: Oura and Whoop are too expensive, RISE is for adults, and Apple Watch is too generic.
+
+What makes this cohort right for Drift:
+
+- **Daily, painful sleep problem** — caffeine timing, weekend drinking, exam stress, all-nighters, Adderall, naps gone wrong. Drift has something to say about every input.
+- **Concentrated audience** — campus = a built-in distribution channel. One pilot school can produce hundreds of users in weeks.
+- **TikTok-native** — the "what if?" interaction is screenshot-bait. Demos virally.
+- **Cheaper to acquire** than any other cohort. No paid ads needed for v1.
+- **Long lifetime value** — get them in college, keep them through grad school and early career.
+- **Iterating with them is easy** — campus visits, study breaks, surveys, friend-of-a-friend introductions.
+
+What makes it hard:
+
+- **Price-sensitive** — no $30/mo subscription works here. Free-with-`.edu` and ~$4/mo paid tier.
+- **Privacy stakes** — alcohol, weed, unprescribed Adderall in the data. Cannot leak, cannot sell, cannot share with schools.
+- **App fatigue** — must be sticky and actually useful, not another wellness app gathering dust.
+- **Behavioral honesty** — can't lecture about not partying. Harm-reduction posture, not wellness posture.
+
+This means the product is shaped as **a non-judgmental, harm-reduction tool that helps you survive your week**, not a wellness app that helps you optimize your sleep. The distinction matters in every copy decision.
+
+---
+
+## 1. Where we are right now
+
+The app has grown beyond a single HTML file into a real multi-page structure.
+
+**Frontend.** Three pages — Log, Forecast, and Login — at `/pages/*.html`, with shared CSS at `/css/app.css` and modular JS at `/js/*.js` (types, decay, state, render-log, render-forecast, time, nav, page entry points). State persists per-user via localStorage (and now sessions on the server).
+
+**Backend.** Express server at `/server/server.js` with SQLite (`drift.db`) for accounts and an SQLite-backed session store. `bcrypt` for password hashing. Three routes: `auth`, `profile`, and the static frontend.
+
+**Decay engine.** Eleven event types, all with deterministic decay functions: `coffee`, `energy_drink`, `marijuana`, `stimulant` (Adderall), `nap`, `alcohol`, `nicotine`, `caffeine` (legacy alias), `workout`, `meal`, `stress`, `brightlight`, `screen`. Default target bedtime is 1:00 AM. The breakdown card collapses caffeine sources into one row and surfaces Adderall, marijuana, alcohol, nap, nicotine separately.
+
+**What this can do today.** A student can sign in, log their day with student-relevant inputs (Celsius at 4pm, 90-min nap at 5pm, Adderall this morning), and see a live forecast at 1am with a Chart.js decay timeline.
+
+**What it still can't do.** Sync across devices in real time, recommend interventions, learn from sleep outcomes, run on mobile natively, onboard a new user gracefully, or do anything especially viral.
+
+---
+
+## 2. Feature map (the full scaffold)
+
+The surface area, organized by app area. College-specific items are tagged **[student]**.
 
 ### A. Event logging
 
-The act of getting data into the system. Everything else depends on this being frictionless.
-
 - **Quick-add buttons** for the most common events. *(✓ shipped)*
 - **Custom entry form** with type, amount, time. *(✓ shipped)*
+- **Student-relevant types** — coffee, energy drink, Adderall, marijuana, nap, alcohol. *(✓ shipped)*
+- **Brand presets** **[student]** — tap to log Celsius (200mg), Red Bull (80mg), Bang (300mg), Monster (160mg) with one click.
 - **Edit existing events** — currently you can only delete and re-add.
-- **Backdated logging** — log something from yesterday after the fact.
-- **"Same as yesterday"** — one-tap recreation of a day you've already lived.
-- **Recurring patterns** — "I have coffee every weekday at 8am" creates events automatically.
-- **Natural-language logging** — type "just had a beer and a slice of pizza" and an LLM parses it into structured events. Killer feature for friction reduction.
-- **Voice / Siri logging** — mobile-only, "Hey Siri, log coffee." Requires native iOS app.
-- **Photo logging** — snap your meal, LLM estimates carb/fat/protein and meal size. Speculative.
-- **Auto-detect from wearables** — pull workouts and sleep from Apple Health / Oura / Whoop instead of manual logging.
+- **Backdated logging** — log yesterday's events after the fact.
+- **"Same as yesterday"** **[student]** — one-tap recreation. Students live in patterns (8am coffee, 4pm nap, 9pm cram).
+- **Schedule-aware logging** **[student]** — paste your class schedule, app pre-suggests events around it.
+- **Natural-language logging** — "had a celsius and pizza" → parsed by LLM into structured events. Major friction killer.
+- **Voice / Siri logging** — mobile-only. "Hey Siri, log coffee."
+- **Auto-detect from wearables** — pull workouts and sleep from Apple Health.
 
 ### B. Forecast engine
 
-The IP. Where the score comes from.
-
-- **Deterministic decay models** for caffeine, alcohol, workout, meal, nicotine, stress, light, screen. *(✓ shipped, rough)*
-- **Calibration constants exposed as sliders** in a hidden debug panel — lets you (and eventually the user) tune sensitivity to each input.
-- **Confidence intervals** on the forecast — show 70 ± 8, not just 70.
-- **Time-of-day adjustments** — caffeine half-life is longer in the evening; cortisol decay slower under sleep deprivation.
-- **Personalization layer** — per-user multipliers on each parameter, learned from outcome data.
-- **Hierarchical Bayesian model** (long-term) — pool across users with priors so cold-start works while letting power users diverge.
-- **Model versioning** — when the engine changes, old forecasts don't retroactively shift.
+- **Deterministic decay models** for all 11 event types. *(✓ shipped, rough)*
+- **Calibration constants in a hidden debug panel** — tune the engine while you use it.
+- **Sleep debt state** **[student]** — log last night's hours; affects today's forecast magnitude.
+- **All-nighter mode** **[student]** — when total sleep in last 24h is < 4h, switch to "survive tomorrow" forecast instead of "clean sleep tonight."
+- **Time-of-day adjustments** — caffeine half-life longer in the evening; cortisol decay slower under sleep deprivation.
+- **Confidence intervals** — show 70 ± 8, not just 70.
+- **Personalization layer** — per-user multipliers on each parameter, learned from outcomes.
+- **Hierarchical Bayesian model** — pool across users with priors so cold-start works.
 
 ### C. Forecast visualization
 
-Making the number understandable and actionable.
-
 - **Hero score** at target bedtime, color-coded. *(✓ shipped)*
-- **Per-contributor breakdown** showing what's costing you points. *(✓ shipped)*
-- **Decay timeline** showing forecast curve from now to bedtime+2h. *(✓ shipped)*
-- **Stacked contribution chart** — show each obstacle as a colored band so you can see *what* is dragging the score down at each moment.
-- **"Best bedtime tonight"** — the time at which forecast peaks; sometimes 11:30 is meaningfully better than 11:00.
+- **Per-contributor breakdown** with student-relevant categories. *(✓ shipped)*
+- **Decay timeline** with bedtime marker. *(✓ shipped)*
+- **Stacked contribution chart** — colored bands per obstacle, see *what* drags the score at each moment.
+- **"Best bedtime tonight"** — the time at which forecast peaks.
+- **Tomorrow's energy forecast** **[student]** — separate score predicting how rough tomorrow will feel given tonight's setup.
 - **Historical view** — yesterday's forecast, last 7 days, your typical day.
-- **Predicted vs. actual** — once we collect sleep outcome data, show a calibration plot ("we said 72, you slept a 68"). Builds trust in the model.
-- **Glanceable widget / Live Activity** — current forecast on the lock screen / home screen. Mobile-only.
+- **Predicted vs. actual** — once we collect sleep outcomes, show a calibration plot.
 
 ### D. Recommendations & remediation (the third screen)
 
-The forward-looking, prescriptive layer. This is what turns a tracker into a coach.
+- **"What if?" mode** — drag a hypothetical event onto the timeline, watch forecast change live. Highest-leverage feature, screenshot-bait.
+- **"Pull This Off?" mode** **[student]** — input the constraint ("4 hours of work left, 9am class") and get a survival plan. Most college-coded version of "what if?".
+- **Hangover Forecast** **[student]** — log last night's drinking, get a realistic timeline of when you'll feel human again.
+- **Exam-Week Mode** **[student]** — multi-day plan to protect performance for a known-future event.
+- **Rescue plan** — given current state, suggest specific interventions ranked by score impact.
+- **Time-stamped action queue** — wind-down checklist with timestamps, generated for tonight.
+- **Last-coffee deadline** — for tomorrow, given today's debt and target bedtime.
 
-- **"What if?" mode** — drag a hypothetical event onto the timeline ("if I have a beer at 9pm…") and watch the forecast change in real time. Highest-value single feature on the entire roadmap.
-- **Rescue plan** — if score is below threshold, suggest specific actions ranked by expected score gain ("dim lights at 9 → +6", "drink 16oz water → +3", "skip the IPA → +14").
-- **Protect plan** — if score is good, what *not* to do to keep it good.
-- **Time-stamped action queue** — a wind-down checklist with timestamps generated for tonight specifically.
-- **Last-coffee deadline** — for tomorrow, given today's sleep debt and your target bedtime.
-- **Workout window** — when to exercise today so cortisol clears before bed.
-- **Pre-event check** — about to do something? Tap "Will this hurt my sleep?" and get a yes/no with cost.
+### E. Onboarding **[student]**
 
-### E. Onboarding
-
-How a brand-new user gets value in their first 60 seconds.
-
-- **Sample day loader** — already exists as an empty-state link, but should be smarter (load a "good" day vs. "bad" day for contrast).
-- **Personalization wizard** — caffeine sensitivity, typical bedtime, wearable connection. 30 seconds, optional.
-- **Annotated forecast** — first time someone sees the chart, walk them through what the line/bands/marker mean.
+- **Sample day loader** — already exists, now student-shaped (Adderall, Celsius, late nap, late dinner). *(✓ shipped)*
+- **First-run wizard** — caffeine sensitivity, typical bedtime, .edu connection.
+- **Annotated forecast** — first time you see the chart, walk through what the line/bands/marker mean.
 - **First-week journey** — daily nudges that introduce one feature at a time.
 
 ### F. Outcome tracking & validation loop
 
-The feedback the engine learns from. This is the moat.
-
-- **Manual sleep score entry** — wake up, type in how you slept (1–10).
-- **Apple Health import** — pull HealthKit sleep data automatically. Web has limited HealthKit access; this is realistically a mobile feature.
-- **Direct Oura API** — OAuth2, pull last night's sleep score, stages, HRV.
-- **Direct Whoop API** — OAuth2 + webhooks, pull recovery score and sleep performance.
-- **Calibration dashboard** — predicted vs. actual scatter; users see their personal model improve over time.
-- **Auto-tuning** — model parameters update nightly based on observed (input → outcome) pairs.
+- **Manual sleep score entry** — wake up, type how you slept (1–10).
+- **Apple Health import** — pull HealthKit sleep data automatically.
+- **Direct Oura / Whoop integrations** — for the small number of students who have wearables.
+- **Calibration dashboard** — predicted vs. actual scatter; users see their personal model improve.
+- **Auto-tuning** — model parameters update nightly from observed (input → outcome) pairs.
 
 ### G. Accounts, sync, persistence
 
-Moving beyond "one browser, one device."
-
-- **localStorage** for anonymous use. *(✓ shipped)*
-- **Magic-link auth** — email + one-click sign-in. No passwords.
-- **Sign in with Apple** — when we go mobile.
+- **Email/password accounts** with bcrypt + SQLite sessions. *(✓ shipped)*
+- **`.edu` validation** **[student]** — verified-student tier with free 90-day access.
+- **Magic-link or OAuth** — replace passwords; less friction.
 - **Cross-device sync** — log on phone, see on laptop.
-- **Data export** (CSV/JSON) — table stakes for trust + GDPR/CCPA.
+- **Data export** (CSV/JSON).
 - **Account deletion** — actually deletes everything.
 
 ### H. Notifications & passive prompts
 
-Keeping the loop alive without being annoying.
-
-- **Wind-down reminder** — N minutes before target bedtime, given your current forecast.
-- **Score-drop alert** — if a HealthKit-detected workout pushes your score down meaningfully, push a notification.
-- **Morning recap** — "you predicted 74, you scored 71. Here's why."
-- **Last-call nudge** — "one more coffee before X:XXpm or you'll feel it tonight."
+- **Wind-down reminder** — N minutes before bedtime, given current forecast.
+- **Score-drop alert** — if a logged workout pushes your score down, push a notification.
+- **Morning recap** — "predicted 74, you scored 71. Here's why."
+- **Last-call nudge** **[student]** — "stop caffeine before X:XXpm or you'll feel it tonight."
 
 ### I. Personalization & intelligence layer
 
-The reasons users will keep coming back six months in.
-
 - **Per-user decay parameters** learned from outcome data.
-- **Anomaly detection** — "your sleep was unusually bad given your inputs, anything else going on?"
 - **Pattern surfacing** — "you sleep ~8 points worse on days you train after 7pm."
-- **LLM explanation layer** — natural language description of why your forecast is what it is.
-- **Conversational Q&A** — "why did I sleep badly Tuesday?" → engine queries data and explains.
+- **LLM explanation layer** — natural language description of why the forecast is what it is.
+- **Conversational Q&A** — "why did I sleep badly Tuesday?" → engine answers using your data.
 
 ### J. Platforms
 
-Where the app lives.
+- **Web (current)** — primary surface for v0.1–0.3.
+- **iOS app (SwiftUI)** — the eventual product. Live Activity, Widget, App Intents/Siri, HealthKit.
+- **Android** — only after iOS PMF.
+- **TikTok-shareable share-cards** **[student]** — exportable score images for the timeline.
 
-- **Web (this MVP)** — primary surface for v0.1–0.3.
-- **iOS app (SwiftUI)** — the real product. Live Activity, Widget, App Intents/Siri, HealthKit.
-- **Android app** — only after iOS has product-market fit.
-- **Apple Watch complication** — bedtime forecast on your wrist.
+### K. Business / GTM
 
-### K. Business / surrounding work
-
-Adjacent to the product but necessary for it to matter.
-
-- **Landing page** — short pitch, screenshot/video, email signup.
-- **Waitlist** — gather names before public launch.
-- **Privacy policy + terms** — minimal but real.
-- **Analytics** (PostHog) — what features actually get used.
-- **Pricing experiments** — when there's enough product to charge for.
-- **Acquisition-readiness** — clean codebase, documented APIs, exportable IP. Build with this in mind from day one even if it never happens.
+- **Landing page** — short pitch, screenshot/video, `.edu` email signup.
+- **UW pilot** **[student]** — first 100 users from one school.
+- **Campus ambassador program** **[student]** — Greek life, athletic teams, RAs, study groups.
+- **TikTok content calendar** **[student]** — 30-second demos of "what if?" / "pull this off?".
+- **Privacy posture** — front-and-center "we never share, sell, or report your data."
+- **Pricing experiments** — `.edu` free for 90 days → $4/mo or $24/year student tier.
+- **Institutional pilot** **[student]** — student health centers, athletic departments at $5–15/student/year.
+- **Acquisition-readiness** — clean APIs, no weird data partnerships, exportable IP.
 
 ---
 
-## 2. Phased roadmap
+## 3. Phased roadmap
 
 Time-ordered. Each phase ends at a real artifact you'd be willing to show someone.
 
-### Phase 1 — This week: a v0.1 you'd actually demo
+### Phase 1 — This week: ready to share with one student
 
-Goal: make the current MVP feel intentional. You should be able to send the URL to a friend and have them get the point in 60 seconds without explanation.
-
-The work:
-1. **Deploy to Vercel** — get a real URL.
-2. **Stacked contribution chart** — replace the single-line forecast with a stacked area chart so you can see what's dragging the score down at every moment.
-3. **Edit existing events** — click an event in the list, edit time/amount, save.
-4. **Onboarding card** — a dismissible "what is this?" card on first visit, with a "load a sample day" button right inside it.
-5. **Polish pass** — logo wordmark, page title/favicon, refined empty states, mobile responsive sweep.
-6. **Set up GitHub repo** — so you have version history and can iterate without fear.
-
-End state: a deployed URL you'd put in a tweet.
-
-### Phase 2 — Weeks 2–4: the killer features
-
-Goal: build the things that make people say "oh, this is different from RISE/Oura/Whoop." Two features matter most.
+Goal: send the URL to one UW student you trust and have them get the point in 60 seconds without explanation.
 
 The work:
-1. **"What if?" mode** — the single most differentiated interaction. Drop a hypothetical event onto the timeline and watch the forecast change live before committing. This is the wedge that makes Drift unlike any other sleep app.
-2. **Recommendations screen v1 (rule-based)** — given today's events, output a ranked list of interventions with score impact. No LLM needed; literally just `if score < 70: suggest("dim lights at 9 → +6 points")`.
-3. **Best bedtime tonight** — show the time at which forecast peaks. Often it's 15–30 minutes off from the user's stated target.
-4. **Natural-language logging** (Claude Haiku or GPT-4o-mini) — "had two beers and pizza at 8" parses into events. Major friction reduction.
-5. **Calibration sliders** in a debug panel — tune the engine as you use it, find the constants that match your experience.
+1. **Deploy to Vercel/Render** — get a public URL with the backend running.
+2. **Stacked contribution chart** — replace single-line forecast with a stacked area chart.
+3. **First-run experience** — the empty-state link is too hidden. A real onboarding card explaining the score and a "load a sample day" button.
+4. **Brand presets for energy drinks** — Celsius / Red Bull / Bang / Monster as one-tap quick adds. Highest-leverage UX upgrade for this cohort.
+5. **`.edu` email validation on signup** — sets up the free-student tier later.
+6. **Privacy promise** front-and-center on login: "We will never share, sell, or report your data."
 
-End state: a tool you actually use every day yourself.
+End state: a deployed URL you'd send to your roommate or a friend in your major.
 
-### Phase 3 — Months 2–3: real users, real outcomes
+### Phase 2 — Weeks 2–4: the killer student features
 
-Goal: stop being a single-player toy. Get 20 people using it daily and start collecting outcome data.
-
-The work:
-1. **Magic-link accounts + cross-device sync** — minimal backend (FastAPI + Postgres on Fly.io). No passwords.
-2. **Manual sleep score entry** in the morning — required for the calibration loop.
-3. **Predicted vs. actual dashboard** — show users their personal model accuracy over time. Trust-builder.
-4. **Apple Health import (web)** — limited but possible via shortcuts/CSV export. Not great UX but unblocks the data collection.
-5. **Landing page + waitlist** — short pitch, screenshots, "request early access" form.
-6. **PostHog analytics** — start measuring activation, retention, feature usage.
-7. **Twenty closed-beta users** — quantified-self crowd, biohacker subreddits, your own network.
-
-End state: weekly active users, a spreadsheet of feedback, calibration data starting to accumulate.
-
-### Phase 4 — Months 4–6: native iOS, real depth
-
-Goal: leave the web behind for the experiences that need a phone. Start the personalization moat.
+Goal: build the things that make a student say "wait, this is actually useful." Three features matter most.
 
 The work:
-1. **iOS app** (SwiftUI) — feature parity with web, plus HealthKit, App Intents, Live Activity, Widget.
-2. **Direct Oura + Whoop OAuth integrations** — better data than HealthKit alone gives.
-3. **Per-user Bayesian personalization v1** — start simple: per-user multipliers on each decay constant, updated nightly.
+1. **"Pull This Off?" mode** — a third screen that takes student-coded constraints and outputs a survival plan. Demo of this on TikTok is the wedge.
+2. **Hangover Forecast** — given last night's drinking, show a clearance + recovery timeline. Sunday-morning-saver.
+3. **Tomorrow's energy forecast** — separate score predicting how rough tomorrow will feel. Connects today's choices to next-day pain, which is the actual loss function for students.
+4. **Sleep debt + last-night sleep tracking** — log how you slept, debt state modifies all penalties.
+5. **Edit existing events** — basic UX hygiene.
+6. **Polish pass** — logo wordmark, favicon, mobile responsive sweep, refined empty states.
+
+End state: a product that's actually useful to you every day, plus three demos worth posting.
+
+### Phase 3 — Months 2–3: UW pilot
+
+Goal: get 100 UW students using it weekly. Start the validation loop.
+
+The work:
+1. **`.edu` free tier with 90-day window** — gate non-premium features on .edu auth.
+2. **Manual sleep score entry every morning** — required for the calibration loop.
+3. **Predicted vs. actual dashboard** — show users their model accuracy improving.
+4. **Landing page + UW-themed waitlist** — purple-and-gold splash, "Built for UW. Free for any `.edu`."
+5. **Recruit 10 ambassadors at UW** — Greek life, athletic teams, study groups, pre-med/CS cohorts. Free year for sharing.
+6. **TikTok content calendar** — 3 videos a week, "what if?" demos with relatable scenarios (Celsius before a final, all-nighter with Adderall, weekend hangover).
+7. **PostHog analytics** — measure activation, retention, feature usage.
+8. **Weekly user interviews** — five students per week for the whole phase. Patterns will emerge.
+
+End state: 100 UW users, weekly active rate, qualitative feedback library, calibration data starting to accumulate.
+
+### Phase 4 — Months 4–6: more schools, iOS app
+
+Goal: expand to 5 schools. Start the native iOS migration. Build the moat.
+
+The work:
+1. **iOS app** (SwiftUI) — feature parity with web, plus HealthKit, App Intents (Hey Siri, log coffee), Live Activity (current forecast on lock screen), Widget.
+2. **HealthKit integration** — pull sleep data automatically; massive UX upgrade for the calibration loop.
+3. **Per-user Bayesian personalization v1** — per-user multipliers on each decay constant, updated nightly.
 4. **Notification system** — wind-down reminder, score-drop alert, morning recap.
+5. **Expansion to 4 more schools** — pick schools where you have personal connections. Replicate the ambassador playbook.
+6. **Direct Oura/Whoop OAuth** — for the ~10% of users with wearables.
 
-End state: an iOS app you'd put on the App Store, even if just as a TestFlight beta.
+End state: an iOS app on TestFlight, 1,000 students across 5 schools, real outcome-based personalization shipping.
 
-### Phase 5 — Months 7–12: moat, monetization, optionality
+### Phase 5 — Months 7–12: paid tier, institutional, optionality
 
-Goal: durable product that's worth charging for or selling.
+Goal: revenue, institutional adoption, defensible engine.
 
 The work:
-1. **Hierarchical Bayesian personalization v2** — pool across users with priors. Cold-start solved, power users get genuinely personal.
-2. **Subscription / pricing experiments** — likely $7–10/mo, ad-free, freemium gates around personalization and history.
-3. **Conversational explainer layer** — LLM that answers "why did I sleep badly?" in plain English using the user's data.
-4. **Public API / researcher tier** — sleep researchers can pull anonymized aggregate data. Optional, helps with credibility.
-5. **Acquisition-readiness polish** — clean APIs, SOC 2 prep, documentation. Even if it never gets acquired, this hygiene makes the product better.
+1. **Premium tier ($4/mo or $24/year)** — gate behind: history beyond 30 days, personalization, recommendations, advanced charts. Free tier stays useful.
+2. **Hierarchical Bayesian personalization v2** — pool across users with priors. Cold-start solved, power users get genuinely personal.
+3. **Institutional pilot** — partner with one student health center or athletic department. Outcome-data-driven case study.
+4. **Conversational explainer layer** — LLM that answers "why did I sleep badly?" in plain English using user data.
+5. **Public API / researcher tier** — sleep researchers can pull anonymized aggregate data. Helps with credibility.
+6. **Acquisition-readiness polish** — clean APIs, SOC 2 prep, documentation.
 
-End state: a product with paying users, a defensible engine, and optionality on what comes next.
-
----
-
-## 3. This week — concrete ordered queue
-
-If you sat down this week and worked through this list in order, by Friday you'd have a deployable v0.2.
-
-| # | Task | Why now | Estimated effort |
-|---|------|---------|------------------|
-| 1 | Push current code to a GitHub repo | Version control, no fear of breaking things | 15 min |
-| 2 | Deploy to Vercel from the repo | Real URL, easy redeploys | 15 min |
-| 3 | Stacked area chart for forecast | Single biggest visual upgrade | 2–3 hours |
-| 4 | Edit-event flow (click event → edit → save) | Removes a real annoyance | 1 hour |
-| 5 | Onboarding card on first visit | Better than empty-state link | 1 hour |
-| 6 | Logo wordmark + favicon + page title | Makes it feel intentional | 30 min |
-| 7 | Mobile responsive sweep | A lot of testing happens on phones | 1 hour |
-| 8 | Add a `README.md` to the repo | Onboard a future collaborator | 30 min |
-
-Total: ~7–9 hours of focused work spread across the week.
+End state: paying users, an institutional contract or two, a product that someone — Oura, Whoop, RISE, a student wellness platform, a university — would consider acquiring.
 
 ---
 
-## 4. Open decisions you should be making
+## 4. This week — concrete ordered queue
 
-These are the choices that shape the next 3–6 months. Worth thinking about now, even if not deciding yet.
+If you sat down this week and worked through this list in order, by Sunday you'd have a deployable v0.3 ready for the first student to try.
 
-**Who is this for in the very first user cohort?** Quantified-self/biohacker crowd is the easiest to reach (Twitter, Reddit r/QuantifiedSelf, Hacker News) and most tolerant of rough edges. Shift workers and parents of newborns are higher pain but harder to reach. Athletes overlap with biohackers. Probably start QS, expand outward.
+| # | Task | Why now | Effort |
+|---|------|---------|--------|
+| 1 | Initial commit + push to a private GitHub repo | Version control beyond local | 20 min |
+| 2 | Deploy backend + frontend to Render or Fly.io | Public URL with auth working | 1 hr |
+| 3 | Stacked area chart for forecast | Biggest visual upgrade | 2–3 hrs |
+| 4 | Brand presets for energy drinks (Celsius, Red Bull, Bang, Monster) | Most college-coded UX win | 1 hr |
+| 5 | Onboarding card on first visit (replace empty-state link) | New users actually grok the app | 1 hr |
+| 6 | Privacy promise on login + landing | Sets posture before they sign up | 30 min |
+| 7 | `.edu` email check on signup (warn but allow) | Sets up student tier infrastructure | 45 min |
+| 8 | `README.md` + screenshot in the repo | Onboard future collaborator / contractor | 30 min |
 
-**How much does this lean on existing wearables vs. trying to be standalone?** Standalone-with-manual-logging is the fastest path to a working product. Wearable-augmented is the better long-term product. The right answer is "manual-first, wearables come in Phase 3" — but worth being intentional about it.
-
-**Free, freemium, or paid from day one?** Free until Phase 5. Charge once you have outcome data showing real lift. Premature monetization will starve you of the feedback you need.
-
-**Solo-build or recruit a cofounder?** If you're staying solo, the iOS native phase becomes the hard wall — that's where having a Swift-fluent engineer matters. If recruitable, start now even if part-time. If not, plan to lean on TestFlight + React Native or hire freelance for the iOS phase.
-
-**Acquisition vs. independence?** You don't need to decide this for two years. But your code and data hygiene should keep both options open. Concretely: clean API boundaries, no weird data partnerships, all user data exportable.
+Total: ~7–8 hours of focused work spread across the week.
 
 ---
 
-## 5. The single most important thing to build next
+## 5. Open decisions still worth thinking about
 
-If you only do one thing in the next two weeks, do **"What if?" mode**. It's the feature that demos in 10 seconds, separates Drift from every other sleep app, and gets quoted on Twitter. Everything else on this list is incremental — that one is the wedge.
+Most of the strategic decisions are now made. The remaining ones:
+
+**One school or several?** UW-only for the first 100 users is the right call — concentration creates social proof and makes feedback loops tight. Expand to second/third schools at the 200-user mark, not before.
+
+**Manual-first or wearable-augmented from day one?** Manual-first. Most students don't own Oura/Whoop, and Apple Watch sleep data is mediocre anyway. The web product is manual-first by necessity, and the iOS Phase 4 work is the right time to add wearable integration.
+
+**Do you build the iOS app yourself or hire?** This is the actual constraint on Phase 4. If you're solo and not Swift-fluent, you'll need a Swift contractor or a part-time cofounder for the iOS work. If you decide to stay web-only longer, Phase 4 just shifts to "make the web app feel native on mobile" — possible but harder to compete with eventual iOS-native sleep apps.
+
+**Free + premium, or free + institutional, or both?** Both — they don't compete. Premium fund individual users, institutional funds bulk. But if you have to pick one to push first in Phase 5, **institutional** has higher ceiling and less marketing burden, since one signed contract = hundreds of users at once.
+
+**When does this stop being a side project?** Not for the next 6 months either way. After Phase 3 — if you have 100 weekly active UW users and outcome data showing measurable lift — it's worth thinking about whether to fundraise, accelerator (Y Combinator's college student angle is real), or apprentice with a wellness company.
+
+---
+
+## 6. The single most important thing to build next
+
+If you only do one thing in the next two weeks, build **"Pull This Off?" mode**. Take a constraint a student would actually type ("I have 4 hours of work left, 9am class, three coffees today already, took a 90-min nap") and output a personalized survival plan. It's the feature that demos in 10 seconds, screenshots well, and is the single thing students will share with their group chats. It's also genuinely useful — most other features on the roadmap are valuable but incremental. This one is the wedge.

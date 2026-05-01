@@ -1,12 +1,11 @@
 function renderQuickAdd() {
   const el = document.getElementById("quick-add");
   el.innerHTML = "";
-  for (const [key, t] of Object.entries(TYPES)) {
+  for (const key of ["coffee", "energy_drink", "marijuana", "nap", "alcohol"]) {
+    const t = TYPES[key];
     const btn = document.createElement("button");
-    btn.innerHTML = `<span class="label">${t.quickLabel}</span><span class="meta">${t.quickMeta} · now</span>`;
-    btn.addEventListener("click", () => {
-      addEvent(key, t.defaultAmount, null);
-    });
+    btn.innerHTML = `<span class="label">${t.quickLabel}</span><span class="meta">${t.quickMeta}</span>`;
+    btn.addEventListener("click", () => addEvent(key, t.defaultAmount, null));
     el.appendChild(btn);
   }
 }
@@ -106,13 +105,16 @@ function loadSampleDay() {
       time: d,
     };
   };
+  // A realistic mid-quarter UW day: morning Adderall, late-afternoon Celsius,
+  // a 90-min nap before evening study, late dinner, screens until bedtime.
   STATE.events = [
-    make(8, "caffeine", 150),
-    make(5, "caffeine", 95),
-    make(4, "meal", "medium"),
-    make(2, "workout", "high"),
-    make(1, "meal", "heavy"),
-    make(0.5, "screen", 45),
+    make(11, "stimulant", "medium"),
+    make(8,  "coffee", 95),
+    make(6,  "meal", "medium"),
+    make(4,  "energy_drink", 200),
+    make(3,  "nap", 90),
+    make(1.5, "meal", "heavy"),
+    make(0.5, "screen", 60),
   ];
   save();
   renderAll();

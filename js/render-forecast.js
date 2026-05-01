@@ -21,20 +21,22 @@ function renderBreakdown(byType) {
   const el = document.getElementById("breakdown");
   el.innerHTML = "";
 
-  const entries = Object.keys(TYPES).map((type) => ({
-    type,
-    cost: byType[type] || 0,
-  }));
+  const categories = [
+    { label: "Caffeine",  cost: (byType.caffeine || 0) + (byType.coffee || 0) + (byType.energy_drink || 0) },
+    { label: "Marijuana", cost: byType.marijuana || 0 },
+    { label: "Alcohol",   cost: byType.alcohol   || 0 },
+    { label: "Nap",       cost: byType.nap       || 0 },
+    { label: "Nicotine",  cost: byType.nicotine  || 0 },
+  ];
 
-  entries.sort((a, b) => b.cost - a.cost);
+  categories.sort((a, b) => b.cost - a.cost);
 
-  for (const { type, cost } of entries) {
+  for (const { label, cost } of categories) {
     const item = document.createElement("div");
     item.className = "item";
-    const klass =
-      cost === 0 ? "zero" : cost < 5 ? "low" : cost < 12 ? "high" : "very-high";
+    const klass = cost === 0 ? "zero" : cost < 5 ? "low" : cost < 12 ? "high" : "very-high";
     item.innerHTML = `
-      <div class="name">${TYPES[type].label}</div>
+      <div class="name">${label}</div>
       <div class="cost ${klass}">−${cost.toFixed(1)}</div>
     `;
     el.appendChild(item);
@@ -66,8 +68,8 @@ function renderChart(bedtime) {
       {
         label: "Forecast",
         data: points,
-        borderColor: "#e8a854",
-        backgroundColor: "rgba(232, 168, 84, 0.12)",
+        borderColor: "#e0e0e0",
+        backgroundColor: "rgba(224, 224, 224, 0.08)",
         fill: true,
         tension: 0.3,
         pointRadius: 0,
@@ -85,10 +87,10 @@ function renderChart(bedtime) {
       plugins: {
         legend: { display: false },
         tooltip: {
-          backgroundColor: "#1c2238",
-          titleColor: "#e8e9ed",
-          bodyColor: "#8b91a8",
-          borderColor: "#262c44",
+          backgroundColor: "#1e1e1e",
+          titleColor: "#f0f0f0",
+          bodyColor: "#999999",
+          borderColor: "#2e2e2e",
           borderWidth: 1,
           callbacks: {
             label: (ctx) => `Score: ${Math.round(ctx.parsed.y)}`,
@@ -99,12 +101,12 @@ function renderChart(bedtime) {
         y: {
           min: 0,
           max: 100,
-          ticks: { color: "#5c6377", stepSize: 25 },
+          ticks: { color: "#555555", stepSize: 25 },
           grid: { color: "rgba(255,255,255,0.04)" },
         },
         x: {
           ticks: {
-            color: "#5c6377",
+            color: "#555555",
             maxTicksLimit: 8,
             autoSkip: true,
           },
@@ -123,14 +125,14 @@ function renderChart(bedtime) {
       const bottom = chart.chartArea.bottom;
       const ctx = chart.ctx;
       ctx.save();
-      ctx.strokeStyle = "rgba(232,232,237,0.35)";
+      ctx.strokeStyle = "rgba(240,240,240,0.3)";
       ctx.setLineDash([4, 4]);
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(x, top);
       ctx.lineTo(x, bottom);
       ctx.stroke();
-      ctx.fillStyle = "#8b91a8";
+      ctx.fillStyle = "#999999";
       ctx.font = "11px -apple-system, sans-serif";
       ctx.fillText(`bed ${fmtTime(bedtime)}`, x + 6, top + 12);
       ctx.restore();
