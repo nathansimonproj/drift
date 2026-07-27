@@ -141,7 +141,11 @@ The surface area, organized by app area. College-specific items are tagged **[st
 - **Android** — only after iOS PMF.
 - **TikTok-shareable share-cards** **[student]** — exportable score images for the timeline.
 
-### K. Business / GTM
+### K. Technical debt & architecture
+
+- **Shared header/nav partial [v2]** — the `<header>` block (brand, menu dropdown, tab nav) is hand-duplicated across `pages/*.html` and has already drifted out of sync (e.g. casing/tagline differ between `log.html` and `forecast.html`). Fix by moving to server-side templating (EJS partials via Express) or a client-side include through `nav.js`. Not urgent while there are only 4 pages, but should not grow past v2.
+
+### L. Business / GTM
 
 - **Landing page** — short pitch, screenshot/video, `.edu` email signup.
 - **UW pilot** **[student]** — first 100 users from one school.

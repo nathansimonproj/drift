@@ -1,5 +1,26 @@
 let chart = null;
 
+const BREAKDOWN_CATEGORIES = [
+  { label: "Caffeine",  keys: ["caffeine", "coffee", "energy_drink"] },
+  { label: "Marijuana", keys: ["marijuana"] },
+  { label: "Alcohol",   keys: ["alcohol"] },
+  { label: "Nap",       keys: ["nap"] },
+  { label: "Nicotine",  keys: ["nicotine"] },
+];
+
+function categoryCosts(byType) {
+  return BREAKDOWN_CATEGORIES.map(({ label, keys }) => ({
+    label,
+    cost: keys.reduce((sum, k) => sum + (byType[k] || 0), 0),
+  }));
+}
+
+function fmtHourLabel(d) {
+  const h = d.getHours() % 12 || 12;
+  const ampm = d.getHours() < 12 ? "am" : "pm";
+  return `${h}${ampm}`;
+}
+
 function renderForecast() {
   const events = typeof getActiveEvents === 'function' ? getActiveEvents() : STATE.events;
   const bedtime = targetBedtimeDate();
@@ -22,15 +43,7 @@ function renderBreakdown(byType) {
   const el = document.getElementById("breakdown");
   el.innerHTML = "";
 
-  const categories = [
-    { label: "Caffeine",  cost: (byType.caffeine || 0) + (byType.coffee || 0) + (byType.energy_drink || 0) },
-    { label: "Marijuana", cost: byType.marijuana || 0 },
-    { label: "Alcohol",   cost: byType.alcohol   || 0 },
-    { label: "Nap",       cost: byType.nap       || 0 },
-    { label: "Nicotine",  cost: byType.nicotine  || 0 },
-  ];
-
-  categories.sort((a, b) => b.cost - a.cost);
+  const categories = categoryCosts(byType).sort((a, b) => b.cost - a.cost);
 
   for (const { label, cost } of categories) {
     const item = document.createElement("div");
@@ -51,17 +64,34 @@ function renderChart(bedtime, events) {
 
   const points = [];
   const labels = [];
+  const byTypeAtIndex = [];
   const stepMin = 15;
   for (let t = now.getTime(); t <= end.getTime(); t += stepMin * 60 * 1000) {
     const at = new Date(t);
     const r = scoreAt(events, at);
     points.push(r.score);
     labels.push(fmtTime(at));
+    byTypeAtIndex.push(r.byType);
   }
 
   const bedtimeIdx = Math.round(
     (bedtime.getTime() - now.getTime()) / (stepMin * 60 * 1000)
   );
+
+  // Whole-hour tick marks, independent of the 15-min sample grid: find the
+  // sample nearest each hour boundary and give it a clean "H:00" label
+  // rather than trusting whatever off-hour timestamp that sample landed on.
+  const hourLabelByIndex = new Map();
+  const hourCursor = new Date(now);
+  hourCursor.setMinutes(0, 0, 0);
+  hourCursor.setTime(hourCursor.getTime() + 3600 * 1000);
+  while (hourCursor.getTime() <= end.getTime()) {
+    const idx = Math.round((hourCursor.getTime() - now.getTime()) / (stepMin * 60 * 1000));
+    if (idx >= 0 && idx < points.length) {
+      hourLabelByIndex.set(idx, fmtHourLabel(hourCursor));
+    }
+    hourCursor.setTime(hourCursor.getTime() + 3600 * 1000);
+  }
 
   const data = {
     labels,
@@ -85,6 +115,7 @@ function renderChart(bedtime, events) {
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      interaction: { mode: "index", intersect: false },
       plugins: {
         legend: { display: false },
         tooltip: {
@@ -95,6 +126,10 @@ function renderChart(bedtime, events) {
           borderWidth: 1,
           callbacks: {
             label: (ctx) => `Score: ${Math.round(ctx.parsed.y)}`,
+            afterLabel: (ctx) =>
+              categoryCosts(byTypeAtIndex[ctx.dataIndex] || {})
+                .filter(({ cost }) => cost > 0)
+                .map(({ label, cost }) => `${label}: −${cost.toFixed(1)}`),
           },
         },
       },
@@ -106,10 +141,12 @@ function renderChart(bedtime, events) {
           grid: { color: "rgba(255,255,255,0.04)" },
         },
         x: {
+          afterBuildTicks: (axis) => {
+            axis.ticks = [...hourLabelByIndex.keys()].map((value) => ({ value }));
+          },
           ticks: {
             color: "#555555",
-            maxTicksLimit: 8,
-            autoSkip: true,
+            callback: (value) => hourLabelByIndex.get(value) ?? "",
           },
           grid: { display: false },
         },
