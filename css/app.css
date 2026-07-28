@@ -23,6 +23,19 @@ body {
   color: var(--text);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  text-transform: lowercase;
+}
+
+/* Form controls don't reliably inherit text-transform across browsers. */
+button,
+select,
+option {
+  text-transform: inherit;
+}
+
+/* Free-text/number/time inputs keep exactly what the user typed. */
+input {
+  text-transform: none;
 }
 
 header {
@@ -242,7 +255,7 @@ nav.tabs .soon {
   padding: 2px 6px;
   border-radius: 8px;
   margin-left: 6px;
-  text-transform: uppercase;
+  text-transform: lowercase;
   letter-spacing: 0.05em;
 }
 
@@ -283,7 +296,7 @@ main.wide {
   font-size: 13px;
   font-weight: 500;
   color: var(--text-2);
-  text-transform: uppercase;
+  text-transform: lowercase;
   letter-spacing: 0.08em;
 }
 
@@ -488,7 +501,7 @@ main.wide {
   padding: 2px 6px;
   border-radius: 8px;
   margin-left: 8px;
-  text-transform: uppercase;
+  text-transform: lowercase;
   letter-spacing: 0.05em;
   vertical-align: middle;
 }
@@ -581,7 +594,7 @@ main.wide {
 .forecast-hero .label {
   color: var(--text-2);
   font-size: 13px;
-  text-transform: uppercase;
+  text-transform: lowercase;
   letter-spacing: 0.1em;
   margin-top: 12px;
 }
@@ -614,7 +627,7 @@ main.wide {
 .breakdown .item .name {
   font-size: 12px;
   color: var(--text-2);
-  text-transform: uppercase;
+  text-transform: lowercase;
   letter-spacing: 0.06em;
 }
 
