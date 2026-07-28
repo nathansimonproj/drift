@@ -1,7 +1,9 @@
+require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
-const SQLiteStore = require('connect-sqlite3')(session);
+const pgSession = require('connect-pg-simple')(session);
 const path = require('path');
+const { pool, init } = require('./db');
 const authRoutes = require('./auth');
 const profileRoutes = require('./profile');
 
@@ -11,7 +13,7 @@ const ROOT = path.join(__dirname, '..');
 app.use(express.json());
 
 app.use(session({
-  store: new SQLiteStore({ db: 'sessions.db', dir: __dirname }),
+  store: new pgSession({ pool, tableName: 'session', createTableIfMissing: true }),
   secret: process.env.SESSION_SECRET || 'dev-secret-change-before-deploying',
   resave: false,
   saveUninitialized: false,
@@ -39,4 +41,11 @@ app.get('/', (_req, res) => res.redirect('/pages/home.html'));
 app.use(requireAuth, express.static(ROOT));
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Drift running at http://localhost:${PORT}`));
+init()
+  .then(() => {
+    app.listen(PORT, () => console.log(`Drift running at http://localhost:${PORT}`));
+  })
+  .catch((err) => {
+    console.error('Failed to initialize database', err);
+    process.exit(1);
+  });

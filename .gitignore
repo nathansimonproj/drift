@@ -3,3 +3,4 @@ drift.db
 server/sessions.db
 .env
 .claude/
+deploy.md
