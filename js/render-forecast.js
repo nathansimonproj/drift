@@ -1,7 +1,7 @@
 let chart = null;
 
 const BREAKDOWN_CATEGORIES = [
-  { label: "Caffeine",  keys: ["caffeine", "coffee", "energy_drink"] },
+  { label: "Caffeine",  keys: ["caffeine", "coffee", "energy_drink", "soda"] },
   { label: "Marijuana", keys: ["marijuana"] },
   { label: "Alcohol",   keys: ["alcohol"] },
   { label: "Nap",       keys: ["nap"] },

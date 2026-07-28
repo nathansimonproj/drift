@@ -15,6 +15,19 @@ const TYPES = {
     quickLabel: "Energy Drink",
     quickMeta: "200 mg",
   },
+  soda: {
+    label: "Soda",
+    unit: "mg",
+    defaultAmount: "regular",
+    amountKind: "variant",
+    options: [
+      { value: "diet", label: "Diet Coke", mg: 46 },
+      { value: "regular", label: "Coca-Cola", mg: 34 },
+      { value: "zero", label: "Coke Zero Sugar", mg: 34 },
+    ],
+    quickLabel: "Soda",
+    quickMeta: "Varies",
+  },
   marijuana: {
     label: "Marijuana",
     unit: "mg",
