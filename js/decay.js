@@ -13,6 +13,14 @@ const DECAY = {
     const remainingMg = event.amount * Math.pow(0.5, h / 5);
     return Math.max(0, (remainingMg - 20) * 0.4);
   },
+  soda(event, t) {
+    const h = hoursSince(event.time, t);
+    if (h < 0) return 0;
+    const mgByVariant = { diet: 46, regular: 34, zero: 34 };
+    const mg = mgByVariant[event.amount] ?? 34;
+    const remainingMg = mg * Math.pow(0.5, h / 5);
+    return Math.max(0, (remainingMg - 20) * 0.4);
+  },
   marijuana(event, t) {
     const h = hoursSince(event.time, t);
     if (h < 0) return 0;
