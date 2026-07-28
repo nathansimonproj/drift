@@ -23,7 +23,12 @@ function renderQuickAddInto(el, keys, addFn) {
 
 function makeQuickAddButton(key, t, addFn) {
   const btn = document.createElement("button");
-  btn.innerHTML = `<span class="label">${t.quickLabel}</span><span class="meta">${t.quickMeta}</span>`;
+  btn.innerHTML = `
+    <span class="quick-add-text">
+      <span class="label">${t.quickLabel}</span>
+      <span class="meta">${t.quickMeta}</span>
+    </span>
+  `;
   btn.addEventListener("click", () => addFn(key, t.defaultAmount, null));
   return btn;
 }

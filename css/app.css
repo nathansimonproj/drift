@@ -311,13 +311,17 @@ main.wide {
   background: var(--surface-2);
   border: 1px solid var(--border);
   color: var(--text);
-  padding: 12px;
+  height: 60px;
+  padding: 0 12px;
   border-radius: 8px;
   font-family: inherit;
   font-size: 13px;
   cursor: pointer;
   transition: background 0.15s, border-color 0.15s;
   text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .quick-add button:hover {
@@ -325,13 +329,23 @@ main.wide {
   border-color: var(--accent-2);
 }
 
-.quick-add button .label {
+.quick-add-text {
+  min-width: 0;
+}
+
+.quick-add button .label,
+.quick-add button .meta {
   display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.quick-add button .label {
   font-weight: 500;
 }
 
 .quick-add button .meta {
-  display: block;
   font-size: 11px;
   color: var(--text-3);
   margin-top: 2px;
@@ -343,10 +357,7 @@ main.wide {
 
 .quick-add-popover-wrap > button {
   width: 100%;
-  display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 8px;
 }
 
 .quick-add-chevron {
@@ -379,6 +390,7 @@ main.wide {
 
 .quick-add-popover button {
   display: block;
+  height: auto;
   width: 100%;
   text-align: left;
   background: none;
