@@ -25,13 +25,14 @@
         </div>
       </div>
     </div>
-    <nav class="tabs">
-      <a href="/pages/home.html" class="tab-link active">Home</a>
-      <span class="tab-link disabled">Recommendations <span class="soon">soon</span></span>
-    </nav>
   </header>
 
   <main class="wide">
+    <div class="mode-toggle">
+      <button class="mode-btn active" id="btn-actual" onclick="setMode('actual')">Actual</button>
+      <button class="mode-btn" id="btn-whatif" onclick="setMode('whatif')">What If</button>
+    </div>
+
     <div class="app-columns">
       <section class="col-log">
         <div class="card">
@@ -56,11 +57,6 @@
       </section>
 
       <section class="col-forecast">
-        <div class="mode-toggle">
-          <button class="mode-btn active" id="btn-actual" onclick="setMode('actual')">Actual</button>
-          <button class="mode-btn" id="btn-whatif" onclick="setMode('whatif')">What If</button>
-        </div>
-
         <div class="card">
           <div class="forecast-hero">
             <div class="score" id="hero-score">—</div>

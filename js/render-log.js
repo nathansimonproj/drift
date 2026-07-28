@@ -160,13 +160,18 @@ function describeEvent(e) {
 function renderEventsList() {
   const ul = document.getElementById("events-list");
   pruneOldEvents();
-  const today = STATE.events.filter((e) => {
-    const now = Date.now();
-    const t = e.time.getTime();
-    return t > now - 24 * 3600 * 1000;
-  });
+  const now = Date.now();
+  const real = STATE.events
+    .filter((e) => e.time.getTime() > now - 24 * 3600 * 1000)
+    .map((e) => ({ event: e, hypothetical: false }));
+  // In What If mode, fold the hypothetical events into the same list so
+  // they're visible (and deletable) instead of only affecting the forecast.
+  const hypothetical = whatIfMode
+    ? whatIfEvents.map((e) => ({ event: e, hypothetical: true }))
+    : [];
+  const items = [...real, ...hypothetical].sort((a, b) => a.event.time - b.event.time);
 
-  if (today.length === 0) {
+  if (items.length === 0) {
     ul.innerHTML = `<li class="empty-state">No events logged yet. <span class="sample-link" id="load-sample">Load a sample day</span> to see how the forecast works.</li>`;
     const link = document.getElementById("load-sample");
     if (link) link.addEventListener("click", loadSampleDay);
@@ -174,18 +179,19 @@ function renderEventsList() {
   }
 
   ul.innerHTML = "";
-  for (const e of today) {
+  for (const { event: e, hypothetical: isHypothetical } of items) {
     const d = describeEvent(e);
     if (!d) continue; // event type no longer in the active TYPES list
     const li = document.createElement("li");
+    if (isHypothetical) li.classList.add("evt-hypothetical");
     li.innerHTML = `
       <span class="evt-time">${fmtTime(e.time)}</span>
-      <span><span class="evt-name">${d.name}</span><span class="evt-meta">${d.amountLabel}</span></span>
+      <span><span class="evt-name">${d.name}</span><span class="evt-meta">${d.amountLabel}</span>${isHypothetical ? '<span class="evt-tag">what if</span>' : ""}</span>
       <span></span>
       <button class="evt-delete" data-id="${e.id}" title="Delete">×</button>
     `;
     li.querySelector(".evt-delete").addEventListener("click", () =>
-      deleteEvent(e.id)
+      isHypothetical ? deleteWhatIfEvent(e.id) : deleteEvent(e.id)
     );
     ul.appendChild(li);
   }
