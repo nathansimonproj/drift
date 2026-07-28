@@ -33,6 +33,17 @@ async function init() {
       target_bedtime TEXT NOT NULL DEFAULT '23:00',
       updated_at TIMESTAMPTZ DEFAULT now()
     );
+
+    -- amount is stored as text since it's either a number (mg, drinks, minutes)
+    -- or a variant/intensity/size key (e.g. "diet", "medium") depending on type.
+    CREATE TABLE IF NOT EXISTS events (
+      id TEXT PRIMARY KEY,
+      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      type TEXT NOT NULL,
+      amount TEXT NOT NULL,
+      occurred_at TIMESTAMPTZ NOT NULL
+    );
+    CREATE INDEX IF NOT EXISTS events_user_id_idx ON events(user_id);
   `);
 }
 

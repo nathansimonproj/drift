@@ -204,26 +204,15 @@ function renderEventsList() {
 
 function loadSampleDay() {
   const now = new Date();
-  const make = (hoursAgo, type, amount) => {
-    const d = new Date(now.getTime() - hoursAgo * 3600 * 1000);
-    return {
-      id: crypto.randomUUID ? crypto.randomUUID() : String(Math.random()),
-      type,
-      amount,
-      time: d,
-    };
-  };
+  const at = (hoursAgo) => new Date(now.getTime() - hoursAgo * 3600 * 1000);
   // A realistic mid-quarter UW day: morning coffee, late-afternoon Celsius,
   // a 90-min nap before evening study, a drink and a smoke session before bed.
-  STATE.events = [
-    make(8,   "coffee", 95),
-    make(4,   "energy_drink", "celsius"),
-    make(3,   "nap", 90),
-    make(1.5, "marijuana", 10),
-    make(0.5, "alcohol", 1),
-  ];
-  save();
-  renderAll();
+  // Only reachable when the list is already empty, so no need to clear first.
+  addEventAt("coffee", 95, at(8));
+  addEventAt("energy_drink", "celsius", at(4));
+  addEventAt("nap", 90, at(3));
+  addEventAt("marijuana", 10, at(1.5));
+  addEventAt("alcohol", 1, at(0.5));
 }
 
 function renderBedtimeInput() {

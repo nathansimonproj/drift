@@ -6,6 +6,7 @@ const path = require('path');
 const { pool, init } = require('./db');
 const authRoutes = require('./auth');
 const profileRoutes = require('./profile');
+const eventsRoutes = require('./events');
 
 const app = express();
 const ROOT = path.join(__dirname, '..');
@@ -30,6 +31,7 @@ app.use('/auth', authRoutes);
 
 // Protected API routes
 app.use('/profile', requireAuth, profileRoutes);
+app.use('/events', requireAuth, eventsRoutes);
 app.get('/pages/login.html', (_req, res) =>
   res.sendFile(path.join(ROOT, 'pages', 'login.html'))
 );

@@ -71,8 +71,8 @@ function setupForm() {
   });
 }
 
-function init() {
-  load();
+async function init() {
+  await load();
   renderQuickAdd(addEventModeAware);
   renderTypeSelect();
   setupForm();

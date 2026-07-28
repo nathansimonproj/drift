@@ -17,7 +17,7 @@ function populateForm() {
 }
 
 async function loadProfile() {
-  load(); // load localStorage baseline first
+  await load(); // load localStorage baseline first
   try {
     const res = await fetch('/profile');
     if (!res.ok) return populateForm();

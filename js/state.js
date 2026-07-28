@@ -13,27 +13,40 @@ const STATE = {
 
 const KEY = "drift-v1";
 
+// Settings still live in localStorage (kept in sync with /profile by
+// profile-page.js). Events are server-backed so they follow you across
+// devices instead of being stuck on whichever browser logged them.
 function save() {
-  const serializable = {
-    events: STATE.events.map((e) => ({ ...e, time: e.time.toISOString() })),
-    settings: STATE.settings,
-  };
-  localStorage.setItem(KEY, JSON.stringify(serializable));
+  localStorage.setItem(KEY, JSON.stringify(STATE.settings));
 }
 
-function load() {
+async function load() {
   try {
     const raw = localStorage.getItem(KEY);
-    if (!raw) return;
-    const parsed = JSON.parse(raw);
-    STATE.events = (parsed.events || []).map((e) => ({
-      ...e,
-      time: new Date(e.time),
-    }));
-    STATE.settings = { ...STATE.settings, ...(parsed.settings || {}) };
+    if (raw) STATE.settings = { ...STATE.settings, ...JSON.parse(raw) };
   } catch (err) {
-    console.warn("Could not load saved state", err);
+    console.warn("Could not load saved settings", err);
   }
+
+  try {
+    const res = await fetch("/events");
+    if (res.ok) {
+      const rows = await res.json();
+      STATE.events = rows.map((r) => ({
+        id: r.id,
+        type: r.type,
+        amount: coerceAmount(r.type, r.amount),
+        time: new Date(r.occurred_at),
+      }));
+    }
+  } catch (err) {
+    console.warn("Could not load events from server", err);
+  }
+}
+
+function coerceAmount(type, amount) {
+  const t = TYPES[type];
+  return t && t.amountKind === "number" ? parseFloat(amount) : amount;
 }
 
 // Keep only events from the last 30 hours so the timeline stays sensible.
@@ -42,21 +55,40 @@ function pruneOldEvents() {
   STATE.events = STATE.events.filter((e) => e.time.getTime() > cutoff);
 }
 
-function addEvent(type, amount, timeStr) {
-  const time = timeStr ? parseTimeStrToToday(timeStr) : new Date();
-  STATE.events.push({
+async function addEventAt(type, amount, time) {
+  const event = {
     id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now() + Math.random()),
     type,
     amount,
     time,
-  });
+  };
+  STATE.events.push(event);
   STATE.events.sort((a, b) => a.time - b.time);
-  save();
   renderAll();
+
+  try {
+    await fetch("/events", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: event.id, type, amount, time: time.toISOString() }),
+    });
+  } catch (err) {
+    console.warn("Could not save event to server", err);
+  }
 }
 
-function deleteEvent(id) {
+function addEvent(type, amount, timeStr) {
+  const time = timeStr ? parseTimeStrToToday(timeStr) : new Date();
+  return addEventAt(type, amount, time);
+}
+
+async function deleteEvent(id) {
   STATE.events = STATE.events.filter((e) => e.id !== id);
-  save();
   renderAll();
+
+  try {
+    await fetch(`/events/${id}`, { method: "DELETE" });
+  } catch (err) {
+    console.warn("Could not delete event on server", err);
+  }
 }
