@@ -3,15 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Drift</title>
+  <title>drift</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
   <link rel="stylesheet" href="/css/app.css" />
 </head>
 <body>
   <header class="wide">
     <div class="brand">
-      <h1>Drift</h1>
-      <span class="tagline">Sleep forecast for your day</span>
+      <h1>drift</h1>
       <div class="menu-wrap" id="menu-wrap">
         <button class="menu-trigger" id="menu-trigger" onclick="toggleMenu()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -19,19 +18,20 @@
           </svg>
         </button>
         <div class="menu-dropdown" id="menu-dropdown">
-          <a href="/pages/profile.html" class="menu-item">Profile</a>
+          <a href="/pages/profile.html" class="menu-item">profile</a>
           <div class="menu-divider"></div>
-          <button class="menu-item menu-item-danger" onclick="logout()">Sign out</button>
+          <button class="menu-item menu-item-danger" onclick="logout()">sign out</button>
         </div>
       </div>
     </div>
-    <nav class="tabs">
-      <a href="/pages/home.html" class="tab-link active">Home</a>
-      <span class="tab-link disabled">Recommendations <span class="soon">soon</span></span>
-    </nav>
   </header>
 
   <main class="wide">
+    <div class="mode-toggle">
+      <button class="mode-btn active" id="btn-actual" onclick="setMode('actual')">actual</button>
+      <button class="mode-btn" id="btn-whatif" onclick="setMode('whatif')">what If</button>
+    </div>
+
     <div class="app-columns">
       <section class="col-log">
         <div class="card">
@@ -56,11 +56,6 @@
       </section>
 
       <section class="col-forecast">
-        <div class="mode-toggle">
-          <button class="mode-btn active" id="btn-actual" onclick="setMode('actual')">Actual</button>
-          <button class="mode-btn" id="btn-whatif" onclick="setMode('whatif')">What If</button>
-        </div>
-
         <div class="card">
           <div class="forecast-hero">
             <div class="score" id="hero-score">—</div>

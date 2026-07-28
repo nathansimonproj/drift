@@ -19,7 +19,7 @@ function setMode(mode) {
   whatIfMode = mode === 'whatif';
   document.getElementById('btn-actual').classList.toggle('active', !whatIfMode);
   document.getElementById('btn-whatif').classList.toggle('active', whatIfMode);
-  renderForecast();
+  renderAll();
 }
 
 // Hypothetical events reset on reload since they're only ever kept in memory
@@ -33,7 +33,12 @@ function addWhatIfEvent(type, amount, timeStr) {
     time,
   });
   whatIfEvents.sort((a, b) => a.time - b.time);
-  renderForecast();
+  renderAll();
+}
+
+function deleteWhatIfEvent(id) {
+  whatIfEvents = whatIfEvents.filter((e) => e.id !== id);
+  renderAll();
 }
 
 // Routes an add to whichever view is currently selected: the real log while

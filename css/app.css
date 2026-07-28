@@ -23,6 +23,19 @@ body {
   color: var(--text);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  text-transform: lowercase;
+}
+
+/* Form controls don't reliably inherit text-transform across browsers. */
+button,
+select,
+option {
+  text-transform: inherit;
+}
+
+/* Free-text/number/time inputs keep exactly what the user typed. */
+input {
+  text-transform: none;
 }
 
 header {
@@ -242,7 +255,7 @@ nav.tabs .soon {
   padding: 2px 6px;
   border-radius: 8px;
   margin-left: 6px;
-  text-transform: uppercase;
+  text-transform: lowercase;
   letter-spacing: 0.05em;
 }
 
@@ -283,7 +296,7 @@ main.wide {
   font-size: 13px;
   font-weight: 500;
   color: var(--text-2);
-  text-transform: uppercase;
+  text-transform: lowercase;
   letter-spacing: 0.08em;
 }
 
@@ -474,6 +487,25 @@ main.wide {
   background: var(--surface-2);
 }
 
+.events-list li.evt-hypothetical {
+  border-left: 2px dashed var(--accent-2);
+  padding-left: 10px;
+  margin-left: -12px;
+}
+
+.evt-tag {
+  display: inline-block;
+  font-size: 10px;
+  background: var(--surface-2);
+  color: var(--text-3);
+  padding: 2px 6px;
+  border-radius: 8px;
+  margin-left: 8px;
+  text-transform: lowercase;
+  letter-spacing: 0.05em;
+  vertical-align: middle;
+}
+
 .empty-state {
   text-align: center;
   color: var(--text-3);
@@ -519,7 +551,7 @@ main.wide {
   border-radius: 10px;
   padding: 4px;
   width: fit-content;
-  margin-bottom: 20px;
+  margin: 0 auto 24px;
 }
 
 .mode-btn {
@@ -562,7 +594,7 @@ main.wide {
 .forecast-hero .label {
   color: var(--text-2);
   font-size: 13px;
-  text-transform: uppercase;
+  text-transform: lowercase;
   letter-spacing: 0.1em;
   margin-top: 12px;
 }
@@ -595,7 +627,7 @@ main.wide {
 .breakdown .item .name {
   font-size: 12px;
   color: var(--text-2);
-  text-transform: uppercase;
+  text-transform: lowercase;
   letter-spacing: 0.06em;
 }
 
