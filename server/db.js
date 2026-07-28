@@ -7,6 +7,12 @@ const pool = new Pool({
     : false,
 });
 
+// Neon (and most serverless Postgres) can drop idle connections in the pool.
+// Without this listener, that error is unhandled and crashes the whole process.
+pool.on('error', (err) => {
+  console.error('Unexpected idle Postgres client error', err);
+});
+
 async function init() {
   await pool.query(`
     CREATE TABLE IF NOT EXISTS users (
