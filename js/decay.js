@@ -10,7 +10,12 @@ const DECAY = {
   energy_drink(event, t) {
     const h = hoursSince(event.time, t);
     if (h < 0) return 0;
-    const remainingMg = event.amount * Math.pow(0.5, h / 5);
+    const mgByVariant = {
+      red_bull: 80, celsius: 200, monster: 160, alani_nu: 200, rockstar: 160,
+      bang: 300, reign: 300, ghost: 200, nos: 160, bloom: 150,
+    };
+    const mg = mgByVariant[event.amount] ?? 160;
+    const remainingMg = mg * Math.pow(0.5, h / 5);
     return Math.max(0, (remainingMg - 20) * 0.4);
   },
   soda(event, t) {
@@ -24,7 +29,9 @@ const DECAY = {
   marijuana(event, t) {
     const h = hoursSince(event.time, t);
     if (h < 0) return 0;
-    return event.amount * 20 * Math.pow(0.5, h / 3);
+    // Models same-night REM-suppression impact, not the multi-day THC
+    // clearance half-life (which is about detectability, not sleep effect).
+    return event.amount * 20 * Math.pow(0.5, h / 7);
   },
   stimulant(event, t) {
     const h = hoursSince(event.time, t);

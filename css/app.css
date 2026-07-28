@@ -540,36 +540,6 @@ main.wide {
   color: var(--text);
 }
 
-.whatif-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-}
-
-.whatif-card-header h2 {
-  margin: 0;
-}
-
-.whatif-clear {
-  background: none;
-  border: none;
-  color: var(--text-3);
-  font-size: 13px;
-  font-family: inherit;
-  cursor: pointer;
-  padding: 0;
-  transition: color 0.15s;
-}
-
-.whatif-clear:hover {
-  color: var(--bad);
-}
-
-.whatif-form-row {
-  margin-top: 12px;
-}
-
 /* Forecast */
 .forecast-hero {
   text-align: center;

@@ -1,8 +1,8 @@
-function renderQuickAdd() {
+function renderQuickAdd(addFn) {
   renderQuickAddInto(
     document.getElementById("quick-add"),
     ["coffee", "energy_drink", "soda", "marijuana", "alcohol", "nap"],
-    addEvent
+    addFn
   );
 }
 
@@ -58,8 +58,9 @@ function makeQuickAddVariantTile(key, t, addFn) {
 
   btn.addEventListener("click", (ev) => {
     ev.stopPropagation();
+    const wasOpen = popover.classList.contains("open");
     closeAllQuickAddPopovers();
-    popover.classList.toggle("open");
+    if (!wasOpen) popover.classList.add("open");
   });
 
   wrap.appendChild(btn);
@@ -205,7 +206,7 @@ function loadSampleDay() {
   // a 90-min nap before evening study, a drink and a smoke session before bed.
   STATE.events = [
     make(8,   "coffee", 95),
-    make(4,   "energy_drink", 200),
+    make(4,   "energy_drink", "celsius"),
     make(3,   "nap", 90),
     make(1.5, "marijuana", 10),
     make(0.5, "alcohol", 1),
