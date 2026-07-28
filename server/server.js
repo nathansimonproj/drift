@@ -32,8 +32,8 @@ app.get('/pages/login.html', (_req, res) =>
   res.sendFile(path.join(ROOT, 'pages', 'login.html'))
 );
 
-// Root redirects to log page
-app.get('/', (_req, res) => res.redirect('/pages/log.html'));
+// Root redirects to home page
+app.get('/', (_req, res) => res.redirect('/pages/home.html'));
 
 // Everything else requires a valid session
 app.use(requireAuth, express.static(ROOT));

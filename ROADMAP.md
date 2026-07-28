@@ -78,6 +78,7 @@ The surface area, organized by app area. College-specific items are tagged **[st
 ### C. Forecast visualization
 
 - **Hero score** at target bedtime, color-coded. *(✓ shipped)*
+- **Felt-experience interpretation** — the score already maps to a qualitative label (Clean / Disrupted / etc.), but a 43 or a 71 doesn't tell a student what that actually feels like tomorrow. Worth a plain-language line under the score — "expect a rough 2pm crash" / "you'll be groggy but functional" — so the number translates to something they can plan around, not just a stat to interpret themselves.
 - **Per-contributor breakdown** with student-relevant categories. *(✓ shipped)*
 - **Decay timeline** with bedtime marker. *(✓ shipped)*
 - **Stacked contribution chart** — colored bands per obstacle, see *what* drags the score at each moment.

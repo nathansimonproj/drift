@@ -11,6 +11,7 @@ async function logout() {
 }
 
 function renderAll() {
+  renderEventsList();
   renderForecast();
 }
 
@@ -47,7 +48,7 @@ function clearWhatIf() {
   renderWhatIfEventsList();
 }
 
-// Amount field helpers (mirrors log-page form logic for what-if form)
+// Amount field helpers (mirrors the log form logic for the what-if form)
 function updateWhatIfAmountField() {
   const type = document.getElementById('whatif-type').value;
   const amountEl = document.getElementById('whatif-amount');
@@ -118,8 +119,9 @@ function renderWhatIfEventsList() {
   }
   ul.innerHTML = '';
   for (const e of [...whatIfEvents].sort((a, b) => b.time - a.time)) {
-    const li = document.createElement('li');
     const t = TYPES[e.type];
+    if (!t) continue;
+    const li = document.createElement('li');
     const amountLabel = t.amountKind === 'number' ? `${e.amount} ${t.unit}` : e.amount;
     li.innerHTML = `
       <span class="evt-time">${fmtTime(e.time)}</span>
@@ -150,10 +152,33 @@ function setupWhatIfForm() {
   renderWhatIfEventsList();
 }
 
+function setupForm() {
+  const typeSel = document.getElementById('form-type');
+  typeSel.addEventListener('change', updateAmountField);
+
+  document.getElementById('form-add').addEventListener('click', () => {
+    const type = typeSel.value;
+    const amountEl = document.getElementById('form-amount');
+    let amount = amountEl.value;
+    if (TYPES[type].amountKind === 'number') {
+      amount = parseFloat(amount);
+      if (isNaN(amount) || amount < 0) {
+        amountEl.focus();
+        return;
+      }
+    }
+    const time = document.getElementById('form-time').value || null;
+    addEvent(type, amount, time);
+  });
+}
+
 function init() {
   load();
+  renderQuickAdd();
+  renderTypeSelect();
+  setupForm();
   setupWhatIfForm();
-  renderForecast();
+  renderAll();
   setInterval(renderForecast, 60 * 1000);
 }
 

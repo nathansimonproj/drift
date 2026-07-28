@@ -77,8 +77,9 @@ function renderEventsList() {
 
   ul.innerHTML = "";
   for (const e of today) {
-    const li = document.createElement("li");
     const t = TYPES[e.type];
+    if (!t) continue; // event type no longer in the active TYPES list
+    const li = document.createElement("li");
     const amountLabel =
       t.amountKind === "number" ? `${e.amount} ${t.unit}` : e.amount;
     li.innerHTML = `
@@ -105,16 +106,14 @@ function loadSampleDay() {
       time: d,
     };
   };
-  // A realistic mid-quarter UW day: morning Adderall, late-afternoon Celsius,
-  // a 90-min nap before evening study, late dinner, screens until bedtime.
+  // A realistic mid-quarter UW day: morning coffee, late-afternoon Celsius,
+  // a 90-min nap before evening study, a drink and a smoke session before bed.
   STATE.events = [
-    make(11, "stimulant", "medium"),
-    make(8,  "coffee", 95),
-    make(6,  "meal", "medium"),
-    make(4,  "energy_drink", 200),
-    make(3,  "nap", 90),
-    make(1.5, "meal", "heavy"),
-    make(0.5, "screen", 60),
+    make(8,   "coffee", 95),
+    make(4,   "energy_drink", 200),
+    make(3,   "nap", 90),
+    make(1.5, "marijuana", 10),
+    make(0.5, "alcohol", 1),
   ];
   save();
   renderAll();

@@ -252,6 +252,24 @@ main {
   padding: 0 24px 80px;
 }
 
+header.wide,
+main.wide {
+  max-width: 1200px;
+}
+
+.app-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .app-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
