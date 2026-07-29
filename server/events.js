@@ -29,6 +29,18 @@ router.post('/', async (req, res) => {
   res.json({ ok: true });
 });
 
+router.put('/:id', async (req, res) => {
+  const { type, amount, time } = req.body;
+  if (!type || amount === undefined || amount === null || !time)
+    return res.status(400).json({ error: 'Missing event fields' });
+
+  await pool.query(
+    'UPDATE events SET type = $1, amount = $2, occurred_at = $3 WHERE id = $4 AND user_id = $5',
+    [type, String(amount), time, req.params.id, req.session.userId]
+  );
+  res.json({ ok: true });
+});
+
 router.delete('/:id', async (req, res) => {
   await pool.query(
     'DELETE FROM events WHERE id = $1 AND user_id = $2',

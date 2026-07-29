@@ -28,7 +28,7 @@
 
   <main class="wide">
     <div class="mode-toggle">
-      <button class="mode-btn active" id="btn-actual" onclick="setMode('actual')">actual</button>
+      <button class="mode-btn active" id="btn-actual" onclick="setMode('actual')">today</button>
       <button class="mode-btn" id="btn-whatif" onclick="setMode('whatif')">what If</button>
     </div>
 
@@ -82,6 +82,28 @@
       </section>
     </div>
   </main>
+
+  <div class="modal-overlay" id="edit-modal-overlay">
+    <div class="modal">
+      <h2>Edit event</h2>
+      <div class="modal-field">
+        <label for="edit-form-type">Type</label>
+        <select id="edit-form-type"></select>
+      </div>
+      <div class="modal-field">
+        <label for="edit-form-amount" id="edit-form-amount-label">Amount</label>
+        <input id="edit-form-amount" type="text" placeholder="Amount" />
+      </div>
+      <div class="modal-field">
+        <label for="edit-form-time">Time</label>
+        <input id="edit-form-time" type="time" />
+      </div>
+      <div class="modal-actions">
+        <button class="modal-cancel" id="edit-form-cancel">Cancel</button>
+        <button class="btn-primary" id="edit-form-save">Save</button>
+      </div>
+    </div>
+  </div>
 
   <script src="/js/types.js"></script>
   <script src="/js/time.js"></script>

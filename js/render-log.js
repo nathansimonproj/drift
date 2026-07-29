@@ -80,8 +80,10 @@ function closeAllQuickAddPopovers() {
 
 document.addEventListener("click", closeAllQuickAddPopovers);
 
-function renderTypeSelect() {
-  const sel = document.getElementById("form-type");
+// Shared by the Custom Entry form and the edit modal, which each have their
+// own type-select/amount-field pair distinguished by element id.
+function populateTypeSelect(selectId) {
+  const sel = document.getElementById(selectId);
   sel.innerHTML = "";
   for (const [key, t] of Object.entries(TYPES)) {
     const opt = document.createElement("option");
@@ -89,27 +91,44 @@ function renderTypeSelect() {
     opt.textContent = t.label;
     sel.appendChild(opt);
   }
+}
+
+// What the amount field actually represents varies by type: a plain
+// quantity, or a pick from a named list (brand, intensity, size).
+function amountFieldLabel(amountKind) {
+  if (amountKind === "variant") return "Brand";
+  if (amountKind === "intensity") return "Intensity";
+  if (amountKind === "size") return "Size";
+  return "Amount";
+}
+
+function rebuildAmountField(typeSelectId, amountFieldId) {
+  const type = document.getElementById(typeSelectId).value;
+  const amountInput = document.getElementById(amountFieldId);
+  const t = TYPES[type];
+  if (t.amountKind === "intensity") {
+    replaceWithSelect(amountInput, INTENSITY_OPTS, t.defaultAmount, amountFieldId);
+  } else if (t.amountKind === "size") {
+    replaceWithSelect(amountInput, SIZE_OPTS, t.defaultAmount, amountFieldId);
+  } else if (t.amountKind === "variant") {
+    replaceWithVariantSelect(amountInput, t.options, t.defaultAmount, amountFieldId);
+  } else {
+    replaceWithNumber(amountInput, t.defaultAmount, t.unit, amountFieldId);
+  }
+}
+
+function renderTypeSelect() {
+  populateTypeSelect("form-type");
   updateAmountField();
 }
 
 function updateAmountField() {
-  const type = document.getElementById("form-type").value;
-  const amountInput = document.getElementById("form-amount");
-  const t = TYPES[type];
-  if (t.amountKind === "intensity") {
-    replaceWithSelect(amountInput, INTENSITY_OPTS, t.defaultAmount);
-  } else if (t.amountKind === "size") {
-    replaceWithSelect(amountInput, SIZE_OPTS, t.defaultAmount);
-  } else if (t.amountKind === "variant") {
-    replaceWithVariantSelect(amountInput, t.options, t.defaultAmount);
-  } else {
-    replaceWithNumber(amountInput, t.defaultAmount, t.unit);
-  }
+  rebuildAmountField("form-type", "form-amount");
 }
 
-function replaceWithSelect(el, opts, def) {
+function replaceWithSelect(el, opts, def, id) {
   const sel = document.createElement("select");
-  sel.id = "form-amount";
+  sel.id = id;
   for (const o of opts) {
     const op = document.createElement("option");
     op.value = o;
@@ -120,9 +139,9 @@ function replaceWithSelect(el, opts, def) {
   el.replaceWith(sel);
 }
 
-function replaceWithVariantSelect(el, options, def) {
+function replaceWithVariantSelect(el, options, def, id) {
   const sel = document.createElement("select");
-  sel.id = "form-amount";
+  sel.id = id;
   for (const o of options) {
     const op = document.createElement("option");
     op.value = o.value;
@@ -133,10 +152,10 @@ function replaceWithVariantSelect(el, options, def) {
   el.replaceWith(sel);
 }
 
-function replaceWithNumber(el, def, placeholder) {
+function replaceWithNumber(el, def, placeholder, id) {
   const input = document.createElement("input");
   input.type = "number";
-  input.id = "form-amount";
+  input.id = id;
   input.value = def;
   input.min = 0;
   input.step = "any";
@@ -167,17 +186,13 @@ function renderEventsList() {
   const ul = document.getElementById("events-list");
   pruneOldEvents();
   const now = Date.now();
-  const real = STATE.events
-    .filter((e) => e.time.getTime() > now - 24 * 3600 * 1000)
-    .map((e) => ({ event: e, hypothetical: false }));
-  // In What If mode, fold the hypothetical events into the same list so
-  // they're visible (and deletable) instead of only affecting the forecast.
-  const hypothetical = whatIfMode
-    ? whatIfEvents.map((e) => ({ event: e, hypothetical: true }))
-    : [];
-  const items = [...real, ...hypothetical].sort((a, b) => a.event.time - b.event.time);
+  // What If mode reads/writes its own forked sandbox (see setMode()) — same
+  // list UI, same edit/delete affordances, but nothing here touches the
+  // real log until you switch back to Actual.
+  const source = whatIfMode ? whatIfEvents : STATE.events;
+  const today = source.filter((e) => e.time.getTime() > now - 24 * 3600 * 1000);
 
-  if (items.length === 0) {
+  if (today.length === 0) {
     ul.innerHTML = `<li class="empty-state">No events logged yet. <span class="sample-link" id="load-sample">Load a sample day</span> to see how the forecast works.</li>`;
     const link = document.getElementById("load-sample");
     if (link) link.addEventListener("click", loadSampleDay);
@@ -185,20 +200,18 @@ function renderEventsList() {
   }
 
   ul.innerHTML = "";
-  for (const { event: e, hypothetical: isHypothetical } of items) {
+  for (const e of today) {
     const d = describeEvent(e);
     if (!d) continue; // event type no longer in the active TYPES list
     const li = document.createElement("li");
-    if (isHypothetical) li.classList.add("evt-hypothetical");
     li.innerHTML = `
       <span class="evt-time">${fmtTime(e.time)}</span>
-      <span><span class="evt-name">${d.name}</span><span class="evt-meta">${d.amountLabel}</span>${isHypothetical ? '<span class="evt-tag">what if</span>' : ""}</span>
-      <span></span>
-      <button class="evt-delete" data-id="${e.id}" title="Delete">×</button>
+      <span><span class="evt-name">${d.name}</span><span class="evt-meta">${d.amountLabel}</span></span>
+      <span><button class="evt-edit" title="Edit">✎</button></span>
+      <button class="evt-delete" title="Delete">×</button>
     `;
-    li.querySelector(".evt-delete").addEventListener("click", () =>
-      isHypothetical ? deleteWhatIfEvent(e.id) : deleteEvent(e.id)
-    );
+    li.querySelector(".evt-edit").addEventListener("click", () => openEditModal(e.id));
+    li.querySelector(".evt-delete").addEventListener("click", () => deleteEventModeAware(e.id));
     ul.appendChild(li);
   }
 }
@@ -209,11 +222,12 @@ function loadSampleDay() {
   // A realistic mid-quarter UW day: morning coffee, late-afternoon Celsius,
   // a 90-min nap before evening study, a drink and a smoke session before bed.
   // Only reachable when the list is already empty, so no need to clear first.
-  addEventAt("coffee", 95, at(8));
-  addEventAt("energy_drink", "celsius", at(4));
-  addEventAt("nap", 90, at(3));
-  addEventAt("marijuana", 10, at(1.5));
-  addEventAt("alcohol", 1, at(0.5));
+  const add = whatIfMode ? addWhatIfEventAt : addEventAt;
+  add("coffee", 95, at(8));
+  add("energy_drink", "celsius", at(4));
+  add("nap", 90, at(3));
+  add("marijuana", 10, at(1.5));
+  add("alcohol", 1, at(0.5));
 }
 
 function renderBedtimeInput() {

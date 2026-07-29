@@ -484,6 +484,7 @@ main.wide {
   margin-left: 8px;
 }
 
+.events-list .evt-edit,
 .events-list .evt-delete {
   background: none;
   border: none;
@@ -494,28 +495,101 @@ main.wide {
   border-radius: 4px;
 }
 
+.events-list .evt-edit:hover {
+  color: var(--text);
+  background: var(--surface-2);
+}
+
 .events-list .evt-delete:hover {
   color: var(--bad);
   background: var(--surface-2);
 }
 
-.events-list li.evt-hypothetical {
-  border-left: 2px dashed var(--accent-2);
-  padding-left: 10px;
-  margin-left: -12px;
+/* Edit event modal */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 200;
 }
 
-.evt-tag {
-  display: inline-block;
-  font-size: 10px;
+.modal-overlay.open {
+  display: flex;
+}
+
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px;
+  width: 100%;
+  max-width: 460px;
+  box-shadow: var(--shadow);
+}
+
+.modal h2 {
+  margin: 0 0 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.modal-field {
+  margin-bottom: 16px;
+}
+
+.modal-field label {
+  display: block;
+  font-size: 13px;
+  color: var(--text-2);
+  margin-bottom: 6px;
+}
+
+.modal-field select,
+.modal-field input {
+  width: 100%;
   background: var(--surface-2);
-  color: var(--text-3);
-  padding: 2px 6px;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px 12px;
   border-radius: 8px;
-  margin-left: 8px;
-  text-transform: lowercase;
-  letter-spacing: 0.05em;
-  vertical-align: middle;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.modal-field select:focus,
+.modal-field input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.modal-cancel {
+  background: none;
+  border: none;
+  color: var(--text-3);
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s;
+}
+
+.modal-cancel:hover {
+  color: var(--bad);
 }
 
 .empty-state {

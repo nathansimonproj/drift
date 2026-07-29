@@ -82,6 +82,28 @@ function addEvent(type, amount, timeStr) {
   return addEventAt(type, amount, time);
 }
 
+async function updateEvent(id, type, amount, timeStr) {
+  const idx = STATE.events.findIndex((e) => e.id === id);
+  if (idx === -1) return;
+
+  // Leave the original time alone if the field was cleared, rather than
+  // silently jumping the event to "now".
+  const time = timeStr ? parseTimeStrToToday(timeStr) : STATE.events[idx].time;
+  STATE.events[idx] = { ...STATE.events[idx], type, amount, time };
+  STATE.events.sort((a, b) => a.time - b.time);
+  renderAll();
+
+  try {
+    await fetch(`/events/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ type, amount, time: time.toISOString() }),
+    });
+  } catch (err) {
+    console.warn("Could not update event on server", err);
+  }
+}
+
 async function deleteEvent(id) {
   STATE.events = STATE.events.filter((e) => e.id !== id);
   renderAll();
