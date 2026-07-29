@@ -599,12 +599,6 @@ main.wide {
   font-size: 14px;
 }
 
-.empty-state .sample-link {
-  color: var(--accent);
-  cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
 
 /* Settings */
 .settings-row {

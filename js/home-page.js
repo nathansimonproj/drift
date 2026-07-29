@@ -123,7 +123,7 @@ function closeEditModal() {
 function updateEditAmountField() {
   rebuildAmountField('edit-form-type', 'edit-form-amount');
   const type = document.getElementById('edit-form-type').value;
-  document.getElementById('edit-form-amount-label').textContent = amountFieldLabel(TYPES[type].amountKind);
+  document.getElementById('edit-form-amount-label').textContent = amountFieldLabel(TYPES[type]);
 }
 
 function saveEditModal() {

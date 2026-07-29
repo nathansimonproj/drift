@@ -1,7 +1,7 @@
 function renderQuickAdd(addFn) {
   renderQuickAddInto(
     document.getElementById("quick-add"),
-    ["coffee", "energy_drink", "soda", "marijuana", "alcohol", "nap"],
+    ["coffee", "energy_drink", "soda", "marijuana", "alcohol", "nap", "nicotine"],
     addFn
   );
 }
@@ -94,11 +94,14 @@ function populateTypeSelect(selectId) {
 }
 
 // What the amount field actually represents varies by type: a plain
-// quantity, or a pick from a named list (brand, intensity, size).
-function amountFieldLabel(amountKind) {
-  if (amountKind === "variant") return "Brand";
-  if (amountKind === "intensity") return "Intensity";
-  if (amountKind === "size") return "Size";
+// quantity, or a pick from a named list (brand, product, intensity, size).
+// A type can override the generic per-amountKind label (e.g. nicotine's
+// options are delivery methods, not brands) via its own `amountLabel`.
+function amountFieldLabel(t) {
+  if (t.amountLabel) return t.amountLabel;
+  if (t.amountKind === "variant") return "Brand";
+  if (t.amountKind === "intensity") return "Intensity";
+  if (t.amountKind === "size") return "Size";
   return "Amount";
 }
 
@@ -193,9 +196,7 @@ function renderEventsList() {
   const today = source.filter((e) => e.time.getTime() > now - 24 * 3600 * 1000);
 
   if (today.length === 0) {
-    ul.innerHTML = `<li class="empty-state">No events logged yet. <span class="sample-link" id="load-sample">Load a sample day</span> to see how the forecast works.</li>`;
-    const link = document.getElementById("load-sample");
-    if (link) link.addEventListener("click", loadSampleDay);
+    ul.innerHTML = `<li class="empty-state">No events logged yet.</li>`;
     return;
   }
 
@@ -214,20 +215,6 @@ function renderEventsList() {
     li.querySelector(".evt-delete").addEventListener("click", () => deleteEventModeAware(e.id));
     ul.appendChild(li);
   }
-}
-
-function loadSampleDay() {
-  const now = new Date();
-  const at = (hoursAgo) => new Date(now.getTime() - hoursAgo * 3600 * 1000);
-  // A realistic mid-quarter UW day: morning coffee, late-afternoon Celsius,
-  // a 90-min nap before evening study, a drink and a smoke session before bed.
-  // Only reachable when the list is already empty, so no need to clear first.
-  const add = whatIfMode ? addWhatIfEventAt : addEventAt;
-  add("coffee", 95, at(8));
-  add("energy_drink", "celsius", at(4));
-  add("nap", 90, at(3));
-  add("marijuana", 10, at(1.5));
-  add("alcohol", 1, at(0.5));
 }
 
 function renderBedtimeInput() {

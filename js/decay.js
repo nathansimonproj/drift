@@ -101,9 +101,39 @@ const DECAY = {
   nicotine(event, t) {
     const h = hoursSince(event.time, t);
     if (h < 0) return 0;
+    // Absorbed-dose defaults by delivery method (see types.js options).
+    // Cigarette/vape: ~0.8-1.5mg absorbed per use, PK Tmax ~5-9 min.
+    // Pouch: 3mg/6mg label dose, largely absorbed via oral mucosa over
+    // 30-60 min (slower Tmax, ~10-20 min) — we don't model onset ramp since
+    // it's sub-hourly and the app's granularity doesn't need it.
+    // Sources: nicotine population PK reviews (PMC8016787, PMC5681983),
+    // e-cig vs. combustible half-life comparison, ZYN/cigarette dosing
+    // comparisons (snusline.com, lousquare.com).
+    const mgByVariant = { cigarette: 1.2, vape: 1.3, pouch_3: 3, pouch_6: 6 };
+    const mg = mgByVariant[event.amount] ?? 3;
+    // Half-life ~1-2h (Sleep Medicine Reviews, Jaehne et al.); use 2h.
     const halfLife = 2;
-    const remaining = event.amount * Math.pow(0.5, h / halfLife);
-    return Math.max(0, remaining * 1.2);
+    const remainingMg = mg * Math.pow(0.5, h / halfLife);
+
+    // Two phases, per Jaehne et al.: nicotine is a stimulant, so it can
+    // delay sleep onset while circulating (small acute penalty) — but the
+    // *primary* disruption they found is withdrawal-driven: short half-life
+    // causes fragmentation/awakenings as levels crash, concentrated in the
+    // back half of the night, not while nicotine is still present. Mirrors
+    // alcohol's active-phase-then-rebound shape below.
+    let p = Math.max(0, (remainingMg - 0.5) * 1.5);
+
+    const reboundWindow = 4; // hours over which withdrawal fragmentation fades
+    const sinceHalfLife = h - halfLife;
+    if (sinceHalfLife >= 0 && sinceHalfLife < reboundWindow) {
+      p += mg * 3 * (1 - sinceHalfLife / reboundWindow);
+    }
+
+    // The per-mg multipliers (unlike caffeine's) are modeling placeholders,
+    // not sourced — nicotine's mg scale (1-6mg) isn't directly comparable to
+    // caffeine's (100mg+), so they need real calibration once we have
+    // outcome data (see ROADMAP.md §3).
+    return p;
   },
   stress(event, t) {
     const h = hoursSince(event.time, t);
