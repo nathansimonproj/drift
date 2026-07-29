@@ -23,6 +23,7 @@ const TYPES = {
       { value: "ghost", label: "Ghost Energy", mg: 200 },
       { value: "nos", label: "NOS", mg: 160 },
       { value: "bloom", label: "Bloom Nutrition", mg: 150 },
+      { value: "bum", label: "Bum Energy", mg: 112}
     ],
     quickLabel: "Energy Drink",
     quickMeta: "Varies",
