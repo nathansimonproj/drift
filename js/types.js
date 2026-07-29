@@ -73,14 +73,25 @@ const TYPES = {
   //   quickLabel: "Nap",
   //   quickMeta: "30 min",
   // },
-  // nicotine: {
-  //   label: "Nicotine",
-  //   unit: "mg",
-  //   defaultAmount: 6,
-  //   amountKind: "number",
-  //   quickLabel: "Nicotine",
-  //   quickMeta: "6 mg",
-  // },
+  nicotine: {
+    label: "Nicotine",
+    unit: "mg",
+    defaultAmount: "pouch_6",
+    amountKind: "variant",
+    amountLabel: "Product", // these are delivery methods, not brands
+    // mg = absorbed dose, not labeled/total content. Cigarette and vape are
+    // both fast-onset, low-per-use doses; pouches deliver more but more
+    // gradually via oral mucosa. Sourced from nicotine PK literature — see
+    // decay.js for citations.
+    options: [
+      { value: "cigarette", label: "Cigarette", mg: 1.2 },
+      { value: "vape", label: "Vape (session)", mg: 1.3 },
+      { value: "pouch_3", label: "Nicotine Pouch (3mg)", mg: 3 },
+      { value: "pouch_6", label: "Nicotine Pouch (6mg)", mg: 6 },
+    ],
+    quickLabel: "Nicotine",
+    quickMeta: "Varies",
+  },
   // caffeine: {
   //   label: "Caffeine",
   //   unit: "mg",
