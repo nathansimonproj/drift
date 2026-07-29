@@ -13,6 +13,7 @@ function renderQuickAddInto(el, keys, addFn) {
   el.innerHTML = "";
   for (const key of keys) {
     const t = TYPES[key];
+    if (!t) continue; // type commented out / no longer active
     el.appendChild(
       t.amountKind === "variant"
         ? makeQuickAddVariantTile(key, t, addFn)
