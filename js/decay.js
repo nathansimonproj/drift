@@ -164,6 +164,13 @@ function scoreAt(events, t) {
   let total = 0;
   const byType = {};
   for (const e of events) {
+    // TYPES is the source of truth for "does this type currently count" —
+    // DECAY keeps every function ever written (including disabled types'),
+    // so checking DECAY alone let commented-out types keep silently scoring
+    // forever on already-logged events that the UI could no longer show or
+    // delete. Gating on TYPES here keeps display and scoring in sync by
+    // construction instead of by convention.
+    if (!TYPES[e.type]) continue;
     const fn = DECAY[e.type];
     if (!fn) continue;
     const p = fn(e, t);
