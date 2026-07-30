@@ -1,4 +1,5 @@
 let whatIfEvents = [];
+let whatIfBedtime = null;
 let whatIfMode = false;
 let editingEventId = null;
 
@@ -6,6 +7,10 @@ let editingEventId = null;
 // instead of the real log — see setMode() for where the fork happens.
 function getActiveEvents() {
   return whatIfMode ? whatIfEvents : STATE.events;
+}
+
+function getActiveBedtime() {
+  return whatIfMode ? whatIfBedtime : STATE.settings.targetBedtime;
 }
 
 async function logout() {
@@ -27,9 +32,14 @@ function setMode(mode) {
     // or the server, and it's discarded (re-forked fresh) next time you
     // enter What If mode.
     whatIfEvents = STATE.events.map((e) => ({ ...e }));
+    whatIfBedtime = STATE.settings.targetBedtime;
   }
   document.getElementById('btn-actual').classList.toggle('active', !whatIfMode);
   document.getElementById('btn-whatif').classList.toggle('active', whatIfMode);
+  document.getElementById('hero-bedtime-label').classList.toggle('editable', whatIfMode);
+  if (whatIfMode) {
+    document.getElementById('hero-bedtime-input').value = whatIfBedtime;
+  }
   renderAll();
 }
 
@@ -81,6 +91,13 @@ function deleteEventModeAware(id) {
   }
 }
 
+function setupBedtimeInput() {
+  document.getElementById('hero-bedtime-input').addEventListener('change', (ev) => {
+    whatIfBedtime = ev.target.value;
+    renderForecast();
+  });
+}
+
 function setupForm() {
   const typeSel = document.getElementById('form-type');
   typeSel.addEventListener('change', updateAmountField);
@@ -123,7 +140,7 @@ function closeEditModal() {
 function updateEditAmountField() {
   rebuildAmountField('edit-form-type', 'edit-form-amount');
   const type = document.getElementById('edit-form-type').value;
-  document.getElementById('edit-form-amount-label').textContent = amountFieldLabel(TYPES[type].amountKind);
+  document.getElementById('edit-form-amount-label').textContent = amountFieldLabel(TYPES[type]);
 }
 
 function saveEditModal() {
@@ -168,6 +185,7 @@ async function init() {
   renderTypeSelect();
   setupForm();
   setupEditModal();
+  setupBedtimeInput();
   renderAll();
   setInterval(renderForecast, 60 * 1000);
 }

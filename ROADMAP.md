@@ -65,11 +65,12 @@ These seven cover the substances a student is actually likely to log. `workout`,
 
 Ordered, small enough to actually finish:
 
-1. **Onboarding card on first visit** — replace the empty-state link with a real explanation of the score plus a "load a sample day" button.
-2. **Make What if? an explicit interaction** — right now the effect exists implicitly through add/edit; give it its own affordance (drag a hypothetical event, see the score move, discard without saving) so it reads as "try before you do it," not just editing your log.
-3. **Calibration pass on the seven core substances** (§3) — check each decay constant against outside research, starting with alcohol and nicotine, which haven't been re-derived yet.
+1. **Onboarding card on first visit** — replace the bare "No events logged yet" empty state with a real explanation of the score. (The old "load a sample day" demo button was removed — it kept going stale against the active `TYPES` list; onboarding should explain the real, empty state, not fake data.)
+2. **Make What if? an explicit interaction** *(mostly shipped)* — What If mode now forks today's real events into an independent sandbox; freely add/edit/delete anything there and it's discarded on re-entry, never touching the real log. Still not the literal drag-and-drop the original phrasing wanted, but "discard without saving" is real now.
+3. **Calibration pass on the seven core substances** (§3) — nicotine re-derived: two-phase model (small acute penalty, larger withdrawal/rebound penalty as levels crash — Jaehne et al.), half-life tightened to the sourced 1-2h range. Alcohol still hasn't been re-checked.
 4. **Privacy promise** front-and-center on login and landing: "we will never share, sell, or report your data."
 5. **`.edu` email check on signup** (warn but allow) — infrastructure for a student tier later, not urgent on its own.
+6. **Day-boundary bug + calendar/history view** — "Today" is actually a rolling 24h window (`event.time > now - 24h`), not a calendar-day boundary, so nothing resets when a new day actually starts: events from late last night keep counting as "today" until they age out of the window on their own, and there's no way to look back at a past day once it rolls off (30h server-side prune deletes it for good). Needs a real day concept — a boundary the Today view resets against (midnight, or a subjective "wake time") — plus a calendar/history UI to navigate back and review previous days' logs and forecasts. Not urgent alone, but any future predicted-vs-actual/calibration validation work (§5) needs real day boundaries to mean anything.
 
 ---
 

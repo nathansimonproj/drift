@@ -59,14 +59,18 @@
         <div class="card">
           <div class="forecast-hero">
             <div class="score" id="hero-score">—</div>
-            <div class="label">Sleep forecast at bedtime</div>
+            <div class="label" id="hero-bedtime-label">
+              Sleep forecast at
+              <span id="hero-bedtime-text" class="bedtime-text"></span>
+              <input type="time" id="hero-bedtime-input" class="bedtime-input" />
+            </div>
             <div class="interpretation" id="hero-interpretation"></div>
-            <div class="bedtime" id="hero-bedtime"></div>
+            <div class="feel" id="hero-feel"></div>
           </div>
         </div>
 
         <div class="card">
-          <h2>What's affecting you</h2>
+          <h2>in your system</h2>
           <div class="breakdown" id="breakdown"></div>
         </div>
 
