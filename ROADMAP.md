@@ -70,6 +70,7 @@ Ordered, small enough to actually finish:
 3. **Calibration pass on the seven core substances** (§3) — nicotine re-derived: two-phase model (small acute penalty, larger withdrawal/rebound penalty as levels crash — Jaehne et al.), half-life tightened to the sourced 1-2h range. Alcohol still hasn't been re-checked.
 4. **Privacy promise** front-and-center on login and landing: "we will never share, sell, or report your data."
 5. **`.edu` email check on signup** (warn but allow) — infrastructure for a student tier later, not urgent on its own.
+6. **Day-boundary bug + calendar/history view** — "Today" is actually a rolling 24h window (`event.time > now - 24h`), not a calendar-day boundary, so nothing resets when a new day actually starts: events from late last night keep counting as "today" until they age out of the window on their own, and there's no way to look back at a past day once it rolls off (30h server-side prune deletes it for good). Needs a real day concept — a boundary the Today view resets against (midnight, or a subjective "wake time") — plus a calendar/history UI to navigate back and review previous days' logs and forecasts. Not urgent alone, but any future predicted-vs-actual/calibration validation work (§5) needs real day boundaries to mean anything.
 
 ---
 

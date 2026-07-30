@@ -20,8 +20,8 @@ function toTimeInputValue(d) {
   return `${h}:${m}`;
 }
 
-function targetBedtimeDate() {
-  const [h, m] = STATE.settings.targetBedtime.split(":").map(Number);
+function targetBedtimeDate(hhmm) {
+  const [h, m] = (hhmm || STATE.settings.targetBedtime).split(":").map(Number);
   const d = new Date();
   d.setHours(h, m, 0, 0);
   // If bedtime already passed today, target tonight's same time tomorrow.

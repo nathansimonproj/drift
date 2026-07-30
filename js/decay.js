@@ -183,10 +183,77 @@ function scoreAt(events, t) {
   return { score, byType, totalPenalty: total };
 }
 
-function interpret(score) {
-  if (score >= 85) return { word: "Clean", klass: "good" };
-  if (score >= 70) return { word: "Mostly clear", klass: "ok" };
-  if (score >= 50) return { word: "Some interference", klass: "warn" };
-  if (score >= 30) return { word: "Disrupted", klass: "bad" };
-  return { word: "Heavily disrupted", klass: "bad" };
+// Named groupings used both for the "in your system" breakdown panel and for
+// attributing the score description to specific substances — one place so
+// the two stay in sync.
+const SUBSTANCE_CATEGORIES = [
+  { label: "Caffeine",  keys: ["caffeine", "coffee", "energy_drink", "soda"] },
+  { label: "Marijuana", keys: ["marijuana"] },
+  { label: "Alcohol",   keys: ["alcohol"] },
+  { label: "Nap",       keys: ["nap"] },
+  { label: "Nicotine",  keys: ["nicotine"] },
+];
+
+function categoryCosts(byType) {
+  return SUBSTANCE_CATEGORIES.map(({ label, keys }) => ({
+    label,
+    cost: keys.reduce((sum, k) => sum + (byType[k] || 0), 0),
+  }));
+}
+
+// Mechanism-specific clause per substance, in the same sleep-process framing
+// as the severity leads below (onset difficulty / REM / fragmentation, not
+// next-day consequences). Kept for Alcohol/Nap even while those types are
+// disabled in TYPES, so the text is ready if they're re-enabled.
+const SUBSTANCE_EFFECT = {
+  Caffeine: "caffeine is still active and blocking the sleep drive that pulls you under",
+  Marijuana: "marijuana tends to suppress REM sleep tonight",
+  Nicotine: "nicotine gives a stimulant kick early on, then fragments sleep with withdrawal as it wears off",
+  Alcohol: "alcohol sedates you early, then fragments sleep and triggers waking as it metabolizes",
+  Nap: "today's nap has lowered your sleep pressure, which can make it harder to drop off",
+};
+
+const SEVERITY_BANDS = [
+  { min: 85, word: "Clean", klass: "good",
+    lead: "Falling asleep should be easy tonight, and your sleep should run its normal course." },
+  { min: 70, word: "Mostly clear", klass: "ok",
+    lead: "Sleep onset might take a few extra minutes tonight" },
+  { min: 50, word: "Some interference", klass: "warn",
+    lead: "Expect a longer time to fall asleep tonight" },
+  { min: 30, word: "Disrupted", klass: "bad",
+    lead: "Falling asleep will be a real struggle tonight" },
+  { min: -Infinity, word: "Heavily disrupted", klass: "bad",
+    lead: "This is shaping up to be a rough night for actually sleeping" },
+];
+
+function topContributors(byType) {
+  const sorted = categoryCosts(byType)
+    .filter((c) => c.cost > 0.5)
+    .sort((a, b) => b.cost - a.cost);
+  if (sorted.length === 0) return [];
+  const contributors = [sorted[0]];
+  if (sorted[1] && sorted[1].cost >= sorted[0].cost * 0.6) contributors.push(sorted[1]);
+  return contributors;
+}
+
+function interpret(score, byType) {
+  const band = SEVERITY_BANDS.find((b) => score >= b.min);
+
+  // Clean band skips attribution — trace-level contributors at this band
+  // aren't meaningfully "responsible" for anything.
+  if (band.word === "Clean" || !byType) {
+    return { word: band.word, klass: band.klass, feel: band.lead };
+  }
+
+  const contributors = topContributors(byType);
+  if (contributors.length === 0) {
+    return { word: band.word, klass: band.klass, feel: `${band.lead}.` };
+  }
+
+  const clauses = contributors.map((c) => SUBSTANCE_EFFECT[c.label]);
+  const attribution = clauses.length === 1
+    ? clauses[0]
+    : `${clauses[0]}, and ${clauses[1]}`;
+
+  return { word: band.word, klass: band.klass, feel: `${band.lead} — ${attribution}.` };
 }

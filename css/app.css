@@ -685,10 +685,35 @@ main.wide {
   margin-top: 8px;
 }
 
-.forecast-hero .bedtime {
-  color: var(--text-3);
+.forecast-hero .feel {
+  color: var(--text-2);
+  font-size: 14px;
+  margin-top: 6px;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.forecast-hero .label .bedtime-input {
+  display: none;
+}
+
+.forecast-hero .label.editable .bedtime-input {
+  display: inline-block;
+  text-transform: none;
+  letter-spacing: normal;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-family: inherit;
   font-size: 13px;
-  margin-top: 4px;
+  color-scheme: dark;
+}
+
+.forecast-hero .label.editable .bedtime-text {
+  display: none;
 }
 
 .breakdown {
