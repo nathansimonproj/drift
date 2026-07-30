@@ -265,6 +265,27 @@ main {
   padding: 0 24px 80px;
 }
 
+.app-footer {
+  max-width: 1200px;
+  margin: -48px auto 32px;
+  padding: 0 24px;
+  text-align: center;
+}
+
+.app-footer a {
+  color: var(--text-3);
+  font-size: 12px;
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1px;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.app-footer a:hover {
+  color: var(--text-2);
+  border-color: var(--text-3);
+}
+
 header.wide,
 main.wide {
   max-width: 1200px;
