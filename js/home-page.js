@@ -1,6 +1,8 @@
 let whatIfEvents = [];
 let whatIfBedtime = null;
 let whatIfMode = false;
+let whatIfInitialized = false;
+let whatIfOriginal = new Map();
 let editingEventId = null;
 
 // In What If mode, the forecast/list run entirely off the forked sandbox
@@ -13,6 +15,19 @@ function getActiveBedtime() {
   return whatIfMode ? whatIfBedtime : STATE.settings.targetBedtime;
 }
 
+// True for anything added or edited inside the What If sandbox — i.e. not
+// present in (or changed from) the real-log snapshot the fork started from.
+// Drives the dashed left-line marker in the events list.
+function isWhatIfChanged(event) {
+  const original = whatIfOriginal.get(event.id);
+  if (!original) return true;
+  return (
+    original.type !== event.type ||
+    String(original.amount) !== String(event.amount) ||
+    original.time.getTime() !== event.time.getTime()
+  );
+}
+
 async function logout() {
   await fetch('/auth/logout', { method: 'POST' });
   window.location.href = '/pages/login.html';
@@ -23,20 +38,35 @@ function renderAll() {
   renderForecast();
 }
 
+// Forks today's real events into an independent sandbox. Freely add, edit,
+// or delete anything in here — none of it touches the real log or the
+// server. Used both for the initial entry into What If mode and for the
+// reset button, which re-forks fresh to discard whatever's changed.
+function forkWhatIf() {
+  whatIfEvents = STATE.events.map((e) => ({ ...e }));
+  whatIfBedtime = STATE.settings.targetBedtime;
+  whatIfOriginal = new Map(
+    STATE.events.map((e) => [e.id, { type: e.type, amount: e.amount, time: e.time }])
+  );
+  whatIfInitialized = true;
+}
+
+function resetWhatIf() {
+  forkWhatIf();
+  document.getElementById('hero-bedtime-input').value = whatIfBedtime;
+  renderAll();
+}
+
 function setMode(mode) {
-  const enteringWhatIf = mode === 'whatif' && !whatIfMode;
   whatIfMode = mode === 'whatif';
-  if (enteringWhatIf) {
-    // Fork today's real events into an independent sandbox. Freely add,
-    // edit, or delete anything in here — none of it touches the real log
-    // or the server, and it's discarded (re-forked fresh) next time you
-    // enter What If mode.
-    whatIfEvents = STATE.events.map((e) => ({ ...e }));
-    whatIfBedtime = STATE.settings.targetBedtime;
-  }
+  // Stays intact across switches back to Actual (only a fresh page load or
+  // an explicit reset re-forks it) so a scenario you built doesn't vanish
+  // just from glancing back at today.
+  if (whatIfMode && !whatIfInitialized) forkWhatIf();
   document.getElementById('btn-actual').classList.toggle('active', !whatIfMode);
   document.getElementById('btn-whatif').classList.toggle('active', whatIfMode);
   document.getElementById('hero-bedtime-label').classList.toggle('editable', whatIfMode);
+  document.getElementById('btn-reset-whatif').classList.toggle('shown', whatIfMode);
   if (whatIfMode) {
     document.getElementById('hero-bedtime-input').value = whatIfBedtime;
   }
@@ -96,6 +126,10 @@ function setupBedtimeInput() {
     whatIfBedtime = ev.target.value;
     renderForecast();
   });
+}
+
+function setupResetButton() {
+  document.getElementById('btn-reset-whatif').addEventListener('click', resetWhatIf);
 }
 
 function setupForm() {
@@ -186,6 +220,7 @@ async function init() {
   setupForm();
   setupEditModal();
   setupBedtimeInput();
+  setupResetButton();
   renderAll();
   setInterval(renderForecast, 60 * 1000);
 }

@@ -321,6 +321,38 @@ main.wide {
   letter-spacing: 0.08em;
 }
 
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 16px;
+}
+
+.card-head h2 {
+  margin: 0;
+}
+
+.reset-whatif {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-3);
+  font-family: inherit;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s;
+}
+
+.reset-whatif:hover {
+  color: var(--accent);
+}
+
+.reset-whatif.shown {
+  display: inline-block;
+}
+
 /* Quick-add buttons */
 .quick-add {
   display: grid;
@@ -487,6 +519,12 @@ main.wide {
 }
 
 .events-list li:last-child { border-bottom: none; }
+
+.events-list li.evt-hypothetical {
+  border-left: 2px dashed var(--accent-2);
+  padding-left: 10px;
+  margin-left: -12px;
+}
 
 .events-list .evt-time {
   color: var(--text-2);

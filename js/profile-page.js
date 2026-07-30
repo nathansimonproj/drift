@@ -13,7 +13,7 @@ function populateForm() {
   document.getElementById('field-height-unit').value = s.heightUnit  || 'cm';
   document.getElementById('field-weight').value      = s.weight      || '';
   document.getElementById('field-weight-unit').value = s.weightUnit  || 'kg';
-  document.getElementById('field-bedtime').value     = s.targetBedtime || '23:00';
+  document.getElementById('field-bedtime').value     = s.targetBedtime || '22:00';
 }
 
 async function loadProfile() {
@@ -29,7 +29,7 @@ async function loadProfile() {
     STATE.settings.heightUnit    = data.height_unit   ?? 'cm';
     STATE.settings.weight        = data.weight        ?? '';
     STATE.settings.weightUnit    = data.weight_unit   ?? 'kg';
-    STATE.settings.targetBedtime = data.target_bedtime ?? '23:00';
+    STATE.settings.targetBedtime = data.target_bedtime ?? '22:00';
     save(); // keep localStorage in sync so other pages see the latest bedtime
   } catch (err) {
     console.warn('Could not load profile from server', err);
@@ -45,7 +45,7 @@ async function saveProfile() {
     heightUnit:   document.getElementById('field-height-unit').value,
     weight:       document.getElementById('field-weight').value,
     weightUnit:   document.getElementById('field-weight-unit').value,
-    targetBedtime: document.getElementById('field-bedtime').value || '23:00',
+    targetBedtime: document.getElementById('field-bedtime').value || '22:00',
   };
 
   Object.assign(STATE.settings, payload);

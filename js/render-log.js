@@ -205,6 +205,7 @@ function renderEventsList() {
     const d = describeEvent(e);
     if (!d) continue; // event type no longer in the active TYPES list
     const li = document.createElement("li");
+    if (whatIfMode && isWhatIfChanged(e)) li.classList.add("evt-hypothetical");
     li.innerHTML = `
       <span class="evt-time">${fmtTime(e.time)}</span>
       <span><span class="evt-name">${d.name}</span><span class="evt-meta">${d.amountLabel}</span></span>

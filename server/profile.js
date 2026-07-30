@@ -33,7 +33,7 @@ router.put('/', async (req, res) => {
     heightUnit  || 'cm',
     weight      ? parseFloat(weight) : null,
     weightUnit  || 'kg',
-    targetBedtime || '23:00',
+    targetBedtime || '22:00',
   ]);
   res.json({ ok: true });
 });

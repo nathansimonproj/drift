@@ -1,7 +1,7 @@
 const STATE = {
   events: [],
   settings: {
-    targetBedtime: "01:00",
+    targetBedtime: "22:00",
     name: "",
     sex: "",
     height: "",

@@ -30,7 +30,7 @@ async function init() {
       height_unit TEXT NOT NULL DEFAULT 'cm',
       weight REAL,
       weight_unit TEXT NOT NULL DEFAULT 'kg',
-      target_bedtime TEXT NOT NULL DEFAULT '23:00',
+      target_bedtime TEXT NOT NULL DEFAULT '22:00',
       updated_at TIMESTAMPTZ DEFAULT now()
     );
 
