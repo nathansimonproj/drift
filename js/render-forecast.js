@@ -1,20 +1,5 @@
 let chart = null;
 
-const BREAKDOWN_CATEGORIES = [
-  { label: "Caffeine",  keys: ["caffeine", "coffee", "energy_drink", "soda"] },
-  { label: "Marijuana", keys: ["marijuana"] },
-  { label: "Alcohol",   keys: ["alcohol"] },
-  { label: "Nap",       keys: ["nap"] },
-  { label: "Nicotine",  keys: ["nicotine"] },
-];
-
-function categoryCosts(byType) {
-  return BREAKDOWN_CATEGORIES.map(({ label, keys }) => ({
-    label,
-    cost: keys.reduce((sum, k) => sum + (byType[k] || 0), 0),
-  }));
-}
-
 function fmtHourLabel(d) {
   const h = d.getHours() % 12 || 12;
   const ampm = d.getHours() < 12 ? "am" : "pm";
@@ -23,17 +8,17 @@ function fmtHourLabel(d) {
 
 function renderForecast() {
   const events = typeof getActiveEvents === 'function' ? getActiveEvents() : STATE.events;
-  const bedtime = targetBedtimeDate();
+  const bedtime = targetBedtimeDate(typeof getActiveBedtime === 'function' ? getActiveBedtime() : undefined);
   const result = scoreAt(events, bedtime);
-  const interp = interpret(result.score);
+  const interp = interpret(result.score, result.byType);
 
   const heroEl = document.getElementById("hero-score");
   heroEl.textContent = Math.round(result.score);
   heroEl.className = `score ${interp.klass}`;
 
   document.getElementById("hero-interpretation").textContent = interp.word;
-  document.getElementById("hero-bedtime").textContent =
-    `Target bedtime ${fmtTime(bedtime)}`;
+  document.getElementById("hero-feel").textContent = interp.feel;
+  document.getElementById("hero-bedtime-text").textContent = fmtTime(bedtime);
 
   renderBreakdown(result.byType);
   renderChart(bedtime, events);
