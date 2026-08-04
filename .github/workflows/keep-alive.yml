@@ -1,0 +1,17 @@
+name: Keep Render awake
+
+on:
+  schedule:
+    # Render's free tier spins down after 15 min idle — ping every 10 to
+    # leave margin. GitHub's cron scheduler doesn't guarantee exact timing
+    # (runs can slip under load), so this reduces cold starts, not eliminates.
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Drift
+        run: |
+          curl -s -o /dev/null -w "status: %{http_code}\n" --max-time 25 https://drift-hs0w.onrender.com/ || true
