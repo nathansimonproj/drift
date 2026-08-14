@@ -49,12 +49,6 @@ function coerceAmount(type, amount) {
   return t && t.amountKind === "number" ? parseFloat(amount) : amount;
 }
 
-// Keep only events from the last 30 hours so the timeline stays sensible.
-function pruneOldEvents() {
-  const cutoff = Date.now() - 30 * 3600 * 1000;
-  STATE.events = STATE.events.filter((e) => e.time.getTime() > cutoff);
-}
-
 async function addEventAt(type, amount, time) {
   const event = {
     id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now() + Math.random()),

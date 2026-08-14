@@ -5,11 +5,10 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
   const userId = req.session.userId;
-  // Mirror the client's 30h retention window server-side too.
-  await pool.query(
-    "DELETE FROM events WHERE user_id = $1 AND occurred_at < now() - interval '30 hours'",
-    [userId]
-  );
+  // Full history is kept (no retention prune) so the calendar/history view
+  // has past days to show — see ROADMAP.md §2. (This used to run a 30h
+  // prune here on every request, silently deleting anything older — fixed
+  // 2026-08-14, but anything it already deleted is gone for good.)
   const result = await pool.query(
     'SELECT id, type, amount, occurred_at FROM events WHERE user_id = $1 ORDER BY occurred_at ASC',
     [userId]

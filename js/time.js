@@ -20,6 +20,24 @@ function toTimeInputValue(d) {
   return `${h}:${m}`;
 }
 
+// Local calendar-day key ("YYYY-MM-DD"), used to bucket events into real
+// days instead of a rolling 24h window — see ROADMAP.md §2.
+function dayKey(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+function dayKeyToDate(key) {
+  const [y, m, d] = key.split("-").map(Number);
+  return new Date(y, m - 1, d);
+}
+
+function fmtDayLabel(d) {
+  return d.toLocaleDateString([], { weekday: "long", month: "long", day: "numeric" });
+}
+
 function targetBedtimeDate(hhmm) {
   const [h, m] = (hhmm || STATE.settings.targetBedtime).split(":").map(Number);
   const d = new Date();

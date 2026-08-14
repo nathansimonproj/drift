@@ -221,6 +221,7 @@ async function init() {
   setupEditModal();
   setupBedtimeInput();
   setupResetButton();
+  setupCalendar();
   renderAll();
   setInterval(renderForecast, 60 * 1000);
 }

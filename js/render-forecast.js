@@ -7,8 +7,9 @@ function fmtHourLabel(d) {
 }
 
 function renderForecast() {
-  const events = typeof getActiveEvents === 'function' ? getActiveEvents() : STATE.events;
+  const allEvents = typeof getActiveEvents === 'function' ? getActiveEvents() : STATE.events;
   const bedtime = targetBedtimeDate(typeof getActiveBedtime === 'function' ? getActiveBedtime() : undefined);
+  const events = eventsNear(allEvents, bedtime);
   const result = scoreAt(events, bedtime);
   const interp = interpret(result.score, result.byType);
 

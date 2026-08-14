@@ -187,13 +187,15 @@ function describeEvent(e) {
 
 function renderEventsList() {
   const ul = document.getElementById("events-list");
-  pruneOldEvents();
-  const now = Date.now();
   // What If mode reads/writes its own forked sandbox (see setMode()) — same
   // list UI, same edit/delete affordances, but nothing here touches the
   // real log until you switch back to Actual.
   const source = whatIfMode ? whatIfEvents : STATE.events;
-  const today = source.filter((e) => e.time.getTime() > now - 24 * 3600 * 1000);
+  // Calendar-day boundary, not a rolling 24h window — see ROADMAP.md §2.
+  // Events roll off "Today" at local midnight, and full history is
+  // kept (not deleted) so the calendar/history view can look back at them.
+  const todayKey = dayKey(new Date());
+  const today = source.filter((e) => dayKey(e.time) === todayKey);
 
   if (today.length === 0) {
     ul.innerHTML = `<li class="empty-state">No events logged yet.</li>`;

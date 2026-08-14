@@ -160,6 +160,15 @@ const DECAY = {
   },
 };
 
+// Every DECAY curve is at ~0 well within 72h of the event. Now that full
+// history is kept (see ROADMAP.md §2), callers should filter through
+// this before scoreAt() so cost stays bounded by recent events, not by
+// however many months of log a user has accumulated.
+function eventsNear(events, t, hours = 72) {
+  const cutoff = t.getTime() - hours * 3600 * 1000;
+  return events.filter((e) => e.time.getTime() > cutoff);
+}
+
 function scoreAt(events, t) {
   let total = 0;
   const byType = {};

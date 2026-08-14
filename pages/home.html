@@ -11,16 +11,26 @@
   <header class="wide">
     <div class="brand">
       <h1>drift</h1>
-      <div class="menu-wrap" id="menu-wrap">
-        <button class="menu-trigger" id="menu-trigger" onclick="toggleMenu()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+      <div class="header-actions">
+        <button class="calendar-trigger" id="calendar-trigger" title="History">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" />
+            <line x1="16" y1="2" x2="16" y2="6" />
+            <line x1="8" y1="2" x2="8" y2="6" />
+            <line x1="3" y1="10" x2="21" y2="10" />
           </svg>
         </button>
-        <div class="menu-dropdown" id="menu-dropdown">
-          <a href="/pages/profile.html" class="menu-item">profile</a>
-          <div class="menu-divider"></div>
-          <button class="menu-item menu-item-danger" onclick="logout()">sign out</button>
+        <div class="menu-wrap" id="menu-wrap">
+          <button class="menu-trigger" id="menu-trigger" onclick="toggleMenu()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+            </svg>
+          </button>
+          <div class="menu-dropdown" id="menu-dropdown">
+            <a href="/pages/profile.html" class="menu-item">profile</a>
+            <div class="menu-divider"></div>
+            <button class="menu-item menu-item-danger" onclick="logout()">sign out</button>
+          </div>
         </div>
       </div>
     </div>
@@ -116,12 +126,26 @@
     </div>
   </div>
 
+  <div class="modal-overlay" id="calendar-modal-overlay">
+    <div class="modal modal-calendar">
+      <div class="calendar-header">
+        <button class="cal-nav" id="cal-prev" title="Previous month">‹</button>
+        <div class="calendar-month-label" id="cal-month-label"></div>
+        <button class="cal-nav" id="cal-next" title="Next month">›</button>
+        <button class="modal-cancel calendar-close" id="calendar-close" title="Close">×</button>
+      </div>
+      <div class="calendar-grid" id="calendar-grid"></div>
+      <div class="calendar-day-detail" id="calendar-day-detail"></div>
+    </div>
+  </div>
+
   <script src="/js/types.js"></script>
   <script src="/js/time.js"></script>
   <script src="/js/decay.js"></script>
   <script src="/js/state.js"></script>
   <script src="/js/render-log.js"></script>
   <script src="/js/render-forecast.js"></script>
+  <script src="/js/history.js"></script>
   <script src="/js/nav.js"></script>
   <script src="/js/home-page.js"></script>
 </body>
