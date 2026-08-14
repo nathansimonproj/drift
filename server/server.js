@@ -35,6 +35,12 @@ app.use('/events', requireAuth, eventsRoutes);
 app.get('/pages/login.html', (_req, res) =>
   res.sendFile(path.join(ROOT, 'pages', 'login.html'))
 );
+app.get('/pages/forgot-password.html', (_req, res) =>
+  res.sendFile(path.join(ROOT, 'pages', 'forgot-password.html'))
+);
+app.get('/pages/reset-password.html', (_req, res) =>
+  res.sendFile(path.join(ROOT, 'pages', 'reset-password.html'))
+);
 
 // Root redirects to home page
 app.get('/', (_req, res) => res.redirect('/pages/home.html'));
