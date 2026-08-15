@@ -23,13 +23,13 @@ The plan cannot be run without knowing which channel is working.
 
 These are acquisition blockers, not product polish. Most are already in ROADMAP.md §4:
 
-1. **Onboarding card** — every acquired user arrives at the empty state. If the first 60 seconds don't explain the score, the flyer QR scan is wasted.
-2. **Privacy promise on landing + login** — students are being asked to log alcohol, weed, and Adderall. "Never shared, sold, or reported" is the difference between signup and bounce, especially from a stranger's flyer.
-3. **Alcohol calibration check** — one student seeing a visibly wrong alcohol curve during Dawg Daze week kills word-of-mouth on their whole floor.
-4. **Mobile polish pass** — essentially 100% of these users will be on phones.
-5. **A shareable moment** — a "share my forecast" button that renders the score + curve as an image. This is the referral engine; every other channel feeds it.
+1. ~~**Onboarding card**~~ — done 2026-08-14. Every acquired user arrives at the empty state; the first 60 seconds now explain the score and What If instead of a bare "no events logged yet."
+2. ~~**Privacy promise on landing + login**~~ — done 2026-08-14. Students are being asked to log alcohol, weed, and Adderall; "never shared, sold, or reported" is front-and-center on login, the actual landing page for this app.
+3. ~~**Alcohol calibration check**~~ — done 2026-08-14, and it turned out to be more than a check: alcohol was fully built but commented out and never actually reachable in the app at all until today. Now enabled, recalibrated against real research, and logged via a standard-drink dropdown (beer/wine/shot) instead of a typed number.
+4. ~~**Mobile polish pass**~~ — done 2026-08-14. Audited every page at real iPhone viewport width (Playwright + device emulation, not just a resized desktop browser) and found two real bugs, not just cosmetics: the profile page's height/weight fields overflowed the screen horizontally (a CSS grid-blowout — form inputs don't shrink below their own intrinsic width by default), and the alcohol/nicotine quick-add dropdowns rendered too narrow for the row they overlapped below, letting the custom-entry form's text bleed through around their edges. Both fixed and re-verified on-device; the calendar modal's apparent overflow turned out to be a false alarm (it already scrolls correctly, just didn't look like it in a static screenshot).
+5. **A shareable moment** — still open. A "share my forecast" button that renders the score + curve as an image. This is the referral engine; every other channel feeds it.
 
-**Skip everything else** (day-boundary bug, .edu tier infra, calendar view) until after 200.
+**Skip everything else** (day-boundary bug — since fixed anyway while building the calendar view, see ROADMAP.md §2 — .edu tier infra) until after 200.
 
 ---
 
@@ -77,7 +77,7 @@ Acquisition leaks without retention, and the "≥3 events" bar means retention *
 
 | When | What |
 |---|---|
-| Aug 10 – Sep 1 | Onboarding card, privacy line, alcohol calibration, mobile pass, share image |
+| Aug 10 – Sep 1 | ~~Onboarding card, privacy line, alcohol calibration, mobile pass~~ (done 2026-08-14) — share image still open |
 | Sep 1 – 25 | 20 seed users, watched onboardings, refined pitch copy |
 | Late Sep | Dawg Daze push + group chats (~100 users) |
 | Early–mid Oct | r/udub post, flyers (~150) |

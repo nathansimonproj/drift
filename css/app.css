@@ -167,6 +167,12 @@ header {
 
 .profile-field input,
 .profile-field select {
+  /* Grid items default to min-width: auto, so a number/select input's own
+     intrinsic minimum size can force this grid wider than its container
+     instead of shrinking to fit — the cause of horizontal overflow on
+     narrow (phone) viewports. */
+  min-width: 0;
+  width: 100%;
   background: var(--surface-2);
   border: 1px solid var(--border);
   color: var(--text);
@@ -470,6 +476,13 @@ main.wide {
 }
 
 .quick-add-popover {
+  /* position/left/width/top are set inline at open-time (see
+     positionQuickAddPopover in render-log.js) to span the trigger's whole
+     enclosing card rather than just its own grid column — a popover no
+     wider than its own column can extend down far enough to overlap the
+     card below without being wide enough to fully cover that row, leaving
+     a sliver of unrelated content peeking out beside it. These are just
+     sane pre-JS defaults. */
   position: absolute;
   top: calc(100% + 6px);
   left: 0;
@@ -478,6 +491,11 @@ main.wide {
   border: 1px solid var(--border);
   border-radius: 8px;
   box-shadow: var(--shadow);
+  /* A few extra px below the last option: mild visual polish, but also
+     covers the near-miss where the row this overlaps (e.g. custom entry)
+     starts a little past this popover's own content-driven height,
+     otherwise leaving a sliver of it peeking out from underneath. */
+  padding-bottom: 20px;
   overflow: hidden;
   z-index: 50;
   display: none;
@@ -1050,4 +1068,10 @@ main.wide {
     grid-column: span 2;
   }
   .forecast-hero .score { font-size: 72px; }
+
+  .profile-field {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    gap: 6px;
+  }
 }

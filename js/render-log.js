@@ -66,7 +66,10 @@ function makeQuickAddVariantTile(key, t, addFn) {
     ev.stopPropagation();
     const wasOpen = popover.classList.contains("open");
     closeAllQuickAddPopovers();
-    if (!wasOpen) popover.classList.add("open");
+    if (!wasOpen) {
+      positionQuickAddPopover(popover, btn);
+      popover.classList.add("open");
+    }
   });
 
   wrap.appendChild(btn);
@@ -74,9 +77,30 @@ function makeQuickAddVariantTile(key, t, addFn) {
   return wrap;
 }
 
+// A popover anchored to just its own trigger tile is only as wide as that
+// tile's grid column — on the 2-column quick-add grid, that's narrower than
+// the full-width row it visually overlaps in the card below (e.g. custom
+// entry), so part of that row peeks out beside it instead of being cleanly
+// covered. Fixed-position it to span the *card's* full width instead, so it
+// reads as one clean overlay no matter which column triggered it.
+function positionQuickAddPopover(popover, trigger) {
+  const card = trigger.closest(".card") || trigger.parentElement;
+  const cardRect = card.getBoundingClientRect();
+  const triggerRect = trigger.getBoundingClientRect();
+  popover.style.position = "fixed";
+  popover.style.left = `${cardRect.left}px`;
+  popover.style.width = `${cardRect.width}px`;
+  popover.style.top = `${triggerRect.bottom + 6}px`;
+}
+
 function closeAllQuickAddPopovers() {
   document.querySelectorAll(".quick-add-popover.open").forEach((p) => p.classList.remove("open"));
 }
+
+// Popovers are position:fixed (see positionQuickAddPopover) so they stay
+// put on screen rather than scrolling with their trigger — close on scroll
+// so one doesn't visually detach from the button that opened it.
+window.addEventListener("scroll", closeAllQuickAddPopovers, { passive: true });
 
 document.addEventListener("click", closeAllQuickAddPopovers);
 
