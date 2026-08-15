@@ -45,7 +45,14 @@ Email sending went through two providers before landing: first wired to Resend, 
 - **Midnight-bedtime scoring bug:** `bedtimeForDayKey()` anchored an early-hour target bedtime (e.g. `00:00`) to the *start* of the selected day instead of its *end*, so every event read as `hoursSince < 0` (not happened yet) and the calendar showed a false 100 for any day — not just for midnight bedtimes specifically, but for anyone with a bedtime before noon. Fixed by mirroring `targetBedtimeDate()`'s day-rollover logic, generalized from "today" to an arbitrary calendar day.
 - **Data loss, more serious:** the server was still running a 30-hour retention prune (`DELETE FROM events WHERE ... occurred_at < now() - interval '30 hours'`) on every `GET /events` — i.e. every page load — despite the rolling-window design it mirrored being replaced by real day boundaries. This had been live since Jul 28 and is why past days showed no data: it wasn't a display bug, the events were actually deleted. **Anything older than ~30h before the fix shipped is unrecoverable — no backup existed.** The prune is removed and the fix is live.
 
-**Trust gap.** The decay engine is "shipped, rough" — 11 event types, unevenly calibrated. Marijuana's constant was already corrected once after being unrealistically fast. This is the actual risk to the product: a harm-reduction app that gets a student's Adderall or alcohol curve visibly wrong loses their trust in one session, and there's no recovering that. Breadth of event types has outpaced depth of calibration.
+**Shipped (2026-08-14).** Alcohol enabled (it was fully built in `decay.js` but commented out in `types.js`, so it never appeared in the app at all) and recalibrated against a 2024 systematic review/meta-analysis (Girschik et al., "The effect of alcohol on subsequent sleep in healthy adults") and elimination-rate sources. Logging changed from a typed-number "drinks" field to a dropdown of **Beer (12oz) / Glass of Wine (5oz) / Shot (1.5oz)** — NIAAA's standard-drink definition, all three ≈14g ethanol — matching the one-tap-per-serving pattern soda/energy-drink/nicotine already use.
+- That input change mattered for the model, not just the UI: `alcohol()` now scores one event = one drink, so a multi-drink session's severity has to come from several drinks' curves overlapping near bedtime (as `scoreAt()` sums every near event), not from an exponent on a single event's total. Calibrated so one drink checked at a normal drink-to-bedtime gap (3-5h later) stays negligible — matching the research that ~1 standard drink is sleep-neutral to mildly sleep-promoting, not disruptive — while a real binge session (6-8 drinks over a couple hours) lands solidly in the "disrupted" range by bedtime. Verified both ends numerically and in a live browser.
+- The rebound/fragmentation window (after a drink clears) is wider than the "4h" used elsewhere in this file, specifically so multiple drinks' rebound windows overlap for a real session — motivated by the same review's finding that wake-after-sleep-onset roughly doubles on alcohol nights (66.9 vs. 38.7 min in the cited study), concentrated in the second half of the night.
+- The elimination-rate constant (1.5h per drink) turned out to already be well-grounded (~0.015 g/dL/hr average adult rate ⇒ ~4-5h to clear a moderate 2-3 drink dose) and didn't need to change. The peak-penalty values themselves are a modeling choice calibrated to that negligible-single-drink / disrupted-real-binge shape, not sourced numbers.
+
+**Shipped (2026-08-14).** Privacy promise ("We will never share, sell, or report your data") added front-and-center on the login page, which — since there's no separate marketing landing page — is also the first thing every unauthenticated visitor sees.
+
+**Trust gap.** The decay engine is "shipped, rough" — 11 event types, unevenly calibrated. Marijuana's constant was already corrected once after being unrealistically fast; nicotine and alcohol have since had the same scrutiny. Adderall/stimulants and caffeine still haven't. This is the actual risk to the product: a harm-reduction app that gets a student's curve visibly wrong loses their trust in one session, and there's no recovering that.
 
 **Still missing.** Real onboarding (currently a buried empty-state link — the first 60 seconds are core product, not GTM), outcome tracking (no way to check predicted vs. actual yet), and What if?'s interactive drag-and-drop hasn't shipped as a dedicated surface — it exists implicitly (add/edit an event, see the score move) but not as the explicit "try before you do it" interaction described in §1.
 
@@ -58,14 +65,14 @@ Rather than maintain 11 roughly-calibrated event types, narrow near-term calibra
 | Substance | College past-month/weekly use | Current status |
 |---|---|---|
 | Caffeine (coffee) | ~92% use daily; ~159mg/day avg | shipped, needs calibration check |
-| Alcohol | ~50% past month; ~40% binge | shipped |
+| Alcohol | ~50% past month; ~40% binge | shipped, recalibrated 2026-08-14 |
 | Energy drinks | ~68% past month | shipped, brand presets done |
 | Marijuana | ~42–44% past year | shipped, recalibrated once already |
-| Nicotine/vaping | ~33% past month | shipped |
-| Prescription stimulants (Adderall, off-label) | ~7–10% past year | shipped |
+| Nicotine/vaping | ~33% past month | shipped, recalibrated |
+| Prescription stimulants (Adderall, off-label) | ~7–10% past year | shipped, needs calibration check |
 | Naps | not a substance stat, but functionally central to student sleep behavior | shipped |
 
-These seven cover the substances a student is actually likely to log. `workout`, `meal`, `stress`, `brightlight`, `screen` are secondary — plausible contributors, lower priority to re-derive from research right now. The near-term task isn't adding event types; it's re-checking these seven against real decay/half-life research and fixing whichever ones are furthest from physiologically plausible (marijuana was one; alcohol and nicotine haven't had the same scrutiny).
+These seven cover the substances a student is actually likely to log. `workout`, `meal`, `stress`, `brightlight`, `screen` are secondary — plausible contributors, lower priority to re-derive from research right now. The near-term task isn't adding event types; it's re-checking these seven against real decay/half-life research and fixing whichever ones are furthest from physiologically plausible. Marijuana, nicotine, and alcohol have had that pass; caffeine and stimulants haven't yet.
 
 ---
 
@@ -75,10 +82,9 @@ Ordered, small enough to actually finish:
 
 1. **Onboarding card on first visit** — replace the bare "No events logged yet" empty state with a real explanation of the score. (The old "load a sample day" demo button was removed — it kept going stale against the active `TYPES` list; onboarding should explain the real, empty state, not fake data.)
 2. **Make What if? an explicit interaction** *(mostly shipped)* — What If mode now forks today's real events into an independent sandbox; freely add/edit/delete anything there and it's discarded on re-entry, never touching the real log. Still not the literal drag-and-drop the original phrasing wanted, but "discard without saving" is real now.
-3. **Calibration pass on the seven core substances** (§3) — nicotine re-derived: two-phase model (small acute penalty, larger withdrawal/rebound penalty as levels crash — Jaehne et al.), half-life tightened to the sourced 1-2h range. Alcohol still hasn't been re-checked.
-4. **Privacy promise** front-and-center on login and landing: "we will never share, sell, or report your data."
-5. **`.edu` email check on signup** (warn but allow) — infrastructure for a student tier later, not urgent on its own. Easier now that email *is* the account identity (§2).
-6. **Verify a SendGrid single sender before launch** — reset-password emails currently only log to the console (no credentials set). Verify one email address in SendGrid (no domain purchase needed), then set `SENDGRID_API_KEY`, `EMAIL_FROM`, and `APP_URL` in Render's environment. Blocking for real users; §2 has the detail.
+3. **Calibration pass on the seven core substances** (§3) — nicotine re-derived: two-phase model (small acute penalty, larger withdrawal/rebound penalty as levels crash — Jaehne et al.), half-life tightened to the sourced 1-2h range. Alcohol re-derived 2026-08-14 (§2). Caffeine and stimulants (Adderall) still haven't been re-checked — Adderall in particular is named alongside alcohol in the Trust gap note (§2) as the highest-risk substance to get visibly wrong.
+4. **`.edu` email check on signup** (warn but allow) — infrastructure for a student tier later, not urgent on its own. Easier now that email *is* the account identity (§2).
+5. **Verify a SendGrid single sender before launch** — reset-password emails currently only log to the console (no credentials set). Verify one email address in SendGrid (no domain purchase needed), then set `SENDGRID_API_KEY`, `EMAIL_FROM`, and `APP_URL` in Render's environment. Blocking for real users; §2 has the detail.
 
 ---
 

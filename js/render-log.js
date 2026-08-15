@@ -168,7 +168,9 @@ function replaceWithNumber(el, def, placeholder, id) {
 
 // Shared by the log list and the what-if list: resolves the display name and
 // amount for a logged event. Variant types (e.g. soda) show the picked
-// option's own label and mg instead of the generic type name.
+// option's own label and mg instead of the generic type name. An option can
+// set its own amountLabel directly (e.g. alcohol's "1 standard drink") for
+// variants that aren't mg-denominated.
 function describeEvent(e) {
   const t = TYPES[e.type];
   if (!t) return null;
@@ -176,7 +178,7 @@ function describeEvent(e) {
     const variant = t.options.find((o) => o.value === e.amount);
     return {
       name: variant ? variant.label : t.label,
-      amountLabel: variant ? `${variant.mg} ${t.unit}` : e.amount,
+      amountLabel: variant ? (variant.amountLabel ?? `${variant.mg} ${t.unit}`) : e.amount,
     };
   }
   return {

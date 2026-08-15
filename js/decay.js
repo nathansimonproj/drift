@@ -71,15 +71,44 @@ const DECAY = {
   alcohol(event, t) {
     const h = hoursSince(event.time, t);
     if (h < 0) return 0;
-    const drinks = event.amount;
-    const clearH = drinks * 1.5;
+    // Each event is one standard drink — a 12oz beer (~5% ABV), 5oz wine
+    // (~12% ABV), and 1.5oz shot of spirits (~40% ABV) are NIAAA's textbook
+    // equivalent servings (~14g ethanol each), so all three variants share
+    // this curve; only the logged label differs (see types.js).
+    //
+    // Elimination ~0.015 g/dL/hr average adult rate (BGSU; multiple clinical
+    // sources) works out to ~1.3-1.7h to clear one standard drink, matching
+    // the commonly cited "4-5h to clear a moderate 2-3 drink dose" (Wikipedia,
+    // "Alcohol use and sleep"). 1.5h is used here.
+    const clearH = 1.5;
+
+    // Because drinks are logged one at a time (like soda/energy drink — one
+    // tap per serving), a real session's "progressively worsens with dose"
+    // pattern (Girschik et al. 2024 meta-analysis, "The effect of alcohol
+    // on subsequent sleep in healthy adults") has to emerge from multiple
+    // drinks' curves overlapping in time as scoreAt() sums every near
+    // event, not from an exponent on a single event's amount. The peak
+    // values below are picked so that plays out at realistic scale: one
+    // drink checked at a normal drink-to-bedtime gap (3-5h later) stays
+    // negligible (single digits), while a real binge session (6-8 drinks
+    // over a couple hours) lands solidly in the "disrupted" range by
+    // bedtime — not sourced numbers themselves, but calibrated against
+    // that shape.
     let p = 0;
+    // Active phase: this drink still metabolizing — sedating short-term,
+    // but suppressing REM the same night.
     if (h < clearH) {
-      p += drinks * 12 * (1 - 0.4 * (h / clearH));
+      p += 8 * (1 - 0.4 * (h / clearH));
     }
+    // Rebound phase: REM/stage-1 rebound and fragmented awakenings as this
+    // drink clears. Window widened past the "4h" seen elsewhere in this
+    // file so multiple drinks' rebound windows actually overlap for a
+    // multi-drink session — same review: WASO roughly doubled on alcohol
+    // nights vs. control in the cited study (66.9 vs. 38.7 min), concentrated
+    // in the second half of the night.
     const post = h - clearH;
-    if (post >= 0 && post < 4) {
-      p += drinks * 7 * (1 - post / 4);
+    if (post >= 0 && post < 6) {
+      p += 10 * (1 - post / 6);
     }
     return p;
   },

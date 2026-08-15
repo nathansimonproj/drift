@@ -57,14 +57,23 @@ const TYPES = {
   //   quickLabel: "Adderall",
   //   quickMeta: "medium dose",
   // },
-  // alcohol: {
-  //   label: "Alcohol",
-  //   unit: "drinks",
-  //   defaultAmount: 1,
-  //   amountKind: "number",
-  //   quickLabel: "Alcohol",
-  //   quickMeta: "1 drink",
-  // },
+  alcohol: {
+    label: "Alcohol",
+    unit: "drinks",
+    defaultAmount: "beer",
+    amountKind: "variant",
+    // NIAAA's standard-drink definition: a 12oz beer (~5% ABV), 5oz wine
+    // (~12% ABV), and 1.5oz shot of spirits (~40% ABV) all contain ~14g
+    // ethanol — the same amount, just packaged differently. Same curve for
+    // all three (see decay.js); this only changes what gets logged.
+    options: [
+      { value: "beer", label: "Beer (12oz)", amountLabel: "1 standard drink" },
+      { value: "wine", label: "Glass of Wine (5oz)", amountLabel: "1 standard drink" },
+      { value: "shot", label: "Shot (1.5oz)", amountLabel: "1 standard drink" },
+    ],
+    quickLabel: "Alcohol",
+    quickMeta: "Varies",
+  },
   // nap: {
   //   label: "Nap",
   //   unit: "min",
