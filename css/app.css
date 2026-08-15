@@ -320,6 +320,44 @@ main.wide {
   margin-bottom: 20px;
 }
 
+.onboarding-card {
+  display: none;
+  background: var(--surface);
+  border: 1px solid var(--text-3);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+}
+
+.onboarding-card.visible {
+  display: block;
+}
+
+.onboarding-card h2 {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  text-transform: lowercase;
+  letter-spacing: 0.08em;
+}
+
+.onboarding-card p {
+  margin: 0 0 10px;
+  color: var(--text-2);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.onboarding-card p:last-child {
+  margin-bottom: 0;
+}
+
+.onboarding-card strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
 .card h2 {
   margin: 0 0 16px;
   font-size: 13px;

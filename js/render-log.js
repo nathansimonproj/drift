@@ -187,6 +187,13 @@ function describeEvent(e) {
   };
 }
 
+// Shown only while the real log (not the What If sandbox) has never had
+// anything logged — disappears for good the moment a first real event
+// lands, whichever mode you're in when you check.
+function renderOnboarding() {
+  document.getElementById("onboarding-card").classList.toggle("visible", STATE.events.length === 0);
+}
+
 function renderEventsList() {
   const ul = document.getElementById("events-list");
   // What If mode reads/writes its own forked sandbox (see setMode()) — same

@@ -34,6 +34,7 @@ async function logout() {
 }
 
 function renderAll() {
+  renderOnboarding();
   renderEventsList();
   renderForecast();
 }

@@ -52,9 +52,13 @@ Email sending went through two providers before landing: first wired to Resend, 
 
 **Shipped (2026-08-14).** Privacy promise ("We will never share, sell, or report your data") added front-and-center on the login page, which — since there's no separate marketing landing page — is also the first thing every unauthenticated visitor sees.
 
-**Trust gap.** The decay engine is "shipped, rough" — 11 event types, unevenly calibrated. Marijuana's constant was already corrected once after being unrealistically fast; nicotine and alcohol have since had the same scrutiny. Adderall/stimulants and caffeine still haven't. This is the actual risk to the product: a harm-reduction app that gets a student's curve visibly wrong loses their trust in one session, and there's no recovering that.
+**Shipped (2026-08-14).** Onboarding card — replaces the bare "No events logged yet" empty state with a real explanation of the score and the What If sandbox, shown only while the real log (`STATE.events`, not the What If fork) has never had anything logged. Disappears for good the moment a first real event lands, in whichever mode you're in when you log it, and stays hidden on reload since it's checking real history, not a session flag.
 
-**Still missing.** Real onboarding (currently a buried empty-state link — the first 60 seconds are core product, not GTM), outcome tracking (no way to check predicted vs. actual yet), and What if?'s interactive drag-and-drop hasn't shipped as a dedicated surface — it exists implicitly (add/edit an event, see the score move) but not as the explicit "try before you do it" interaction described in §1.
+**Shipped (2026-08-14).** Caffeine calibration checked against real pharmacokinetics research — unlike alcohol, it held up. Half-life (5h) sits in the middle of the ~4-6h range multiple sources converge on; dose-response is close to linear per a 2023 systematic review/meta-analysis (~0.2 min of total-sleep-time loss per 1mg in their meta-regression), matching this model's proportional-to-remaining-mg shape; and the well-known Drake et al. 2013 finding (400mg 6h before bed → >1h TST loss) lines up with what the model already predicted for that exact case. No rebuild needed — but while checking, found `coffee`, `energy_drink`, `soda`, and the still-disabled `caffeine` type were four copies of the identical formula with zero comments, a real risk since updating the threshold/multiplier meant remembering to touch all four. Consolidated into one documented `caffeineDecay()` helper; verified numerically that output is unchanged (400mg/6h still gives the same 61.6 penalty as before the refactor). Also surfaced a real limitation worth knowing about: oral contraceptive use roughly doubles caffeine's half-life (~10.7h vs. ~6.2h) in the same research — a genuine per-user difference this single global half-life can't capture, filed under the existing personalization deferral (§5) rather than solved now.
+
+**Trust gap.** The decay engine is "shipped, rough" — 11 event types, unevenly calibrated. Marijuana's constant was already corrected once after being unrealistically fast; nicotine, alcohol, and caffeine have since had the same scrutiny (caffeine held up as-is). Adderall/stimulants are the one substance in §3 that hasn't. This is the actual risk to the product: a harm-reduction app that gets a student's curve visibly wrong loses their trust in one session, and there's no recovering that.
+
+**Still missing.** Outcome tracking (no way to check predicted vs. actual yet), and What if?'s interactive drag-and-drop hasn't shipped as a dedicated surface — it exists implicitly (add/edit an event, see the score move) but not as the explicit "try before you do it" interaction described in §1.
 
 ---
 
@@ -64,7 +68,7 @@ Rather than maintain 11 roughly-calibrated event types, narrow near-term calibra
 
 | Substance | College past-month/weekly use | Current status |
 |---|---|---|
-| Caffeine (coffee) | ~92% use daily; ~159mg/day avg | shipped, needs calibration check |
+| Caffeine (coffee) | ~92% use daily; ~159mg/day avg | shipped, checked 2026-08-14 (held up, no change needed) |
 | Alcohol | ~50% past month; ~40% binge | shipped, recalibrated 2026-08-14 |
 | Energy drinks | ~68% past month | shipped, brand presets done |
 | Marijuana | ~42–44% past year | shipped, recalibrated once already |
@@ -72,7 +76,7 @@ Rather than maintain 11 roughly-calibrated event types, narrow near-term calibra
 | Prescription stimulants (Adderall, off-label) | ~7–10% past year | shipped, needs calibration check |
 | Naps | not a substance stat, but functionally central to student sleep behavior | shipped |
 
-These seven cover the substances a student is actually likely to log. `workout`, `meal`, `stress`, `brightlight`, `screen` are secondary — plausible contributors, lower priority to re-derive from research right now. The near-term task isn't adding event types; it's re-checking these seven against real decay/half-life research and fixing whichever ones are furthest from physiologically plausible. Marijuana, nicotine, and alcohol have had that pass; caffeine and stimulants haven't yet.
+These seven cover the substances a student is actually likely to log. `workout`, `meal`, `stress`, `brightlight`, `screen` are secondary — plausible contributors, lower priority to re-derive from research right now. The near-term task isn't adding event types; it's re-checking these seven against real decay/half-life research and fixing whichever ones are furthest from physiologically plausible. Marijuana, nicotine, alcohol, and caffeine have had that pass (caffeine's held up as-is); stimulants (Adderall) haven't yet.
 
 ---
 
@@ -80,11 +84,11 @@ These seven cover the substances a student is actually likely to log. `workout`,
 
 Ordered, small enough to actually finish:
 
-1. **Onboarding card on first visit** — replace the bare "No events logged yet" empty state with a real explanation of the score. (The old "load a sample day" demo button was removed — it kept going stale against the active `TYPES` list; onboarding should explain the real, empty state, not fake data.)
-2. **Make What if? an explicit interaction** *(mostly shipped)* — What If mode now forks today's real events into an independent sandbox; freely add/edit/delete anything there and it's discarded on re-entry, never touching the real log. Still not the literal drag-and-drop the original phrasing wanted, but "discard without saving" is real now.
-3. **Calibration pass on the seven core substances** (§3) — nicotine re-derived: two-phase model (small acute penalty, larger withdrawal/rebound penalty as levels crash — Jaehne et al.), half-life tightened to the sourced 1-2h range. Alcohol re-derived 2026-08-14 (§2). Caffeine and stimulants (Adderall) still haven't been re-checked — Adderall in particular is named alongside alcohol in the Trust gap note (§2) as the highest-risk substance to get visibly wrong.
-4. **`.edu` email check on signup** (warn but allow) — infrastructure for a student tier later, not urgent on its own. Easier now that email *is* the account identity (§2).
-5. **Verify a SendGrid single sender before launch** — reset-password emails currently only log to the console (no credentials set). Verify one email address in SendGrid (no domain purchase needed), then set `SENDGRID_API_KEY`, `EMAIL_FROM`, and `APP_URL` in Render's environment. Blocking for real users; §2 has the detail.
+1. **Make What if? an explicit interaction** *(mostly shipped)* — What If mode now forks today's real events into an independent sandbox; freely add/edit/delete anything there and it's discarded on re-entry, never touching the real log. Still not the literal drag-and-drop the original phrasing wanted, but "discard without saving" is real now.
+2. **Calibration pass on the seven core substances** (§3) — nicotine re-derived: two-phase model (small acute penalty, larger withdrawal/rebound penalty as levels crash — Jaehne et al.), half-life tightened to the sourced 1-2h range. Alcohol re-derived and caffeine checked 2026-08-14 (§2). Stimulants (Adderall) are the one substance in §3 still unchecked — named alongside alcohol in the Trust gap note (§2) as the highest-risk substance to get visibly wrong.
+3. **`.edu` email check on signup** (warn but allow) — infrastructure for a student tier later, not urgent on its own. Easier now that email *is* the account identity (§2).
+4. **Verify a SendGrid single sender before launch** — reset-password emails currently only log to the console (no credentials set). Verify one email address in SendGrid (no domain purchase needed), then set `SENDGRID_API_KEY`, `EMAIL_FROM`, and `APP_URL` in Render's environment. Blocking for real users; §2 has the detail.
+5. **Mobile polish pass** — not yet checked on a real phone screen this session, despite a pilot being entirely QR-code/flyer driven (GROWTH.md Phase 0).
 
 ---
 

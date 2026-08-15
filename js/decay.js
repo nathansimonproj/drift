@@ -1,30 +1,47 @@
 const hoursSince = (eventTime, t) => (t - eventTime) / 3600000;
 
+// Shared by every caffeine-containing type (coffee, energy_drink, soda,
+// plain caffeine) — checked 2026-08-14 against real pharmacokinetics
+// research rather than assumed:
+//   - Half-life: multiple sources converge on ~4-6h average in healthy
+//     adults (range ~1.5-9.9h across individuals; oral contraceptive use
+//     roughly doubles it, ~10.7h — a real source of per-user variance this
+//     single global constant can't capture; see ROADMAP.md §5's deferred
+//     personalization item). 5h sits in the middle of the sourced range.
+//   - Dose-response: a systematic review/meta-analysis (2023, "The effect
+//     of caffeine on subsequent sleep") found effects that scale roughly
+//     linearly with dose (total-sleep-time loss increased ~0.2 min per 1mg
+//     in the meta-regression), and even moderate doses 6h before bed
+//     produced significant sleep efficiency/TST reduction (Drake et al.
+//     2013 found >1h TST loss from 400mg taken 6h pre-bed) — both support
+//     this function's shape (proportional to remaining mg, active for many
+//     hours), so it's kept as linear-in-remaining-mg rather than rebuilt.
+//   - The 20mg "negligible" floor and 0.4 mg-to-penalty multiplier aren't
+//     numbers pulled from a source — they're a modeling choice tuned so a
+//     single typical coffee (~135mg) checked hours later reads as mild, not
+//     alarming, consistent with the sourced shape above.
+function caffeineDecay(mg, h) {
+  if (h < 0) return 0;
+  const remainingMg = mg * Math.pow(0.5, h / 5);
+  return Math.max(0, (remainingMg - 20) * 0.4);
+}
+
 const DECAY = {
   coffee(event, t) {
-    const h = hoursSince(event.time, t);
-    if (h < 0) return 0;
-    const remainingMg = event.amount * Math.pow(0.5, h / 5);
-    return Math.max(0, (remainingMg - 20) * 0.4);
+    return caffeineDecay(event.amount, hoursSince(event.time, t));
   },
   energy_drink(event, t) {
-    const h = hoursSince(event.time, t);
-    if (h < 0) return 0;
     const mgByVariant = {
       red_bull: 80, celsius: 200, monster: 160, alani_nu: 200, rockstar: 160,
       bang: 300, reign: 300, ghost: 200, nos: 160, bloom: 150,
     };
     const mg = mgByVariant[event.amount] ?? 160;
-    const remainingMg = mg * Math.pow(0.5, h / 5);
-    return Math.max(0, (remainingMg - 20) * 0.4);
+    return caffeineDecay(mg, hoursSince(event.time, t));
   },
   soda(event, t) {
-    const h = hoursSince(event.time, t);
-    if (h < 0) return 0;
     const mgByVariant = { diet: 46, regular: 34, zero: 34 };
     const mg = mgByVariant[event.amount] ?? 34;
-    const remainingMg = mg * Math.pow(0.5, h / 5);
-    return Math.max(0, (remainingMg - 20) * 0.4);
+    return caffeineDecay(mg, hoursSince(event.time, t));
   },
   marijuana(event, t) {
     const h = hoursSince(event.time, t);
@@ -61,12 +78,7 @@ const DECAY = {
     return basePenalty * lateMult * (1 - h / 10);
   },
   caffeine(event, t) {
-    const h = hoursSince(event.time, t);
-    if (h < 0) return 0;
-    const halfLife = 5;
-    const remainingMg = event.amount * Math.pow(0.5, h / halfLife);
-    // Below ~20mg residual, no meaningful sleep impact.
-    return Math.max(0, (remainingMg - 20) * 0.4);
+    return caffeineDecay(event.amount, hoursSince(event.time, t));
   },
   alcohol(event, t) {
     const h = hoursSince(event.time, t);
