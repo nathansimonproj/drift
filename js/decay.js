@@ -1,3 +1,10 @@
+// Browser usage (plain <script> globals, TYPES supplied by types.js loading
+// first) is untouched — this only runs under Node/CommonJS, i.e. when
+// required from the test suite.
+if (typeof module !== "undefined" && typeof TYPES === "undefined") {
+  var TYPES = require("./types.js").TYPES;
+}
+
 const hoursSince = (eventTime, t) => (t - eventTime) / 3600000;
 
 // Shared by every caffeine-containing type (coffee, energy_drink, soda,
@@ -306,4 +313,12 @@ function interpret(score, byType) {
     : `${clauses[0]}, and ${clauses[1]}`;
 
   return { word: band.word, klass: band.klass, feel: `${band.lead} — ${attribution}.` };
+}
+
+if (typeof module !== "undefined") {
+  module.exports = {
+    hoursSince, caffeineDecay, DECAY, eventsNear, scoreAt,
+    SUBSTANCE_CATEGORIES, categoryCosts, SUBSTANCE_EFFECT, SEVERITY_BANDS,
+    topContributors, interpret,
+  };
 }

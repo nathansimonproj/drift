@@ -46,12 +46,20 @@ app.get('/', (_req, res) => res.redirect('/pages/home.html'));
 // Everything else requires a valid session
 app.use(requireAuth, express.static(ROOT));
 
-const PORT = process.env.PORT || 3000;
-init()
-  .then(() => {
-    app.listen(PORT, () => console.log(`Drift running at http://localhost:${PORT}`));
-  })
-  .catch((err) => {
+async function start() {
+  const PORT = process.env.PORT || 3000;
+  await init();
+  return app.listen(PORT, () => console.log(`Drift running at http://localhost:${PORT}`));
+}
+
+// Only auto-start when run directly (`node server/server.js` / `npm start`).
+// When required by the test suite, the caller controls init()/listen() so it
+// can point at a throwaway test database and an ephemeral port.
+if (require.main === module) {
+  start().catch((err) => {
     console.error('Failed to initialize database', err);
     process.exit(1);
   });
+}
+
+module.exports = { app, init, start };

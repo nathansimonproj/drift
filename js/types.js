@@ -153,3 +153,9 @@ const TYPES = {
 
 const INTENSITY_OPTS = ["low", "medium", "high"];
 const SIZE_OPTS = ["light", "medium", "heavy"];
+
+// Browser usage (plain <script> globals) is untouched — `module` is only
+// defined under Node/CommonJS, i.e. when required from the test suite.
+if (typeof module !== "undefined") {
+  module.exports = { TYPES, INTENSITY_OPTS, SIZE_OPTS };
+}
