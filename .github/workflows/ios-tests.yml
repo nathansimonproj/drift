@@ -7,8 +7,9 @@ on:
 
 jobs:
   test:
-    # If this runner label stops being available, bump to whatever the
-    # current macOS label is in GitHub's runner-images releases.
+    # If this runner label stops being available, or "iPhone 16" isn't a
+    # simulator it ships, bump both to whatever's current in GitHub's
+    # runner-images releases (https://github.com/actions/runner-images).
     runs-on: macos-15
     defaults:
       run:
@@ -22,24 +23,6 @@ jobs:
       - name: Generate Xcode project
         run: xcodegen generate
 
-      - name: Pick an available iPhone simulator
-        id: sim
-        run: |
-          NAME=$(xcrun simctl list devices available -j | \
-            python3 -c "
-import json, sys
-data = json.load(sys.stdin)
-for runtime, devices in data['devices'].items():
-    if 'iOS' not in runtime:
-        continue
-    for d in devices:
-        if d['name'].startswith('iPhone'):
-            print(d['name'])
-            sys.exit(0)
-")
-          echo "Selected simulator: $NAME"
-          echo "name=$NAME" >> "$GITHUB_OUTPUT"
-
       # DriftUITests is excluded here — it's a known, documented Simulator
       # limitation (SecureField text entry can drop keystrokes under
       # XCUITest, unrelated to app correctness — see the header comment on
@@ -51,7 +34,7 @@ for runtime, devices in data['devices'].items():
           xcodebuild \
             -project Drift.xcodeproj \
             -scheme Drift \
-            -destination "platform=iOS Simulator,name=${{ steps.sim.outputs.name }}" \
+            -destination "platform=iOS Simulator,name=iPhone 16" \
             -only-testing:DriftTests \
             CODE_SIGNING_ALLOWED=NO \
             test
