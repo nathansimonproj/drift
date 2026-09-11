@@ -6,7 +6,7 @@ const hoursSince = (eventTime, t) => (t - eventTime) / 3600000;
 //   - Half-life: multiple sources converge on ~4-6h average in healthy
 //     adults (range ~1.5-9.9h across individuals; oral contraceptive use
 //     roughly doubles it, ~10.7h — a real source of per-user variance this
-//     single global constant can't capture; see ROADMAP.md §5's deferred
+//     single global constant can't capture; see docs/ROADMAP.md §5's deferred
 //     personalization item). 5h sits in the middle of the sourced range.
 //   - Dose-response: a systematic review/meta-analysis (2023, "The effect
 //     of caffeine on subsequent sleep") found effects that scale roughly
@@ -173,7 +173,7 @@ const DECAY = {
     // The per-mg multipliers (unlike caffeine's) are modeling placeholders,
     // not sourced — nicotine's mg scale (1-6mg) isn't directly comparable to
     // caffeine's (100mg+), so they need real calibration once we have
-    // outcome data (see ROADMAP.md §3).
+    // outcome data (see docs/ROADMAP.md §3).
     return p;
   },
   stress(event, t) {
@@ -202,7 +202,7 @@ const DECAY = {
 };
 
 // Every DECAY curve is at ~0 well within 72h of the event. Now that full
-// history is kept (see ROADMAP.md §2), callers should filter through
+// history is kept (see docs/ROADMAP.md §2), callers should filter through
 // this before scoreAt() so cost stays bounded by recent events, not by
 // however many months of log a user has accumulated.
 function eventsNear(events, t, hours = 72) {
@@ -240,7 +240,6 @@ const SUBSTANCE_CATEGORIES = [
   { label: "Caffeine",  keys: ["caffeine", "coffee", "energy_drink", "soda"] },
   { label: "Marijuana", keys: ["marijuana"] },
   { label: "Alcohol",   keys: ["alcohol"] },
-  { label: "Nap",       keys: ["nap"] },
   { label: "Nicotine",  keys: ["nicotine"] },
 ];
 
@@ -253,8 +252,9 @@ function categoryCosts(byType) {
 
 // Mechanism-specific clause per substance, in the same sleep-process framing
 // as the severity leads below (onset difficulty / REM / fragmentation, not
-// next-day consequences). Kept for Alcohol/Nap even while those types are
-// disabled in TYPES, so the text is ready if they're re-enabled.
+// next-day consequences). Nap's entry is kept even though nap is disabled in
+// TYPES and dropped from SUBSTANCE_CATEGORIES above, so the text is ready if
+// it's re-enabled.
 const SUBSTANCE_EFFECT = {
   Caffeine: "caffeine is still active and blocking the sleep drive that pulls you under",
   Marijuana: "marijuana tends to suppress REM sleep tonight",

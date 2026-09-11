@@ -7,8 +7,8 @@ Celsius, one more drink) before you actually do it.
 
 It's built as a harm-reduction tool, not a wellness app: no judgment, no
 advice-giving, and a hard privacy promise (never shared, sold, or reported).
-See [ROADMAP.md](ROADMAP.md) for the product reasoning and what's shipped,
-and [GROWTH.md](GROWTH.md) for the plan to first users.
+See [docs/ROADMAP.md](docs/ROADMAP.md) for the product reasoning and what's shipped,
+and [docs/GROWTH.md](docs/GROWTH.md) for the plan to first users.
 
 Live at [drift-hs0w.onrender.com](https://drift-hs0w.onrender.com).
 
@@ -76,6 +76,7 @@ server/     Express app, routes, Postgres access, mailer
 pages/      HTML pages (login, home, log, profile, password reset)
 js/         frontend logic — decay engine, state, rendering, nav
 css/        app.css
+docs/       roadmap, growth plan, calibration/scoring research
 ```
 
 ## Core engine
@@ -84,8 +85,8 @@ The decay model (`js/decay.js`) is the actual product: each logged event
 (caffeine, alcohol, nicotine, marijuana, naps, etc.) is converted into a
 time-varying penalty on tonight's sleep score, summed at target bedtime.
 Calibration notes and sourcing per substance are tracked in
-[ROADMAP.md §2–3](ROADMAP.md), and the underlying research citations live in
-[SCORING.md](SCORING.md) — also linked from the app itself ("the science
+[docs/ROADMAP.md §2–3](docs/ROADMAP.md), and the underlying research citations live in
+[docs/SCORING.md](docs/SCORING.md) — also linked from the app itself ("the science
 behind your score").
 
 ## Deployment

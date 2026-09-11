@@ -21,7 +21,7 @@ function toTimeInputValue(d) {
 }
 
 // Local calendar-day key ("YYYY-MM-DD"), used to bucket events into real
-// days instead of a rolling 24h window — see ROADMAP.md §2.
+// days instead of a rolling 24h window — see docs/ROADMAP.md §2.
 function dayKey(d) {
   const y = d.getFullYear();
   const m = String(d.getMonth() + 1).padStart(2, "0");

@@ -224,7 +224,7 @@ function renderEventsList() {
   // list UI, same edit/delete affordances, but nothing here touches the
   // real log until you switch back to Actual.
   const source = whatIfMode ? whatIfEvents : STATE.events;
-  // Calendar-day boundary, not a rolling 24h window — see ROADMAP.md §2.
+  // Calendar-day boundary, not a rolling 24h window — see docs/ROADMAP.md §2.
   // Events roll off "Today" at local midnight, and full history is
   // kept (not deleted) so the calendar/history view can look back at them.
   const todayKey = dayKey(new Date());
