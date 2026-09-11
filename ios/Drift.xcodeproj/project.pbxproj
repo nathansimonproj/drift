@@ -1,0 +1,702 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0C0D7AB9611DA573EBCDFC65 /* Decay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2108FD5FCAAC13AA6E04B43A /* Decay.swift */; };
+		10A85A21C0B5D15BB78337BE /* AuthStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DDD70FB362977D6E747B02 /* AuthStore.swift */; };
+		187D4E92F5043DC3DEEA1BEC /* LogEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADC439B3C13A6A38BC718F5 /* LogEvent.swift */; };
+		240482D7B3DF5F2D124FCAFB /* EditEventSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B070E4C2718BA7E292271BAA /* EditEventSheet.swift */; };
+		2F7F4C2E645E5862E163963E /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AF382484192788794727EF /* APIError.swift */; };
+		34E36DCE1AF0AC689E3A2316 /* EventsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062476A9E38F73BCE54E7E5F /* EventsAPI.swift */; };
+		386E68D834B57307D41921D0 /* Interpretation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBB942A42527A289CD974B4 /* Interpretation.swift */; };
+		3F287375496E33B25807B6F1 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74402C0A40DF247D6017F4FD /* AuthAPI.swift */; };
+		43C2268F14785E154C8138E9 /* EventStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B75FD57E19E4A4AC58ED3BE /* EventStore.swift */; };
+		4E5D7FE726B4A7676B5B165B /* Scoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC26073F2CFE3E3C3CF7B00E /* Scoring.swift */; };
+		526672FCFD6ACE9FEC7AC22F /* BreakdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990D0BC0CCFF28CD1F46A93A /* BreakdownView.swift */; };
+		55E33F9FD4129F756C5667D6 /* ProfileAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217BB1C085DB6E1071C375F7 /* ProfileAPI.swift */; };
+		5EDFE5EB7A430081A1596EA5 /* EventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF40BA95EF29B3E8B6782C1A /* EventType.swift */; };
+		6523B61F4BE08B8765F134FD /* AppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B66D57D7CFE7B36848955F /* AppRootView.swift */; };
+		66452A01C673E9D8171EE4AB /* ScoreHeroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379E094C1F6C67216572E4EF /* ScoreHeroView.swift */; };
+		7D3BFF7ECD596FAB7187050B /* ProfileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16825E54E48D45087107C571 /* ProfileStore.swift */; };
+		7E36CD3E8D3E960E2D4D24A3 /* ForecastChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C6BC511776165ED94CEEDA /* ForecastChartView.swift */; };
+		8744757CD7422BA2D8EE90B0 /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC432A536C8574D64F9523F /* KeychainStore.swift */; };
+		8B2CB45001FEF37D1631A13E /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D9A99C3EA36058888654E8 /* APIClient.swift */; };
+		92586065A0EFB704F142E42B /* EventsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7248A33BB2D8DDF407B350 /* EventsListView.swift */; };
+		9477926F8ADECF21D15BAECF /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9030CD4C81EA925D8F12736 /* AuthView.swift */; };
+		A926815389E4A66809B37A75 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09FB74F3DFF7855E0F4974E /* HomeView.swift */; };
+		AA43792497E2FC36FF55F58C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08E33CA6BE80D735A37ED745 /* Assets.xcassets */; };
+		AB256133DF5EE72127C157A5 /* DriftTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2E72AA739B2BADE0E229EC /* DriftTheme.swift */; };
+		BC8787F345A99CEB6409D7CA /* TimeHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D0143B53297DE2F51ACF25 /* TimeHelpers.swift */; };
+		BE2991720B8AD75F8ED959E0 /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F814BA9A8172AE723E81515 /* ForgotPasswordView.swift */; };
+		C8417A1D5126AC3DB3009E6A /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507D976C93A8183CBA495619 /* AppEnvironment.swift */; };
+		CB6D462FDABA21BB542AF955 /* AuthFlowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCEFE6DE17296939668D0338 /* AuthFlowUITests.swift */; };
+		CFB7E78D46B820EB0C2A4E69 /* CustomEntryFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D7D8879D1F1E2424A607CA /* CustomEntryFormView.swift */; };
+		D5F587E3EEDE8C862D5EE555 /* KeychainStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268B2AECACC5A63CA8E1EF35 /* KeychainStoreTests.swift */; };
+		D982B5B31D13069BBB357E12 /* QuickAddGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D53AC1035F94A89D5CD8A81 /* QuickAddGridView.swift */; };
+		ECF11542596170A83DB72072 /* DriftApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80473000068BB96DF392A468 /* DriftApp.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		315C2652D757491C8E1F51A7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C57AFFDCB18AE227A2FF2ECA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CAEDCE34417A91D973F68377;
+			remoteInfo = Drift;
+		};
+		5A0F2050C8BE1514C5FDA771 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C57AFFDCB18AE227A2FF2ECA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CAEDCE34417A91D973F68377;
+			remoteInfo = Drift;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		02D9A99C3EA36058888654E8 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		062476A9E38F73BCE54E7E5F /* EventsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAPI.swift; sourceTree = "<group>"; };
+		08E33CA6BE80D735A37ED745 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0A1374012173C4F87954F93B /* DriftUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = DriftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0F814BA9A8172AE723E81515 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
+		13D0143B53297DE2F51ACF25 /* TimeHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeHelpers.swift; sourceTree = "<group>"; };
+		16825E54E48D45087107C571 /* ProfileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStore.swift; sourceTree = "<group>"; };
+		2108FD5FCAAC13AA6E04B43A /* Decay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decay.swift; sourceTree = "<group>"; };
+		217BB1C085DB6E1071C375F7 /* ProfileAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAPI.swift; sourceTree = "<group>"; };
+		268B2AECACC5A63CA8E1EF35 /* KeychainStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStoreTests.swift; sourceTree = "<group>"; };
+		2B75FD57E19E4A4AC58ED3BE /* EventStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStore.swift; sourceTree = "<group>"; };
+		2D53AC1035F94A89D5CD8A81 /* QuickAddGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAddGridView.swift; sourceTree = "<group>"; };
+		379E094C1F6C67216572E4EF /* ScoreHeroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreHeroView.swift; sourceTree = "<group>"; };
+		507D976C93A8183CBA495619 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
+		53D7D8879D1F1E2424A607CA /* CustomEntryFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEntryFormView.swift; sourceTree = "<group>"; };
+		552F5AE6789DA294DDB91E8B /* Drift.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Drift.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5ADC439B3C13A6A38BC718F5 /* LogEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogEvent.swift; sourceTree = "<group>"; };
+		668D8D5951EB119A1624DDB2 /* DriftTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = DriftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		74402C0A40DF247D6017F4FD /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
+		80473000068BB96DF392A468 /* DriftApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriftApp.swift; sourceTree = "<group>"; };
+		80B66D57D7CFE7B36848955F /* AppRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRootView.swift; sourceTree = "<group>"; };
+		91C6BC511776165ED94CEEDA /* ForecastChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastChartView.swift; sourceTree = "<group>"; };
+		990D0BC0CCFF28CD1F46A93A /* BreakdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakdownView.swift; sourceTree = "<group>"; };
+		B070E4C2718BA7E292271BAA /* EditEventSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEventSheet.swift; sourceTree = "<group>"; };
+		BFBB942A42527A289CD974B4 /* Interpretation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interpretation.swift; sourceTree = "<group>"; };
+		C09FB74F3DFF7855E0F4974E /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		C1AF382484192788794727EF /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		C9030CD4C81EA925D8F12736 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
+		CCEFE6DE17296939668D0338 /* AuthFlowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFlowUITests.swift; sourceTree = "<group>"; };
+		CF40BA95EF29B3E8B6782C1A /* EventType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventType.swift; sourceTree = "<group>"; };
+		DAC432A536C8574D64F9523F /* KeychainStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStore.swift; sourceTree = "<group>"; };
+		DC26073F2CFE3E3C3CF7B00E /* Scoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scoring.swift; sourceTree = "<group>"; };
+		DC7248A33BB2D8DDF407B350 /* EventsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListView.swift; sourceTree = "<group>"; };
+		E7DDD70FB362977D6E747B02 /* AuthStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStore.swift; sourceTree = "<group>"; };
+		FA2E72AA739B2BADE0E229EC /* DriftTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriftTheme.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0EA67573775347F2DA7F1A99 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				552F5AE6789DA294DDB91E8B /* Drift.app */,
+				668D8D5951EB119A1624DDB2 /* DriftTests.xctest */,
+				0A1374012173C4F87954F93B /* DriftUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1DCFB184D941DDFAE30E78F8 = {
+			isa = PBXGroup;
+			children = (
+				DF13210FEF8ED80B93DD4A50 /* Drift */,
+				230C4300561292D969C89B4E /* DriftTests */,
+				DA098C7E90FCA2EE1116D642 /* DriftUITests */,
+				0EA67573775347F2DA7F1A99 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		226098467899BBAE87630655 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				13D0143B53297DE2F51ACF25 /* TimeHelpers.swift */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		230C4300561292D969C89B4E /* DriftTests */ = {
+			isa = PBXGroup;
+			children = (
+				268B2AECACC5A63CA8E1EF35 /* KeychainStoreTests.swift */,
+			);
+			path = DriftTests;
+			sourceTree = "<group>";
+		};
+		4A7204948841850DFF3D940D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BDE1FCA06BD29B3D1B762F71 /* Auth */,
+				6DE99B4BC43F2B1924FC7028 /* Home */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		59E0D897E6DA4ADFF98F279C /* Stores */ = {
+			isa = PBXGroup;
+			children = (
+				E7DDD70FB362977D6E747B02 /* AuthStore.swift */,
+				2B75FD57E19E4A4AC58ED3BE /* EventStore.swift */,
+				16825E54E48D45087107C571 /* ProfileStore.swift */,
+			);
+			path = Stores;
+			sourceTree = "<group>";
+		};
+		6DE99B4BC43F2B1924FC7028 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				990D0BC0CCFF28CD1F46A93A /* BreakdownView.swift */,
+				53D7D8879D1F1E2424A607CA /* CustomEntryFormView.swift */,
+				B070E4C2718BA7E292271BAA /* EditEventSheet.swift */,
+				DC7248A33BB2D8DDF407B350 /* EventsListView.swift */,
+				91C6BC511776165ED94CEEDA /* ForecastChartView.swift */,
+				C09FB74F3DFF7855E0F4974E /* HomeView.swift */,
+				2D53AC1035F94A89D5CD8A81 /* QuickAddGridView.swift */,
+				379E094C1F6C67216572E4EF /* ScoreHeroView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		8EC4FF51228A8D1AB56EA263 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				507D976C93A8183CBA495619 /* AppEnvironment.swift */,
+				80B66D57D7CFE7B36848955F /* AppRootView.swift */,
+				80473000068BB96DF392A468 /* DriftApp.swift */,
+				FA2E72AA739B2BADE0E229EC /* DriftTheme.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		A18BFC183B00003A54A24386 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				02D9A99C3EA36058888654E8 /* APIClient.swift */,
+				C1AF382484192788794727EF /* APIError.swift */,
+				74402C0A40DF247D6017F4FD /* AuthAPI.swift */,
+				062476A9E38F73BCE54E7E5F /* EventsAPI.swift */,
+				DAC432A536C8574D64F9523F /* KeychainStore.swift */,
+				217BB1C085DB6E1071C375F7 /* ProfileAPI.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		BDE1FCA06BD29B3D1B762F71 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				C9030CD4C81EA925D8F12736 /* AuthView.swift */,
+				0F814BA9A8172AE723E81515 /* ForgotPasswordView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		CF133267D1AADF2F48B7C727 /* DecayEngine */ = {
+			isa = PBXGroup;
+			children = (
+				2108FD5FCAAC13AA6E04B43A /* Decay.swift */,
+				BFBB942A42527A289CD974B4 /* Interpretation.swift */,
+				DC26073F2CFE3E3C3CF7B00E /* Scoring.swift */,
+			);
+			path = DecayEngine;
+			sourceTree = "<group>";
+		};
+		D719A19F032AC96C3ADB1AD3 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				08E33CA6BE80D735A37ED745 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		D758CFE75CAB274413E181F9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CF40BA95EF29B3E8B6782C1A /* EventType.swift */,
+				5ADC439B3C13A6A38BC718F5 /* LogEvent.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		DA098C7E90FCA2EE1116D642 /* DriftUITests */ = {
+			isa = PBXGroup;
+			children = (
+				CCEFE6DE17296939668D0338 /* AuthFlowUITests.swift */,
+			);
+			path = DriftUITests;
+			sourceTree = "<group>";
+		};
+		DF13210FEF8ED80B93DD4A50 /* Drift */ = {
+			isa = PBXGroup;
+			children = (
+				8EC4FF51228A8D1AB56EA263 /* App */,
+				CF133267D1AADF2F48B7C727 /* DecayEngine */,
+				D758CFE75CAB274413E181F9 /* Models */,
+				A18BFC183B00003A54A24386 /* Networking */,
+				D719A19F032AC96C3ADB1AD3 /* Resources */,
+				59E0D897E6DA4ADFF98F279C /* Stores */,
+				226098467899BBAE87630655 /* Support */,
+				4A7204948841850DFF3D940D /* Views */,
+			);
+			path = Drift;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		50A0CCC2E8C96C468D93CEF8 /* DriftTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 879E54EDE3CD8FA31DF9345C /* Build configuration list for PBXNativeTarget "DriftTests" */;
+			buildPhases = (
+				87691D3C6A78A69CA49E70CB /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A2F4FA2AB0193C1E986DD906 /* PBXTargetDependency */,
+			);
+			name = DriftTests;
+			packageProductDependencies = (
+			);
+			productName = DriftTests;
+			productReference = 668D8D5951EB119A1624DDB2 /* DriftTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		652A713014B742896E0F9ED6 /* DriftUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 95D8394AD2953ED1455B887F /* Build configuration list for PBXNativeTarget "DriftUITests" */;
+			buildPhases = (
+				C1A453BB0337F06A019062C9 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D1BF60D32086BB559F706C77 /* PBXTargetDependency */,
+			);
+			name = DriftUITests;
+			packageProductDependencies = (
+			);
+			productName = DriftUITests;
+			productReference = 0A1374012173C4F87954F93B /* DriftUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		CAEDCE34417A91D973F68377 /* Drift */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F406649AF13D92F90944A7F1 /* Build configuration list for PBXNativeTarget "Drift" */;
+			buildPhases = (
+				271ED68B29D0DA60F5E3CB98 /* Sources */,
+				F72ECFB3C1B5BC2EFDA4A82C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Drift;
+			packageProductDependencies = (
+			);
+			productName = Drift;
+			productReference = 552F5AE6789DA294DDB91E8B /* Drift.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C57AFFDCB18AE227A2FF2ECA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					652A713014B742896E0F9ED6 = {
+						TestTargetID = CAEDCE34417A91D973F68377;
+					};
+				};
+			};
+			buildConfigurationList = 68F4AD629CB425B82407650A /* Build configuration list for PBXProject "Drift" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 1DCFB184D941DDFAE30E78F8;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 0EA67573775347F2DA7F1A99 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CAEDCE34417A91D973F68377 /* Drift */,
+				50A0CCC2E8C96C468D93CEF8 /* DriftTests */,
+				652A713014B742896E0F9ED6 /* DriftUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F72ECFB3C1B5BC2EFDA4A82C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA43792497E2FC36FF55F58C /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		271ED68B29D0DA60F5E3CB98 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B2CB45001FEF37D1631A13E /* APIClient.swift in Sources */,
+				2F7F4C2E645E5862E163963E /* APIError.swift in Sources */,
+				C8417A1D5126AC3DB3009E6A /* AppEnvironment.swift in Sources */,
+				6523B61F4BE08B8765F134FD /* AppRootView.swift in Sources */,
+				3F287375496E33B25807B6F1 /* AuthAPI.swift in Sources */,
+				10A85A21C0B5D15BB78337BE /* AuthStore.swift in Sources */,
+				9477926F8ADECF21D15BAECF /* AuthView.swift in Sources */,
+				526672FCFD6ACE9FEC7AC22F /* BreakdownView.swift in Sources */,
+				CFB7E78D46B820EB0C2A4E69 /* CustomEntryFormView.swift in Sources */,
+				0C0D7AB9611DA573EBCDFC65 /* Decay.swift in Sources */,
+				ECF11542596170A83DB72072 /* DriftApp.swift in Sources */,
+				AB256133DF5EE72127C157A5 /* DriftTheme.swift in Sources */,
+				240482D7B3DF5F2D124FCAFB /* EditEventSheet.swift in Sources */,
+				43C2268F14785E154C8138E9 /* EventStore.swift in Sources */,
+				5EDFE5EB7A430081A1596EA5 /* EventType.swift in Sources */,
+				34E36DCE1AF0AC689E3A2316 /* EventsAPI.swift in Sources */,
+				92586065A0EFB704F142E42B /* EventsListView.swift in Sources */,
+				7E36CD3E8D3E960E2D4D24A3 /* ForecastChartView.swift in Sources */,
+				BE2991720B8AD75F8ED959E0 /* ForgotPasswordView.swift in Sources */,
+				A926815389E4A66809B37A75 /* HomeView.swift in Sources */,
+				386E68D834B57307D41921D0 /* Interpretation.swift in Sources */,
+				8744757CD7422BA2D8EE90B0 /* KeychainStore.swift in Sources */,
+				187D4E92F5043DC3DEEA1BEC /* LogEvent.swift in Sources */,
+				55E33F9FD4129F756C5667D6 /* ProfileAPI.swift in Sources */,
+				7D3BFF7ECD596FAB7187050B /* ProfileStore.swift in Sources */,
+				D982B5B31D13069BBB357E12 /* QuickAddGridView.swift in Sources */,
+				66452A01C673E9D8171EE4AB /* ScoreHeroView.swift in Sources */,
+				4E5D7FE726B4A7676B5B165B /* Scoring.swift in Sources */,
+				BC8787F345A99CEB6409D7CA /* TimeHelpers.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		87691D3C6A78A69CA49E70CB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D5F587E3EEDE8C862D5EE555 /* KeychainStoreTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C1A453BB0337F06A019062C9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CB6D462FDABA21BB542AF955 /* AuthFlowUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A2F4FA2AB0193C1E986DD906 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CAEDCE34417A91D973F68377 /* Drift */;
+			targetProxy = 315C2652D757491C8E1F51A7 /* PBXContainerItemProxy */;
+		};
+		D1BF60D32086BB559F706C77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CAEDCE34417A91D973F68377 /* Drift */;
+			targetProxy = 5A0F2050C8BE1514C5FDA771 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1BA2EF094074FE68869BD7E3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.drift.ios.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Drift.app/Drift";
+			};
+			name = Debug;
+		};
+		1BA575FCF6BF19CB540613C2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.drift.ios.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Drift;
+			};
+			name = Release;
+		};
+		1C9B0CB149C7B02DC969D4FD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		593F12B4C11F2DF5725E88BE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.drift.ios.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Drift.app/Drift";
+			};
+			name = Release;
+		};
+		7C190047C04497DC44F492BC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				API_BASE_URL = "https://drift-hs0w.onrender.com";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Generated/Drift-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.drift.ios;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		D2C48B12CC940FCA05A8E07F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		D912882FFA52AB5EEF2B7B2D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				API_BASE_URL = "http://localhost:3099";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Generated/Drift-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.drift.ios;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F6CB06A384BD077E59932C8D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.drift.ios.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Drift;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		68F4AD629CB425B82407650A /* Build configuration list for PBXProject "Drift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D2C48B12CC940FCA05A8E07F /* Debug */,
+				1C9B0CB149C7B02DC969D4FD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		879E54EDE3CD8FA31DF9345C /* Build configuration list for PBXNativeTarget "DriftTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1BA2EF094074FE68869BD7E3 /* Debug */,
+				593F12B4C11F2DF5725E88BE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		95D8394AD2953ED1455B887F /* Build configuration list for PBXNativeTarget "DriftUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F6CB06A384BD077E59932C8D /* Debug */,
+				1BA575FCF6BF19CB540613C2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F406649AF13D92F90944A7F1 /* Build configuration list for PBXNativeTarget "Drift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D912882FFA52AB5EEF2B7B2D /* Debug */,
+				7C190047C04497DC44F492BC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C57AFFDCB18AE227A2FF2ECA /* Project object */;
+}
