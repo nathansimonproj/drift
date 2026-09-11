@@ -23,11 +23,21 @@ jobs:
       - name: Generate Xcode project
         run: xcodegen generate
 
-      # A freshly-created/booted Simulator's Keychain services can take a
-      # moment to come up — running xcodebuild test immediately (letting it
-      # auto-boot the simulator by name) has been observed to race that,
-      # causing every SecItemAdd/SecItemCopyMatching call to silently no-op.
-      # Booting explicitly and blocking on bootstatus avoids that race.
+      # GitHub-hosted macOS runners have no interactive login session, so
+      # there's no keychain unlocked by default — every SecItemAdd /
+      # SecItemCopyMatching call the Simulator app makes (i.e. all of
+      # KeychainStore) fails silently as a result. Creating and unlocking
+      # one, and adding it to the search list, is the standard fix.
+      - name: Create and unlock a keychain for the simulator
+        run: |
+          security create-keychain -p "" build.keychain
+          existing=()
+          while IFS= read -r line; do existing+=("$line"); done < <(security list-keychains -d user | sed 's/^ *"//; s/"$//')
+          security list-keychains -d user -s build.keychain "${existing[@]}"
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "" build.keychain
+          security set-keychain-settings build.keychain
+
       - name: Boot simulator and wait until fully ready
         run: |
           UDID=$(xcrun simctl list devices available | grep "iPhone 16 (" | head -1 | awk -F '[()]' '{print $2}')
