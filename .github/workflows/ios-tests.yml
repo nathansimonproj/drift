@@ -23,6 +23,19 @@ jobs:
       - name: Generate Xcode project
         run: xcodegen generate
 
+      # A freshly-created/booted Simulator's Keychain services can take a
+      # moment to come up — running xcodebuild test immediately (letting it
+      # auto-boot the simulator by name) has been observed to race that,
+      # causing every SecItemAdd/SecItemCopyMatching call to silently no-op.
+      # Booting explicitly and blocking on bootstatus avoids that race.
+      - name: Boot simulator and wait until fully ready
+        run: |
+          UDID=$(xcrun simctl list devices available | grep "iPhone 16 (" | head -1 | awk -F '[()]' '{print $2}')
+          echo "Booting simulator $UDID"
+          echo "SIM_UDID=$UDID" >> "$GITHUB_ENV"
+          xcrun simctl boot "$UDID" || true
+          xcrun simctl bootstatus "$UDID" -b
+
       # DriftUITests is excluded here — it's a known, documented Simulator
       # limitation (SecureField text entry can drop keystrokes under
       # XCUITest, unrelated to app correctness — see the header comment on
@@ -34,7 +47,7 @@ jobs:
           xcodebuild \
             -project Drift.xcodeproj \
             -scheme Drift \
-            -destination "platform=iOS Simulator,name=iPhone 16" \
+            -destination "platform=iOS Simulator,id=$SIM_UDID" \
             -only-testing:DriftTests \
             CODE_SIGNING_ALLOWED=NO \
             test
