@@ -21,6 +21,7 @@ struct ScoreHeroView: View {
             Text("\(Int(result.score.rounded()))")
                 .font(.system(size: 64, weight: .bold, design: .rounded))
                 .foregroundStyle(interpretation.severity.color)
+                .accessibilityIdentifier("scoreValue")
             Text(interpretation.word)
                 .font(.title3.weight(.semibold))
                 .foregroundStyle(DriftTheme.text)

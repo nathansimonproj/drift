@@ -1,0 +1,499 @@
+[
+  {
+    "name": "no_events",
+    "events": [],
+    "scoreAtHour": 0,
+    "expectedScore": 100,
+    "expectedByType": {},
+    "expectedTotalPenalty": 0
+  },
+  {
+    "name": "single_coffee_6h",
+    "events": [
+      {
+        "type": "coffee",
+        "amount": "135",
+        "atHour": 0
+      }
+    ],
+    "scoreAtHour": 6,
+    "expectedScore": 84.49513479100465,
+    "expectedByType": {
+      "coffee": 15.504865208995353
+    },
+    "expectedTotalPenalty": 15.504865208995353
+  },
+  {
+    "name": "single_coffee_0h",
+    "events": [
+      {
+        "type": "coffee",
+        "amount": "135",
+        "atHour": 0
+      }
+    ],
+    "scoreAtHour": 0,
+    "expectedScore": 54,
+    "expectedByType": {
+      "coffee": 46
+    },
+    "expectedTotalPenalty": 46
+  },
+  {
+    "name": "single_coffee_before_event",
+    "events": [
+      {
+        "type": "coffee",
+        "amount": "135",
+        "atHour": 2
+      }
+    ],
+    "scoreAtHour": 0,
+    "expectedScore": 100,
+    "expectedByType": {},
+    "expectedTotalPenalty": 0
+  },
+  {
+    "name": "single_coffee_far_future",
+    "events": [
+      {
+        "type": "coffee",
+        "amount": "135",
+        "atHour": 0
+      }
+    ],
+    "scoreAtHour": 20,
+    "expectedScore": 100,
+    "expectedByType": {},
+    "expectedTotalPenalty": 0
+  },
+  {
+    "name": "plain_caffeine_100mg_3h",
+    "events": [
+      {
+        "type": "caffeine",
+        "amount": "100",
+        "atHour": 0
+      }
+    ],
+    "scoreAtHour": 3,
+    "expectedScore": 100,
+    "expectedByType": {},
+    "expectedTotalPenalty": 0
+  },
+  {
+    "name": "energy_drink_celsius_4h",
+    "events": [
+      {
+        "type": "energy_drink",
+        "amount": "celsius",
+        "atHour": 0
+      }
+    ],
+    "scoreAtHour": 4,
+    "expectedScore": 62.052065800118605,
+    "expectedByType": {
+      "energy_drink": 37.947934199881395
+    },
+    "expectedTotalPenalty": 37.947934199881395
+  },
+  {
+    "name": "energy_drink_red_bull_1h",
+    "events": [
+      {
+        "type": "energy_drink",
+        "amount": "red_bull",
+        "atHour": 0
+      }
+    ],
+    "scoreAtHour": 1,
+    "expectedScore": 80.14238197452403,
+    "expectedByType": {
+      "energy_drink": 19.857618025475972
+    },
+    "expectedTotalPenalty": 19.857618025475972
+  },
+  {
+    "name": "energy_drink_unknown_variant_defaults_160mg",
+    "events": [
+      {
+        "type": "energy_drink",
+        "amount": "totally_made_up_brand",
+        "atHour": 0
+      }
+    ],
+    "scoreAtHour": 1,
+    "expectedScore": 52.284763949048056,
+    "expectedByType": {
+      "energy_drink": 47.715236050951944
+    },
+    "expectedTotalPenalty": 47.715236050951944
+  },
+  {
+    "name": "soda_diet_2h",
+    "events": [
+      {
+        "type": "soda",
+        "amount": "diet",
+        "atHour": 0
+      }
+    ],
+    "scoreAtHour": 2,
+    "expectedScore": 94.05540758810434,
+    "expectedByType": {
+      "soda": 5.944592411895662
+    },
+    "expectedTotalPenalty": 5.944592411895662
+  },
+  {
+    "name": "soda_regular_2h",
+    "events": [
+      {
+        "type": "soda",
+        "amount": "regular",
+        "atHour": 0
+      }
+    ],
+    "scoreAtHour": 2,
+    "expectedScore": 97.69312734772929,
+    "expectedByType": {
+      "soda": 2.3068726522707066
+    },
+    "expectedTotalPenalty": 2.3068726522707066
+  },
+  {
+    "name": "marijuana_10mg_3h",
+    "events": [
+      {
+        "type": "marijuana",
+        "amount": "10",
+        "atHour": 0
+      }
+    ],
+    "scoreAtHour": 3,
+    "expectedScore": 0,
+    "expectedByType": {
+      "marijuana": 148.59942891369485
+    },
+    "expectedTotalPenalty": 148.59942891369485
+  },
+  {
+    "name": "marijuana_50mg_1h",
+    "events": [
+      {
+        "type": "marijuana",
+        "amount": "50",
+        "atHour": 0
+      }
+    ],
+    "scoreAtHour": 1,
+    "expectedScore": 0,
+    "expectedByType": {
+      "marijuana": 905.7236642639067
+    },
+    "expectedTotalPenalty": 905.7236642639067
+  },
+  {
+    "name": "alcohol_beer_solo_0_5h",
+    "events": [
+      {
+        "type": "alcohol",
+        "amount": "beer",
+        "atHour": 0
+      }
+    ],
+    "scoreAtHour": 0.5,
+    "expectedScore": 93.06666666666666,
+    "expectedByType": {
+      "alcohol": 6.933333333333334
+    },
+    "expectedTotalPenalty": 6.933333333333334
+  },
+  {
+    "name": "alcohol_beer_solo_rebound_3h",
+    "events": [
+      {
+        "type": "alcohol",
+        "amount": "beer",
+        "atHour": 0
+      }
+    ],
+    "scoreAtHour": 3,
+    "expectedScore": 92.5,
+    "expectedByType": {
+      "alcohol": 7.5
+    },
+    "expectedTotalPenalty": 7.5
+  },
+  {
+    "name": "alcohol_beer_solo_gone_8h",
+    "events": [
+      {
+        "type": "alcohol",
+        "amount": "beer",
+        "atHour": 0
+      }
+    ],
+    "scoreAtHour": 8,
+    "expectedScore": 100,
+    "expectedByType": {},
+    "expectedTotalPenalty": 0
+  },
+  {
+    "name": "alcohol_wine_and_shot_1h",
+    "events": [
+      {
+        "type": "alcohol",
+        "amount": "wine",
+        "atHour": 0
+      },
+      {
+        "type": "alcohol",
+        "amount": "shot",
+        "atHour": 0.25
+      }
+    ],
+    "scoreAtHour": 1,
+    "expectedScore": 87.73333333333333,
+    "expectedByType": {
+      "alcohol": 12.266666666666667
+    },
+    "expectedTotalPenalty": 12.266666666666667
+  },
+  {
+    "name": "alcohol_binge_session_6drinks",
+    "events": [
+      {
+        "type": "alcohol",
+        "amount": "beer",
+        "atHour": 0
+      },
+      {
+        "type": "alcohol",
+        "amount": "beer",
+        "atHour": 0.3
+      },
+      {
+        "type": "alcohol",
+        "amount": "beer",
+        "atHour": 0.6
+      },
+      {
+        "type": "alcohol",
+        "amount": "beer",
+        "atHour": 0.9
+      },
+      {
+        "type": "alcohol",
+        "amount": "beer",
+        "atHour": 1.2
+      },
+      {
+        "type": "alcohol",
+        "amount": "beer",
+        "atHour": 1.5
+      }
+    ],
+    "scoreAtHour": 4,
+    "expectedScore": 57.49999999999999,
+    "expectedByType": {
+      "alcohol": 42.50000000000001
+    },
+    "expectedTotalPenalty": 42.50000000000001
+  },
+  {
+    "name": "nicotine_pouch6_acute_0_5h",
+    "events": [
+      {
+        "type": "nicotine",
+        "amount": "pouch_6",
+        "atHour": 0
+      }
+    ],
+    "scoreAtHour": 0.5,
+    "expectedScore": 93.18193226271657,
+    "expectedByType": {
+      "nicotine": 6.818067737283431
+    },
+    "expectedTotalPenalty": 6.818067737283431
+  },
+  {
+    "name": "nicotine_pouch6_rebound_3h",
+    "events": [
+      {
+        "type": "nicotine",
+        "amount": "pouch_6",
+        "atHour": 0
+      }
+    ],
+    "scoreAtHour": 3,
+    "expectedScore": 84.06801948466054,
+    "expectedByType": {
+      "nicotine": 15.931980515339465
+    },
+    "expectedTotalPenalty": 15.931980515339465
+  },
+  {
+    "name": "nicotine_cigarette_1h",
+    "events": [
+      {
+        "type": "nicotine",
+        "amount": "cigarette",
+        "atHour": 0
+      }
+    ],
+    "scoreAtHour": 1,
+    "expectedScore": 99.47720779386421,
+    "expectedByType": {
+      "nicotine": 0.5227922061357855
+    },
+    "expectedTotalPenalty": 0.5227922061357855
+  },
+  {
+    "name": "nicotine_vape_2h",
+    "events": [
+      {
+        "type": "nicotine",
+        "amount": "vape",
+        "atHour": 0
+      }
+    ],
+    "scoreAtHour": 2,
+    "expectedScore": 95.875,
+    "expectedByType": {
+      "nicotine": 4.125
+    },
+    "expectedTotalPenalty": 4.125
+  },
+  {
+    "name": "nicotine_unknown_variant_defaults_3mg",
+    "events": [
+      {
+        "type": "nicotine",
+        "amount": "unknown_delivery",
+        "atHour": 0
+      }
+    ],
+    "scoreAtHour": 0.5,
+    "expectedScore": 96.96596613135829,
+    "expectedByType": {
+      "nicotine": 3.0340338686417154
+    },
+    "expectedTotalPenalty": 3.0340338686417154
+  },
+  {
+    "name": "nap_is_inactive_type",
+    "events": [
+      {
+        "type": "nap",
+        "amount": "90",
+        "atHour": 0
+      }
+    ],
+    "scoreAtHour": 1,
+    "expectedScore": 100,
+    "expectedByType": {},
+    "expectedTotalPenalty": 0
+  },
+  {
+    "name": "mixed_coffee_and_alcohol_8h",
+    "events": [
+      {
+        "type": "coffee",
+        "amount": "135",
+        "atHour": 0
+      },
+      {
+        "type": "coffee",
+        "amount": "135",
+        "atHour": 1
+      },
+      {
+        "type": "alcohol",
+        "amount": "beer",
+        "atHour": 2
+      },
+      {
+        "type": "alcohol",
+        "amount": "beer",
+        "atHour": 2.25
+      },
+      {
+        "type": "alcohol",
+        "amount": "beer",
+        "atHour": 2.5
+      }
+    ],
+    "scoreAtHour": 8,
+    "expectedScore": 68.97446955667556,
+    "expectedByType": {
+      "coffee": 22.27553044332445,
+      "alcohol": 8.75
+    },
+    "expectedTotalPenalty": 31.02553044332445
+  },
+  {
+    "name": "kitchen_sink_all_active_types",
+    "events": [
+      {
+        "type": "coffee",
+        "amount": "135",
+        "atHour": 0
+      },
+      {
+        "type": "energy_drink",
+        "amount": "bang",
+        "atHour": 1
+      },
+      {
+        "type": "soda",
+        "amount": "regular",
+        "atHour": 2
+      },
+      {
+        "type": "marijuana",
+        "amount": "15",
+        "atHour": 3
+      },
+      {
+        "type": "alcohol",
+        "amount": "shot",
+        "atHour": 4
+      },
+      {
+        "type": "nicotine",
+        "amount": "pouch_3",
+        "atHour": 5
+      }
+    ],
+    "scoreAtHour": 6,
+    "expectedScore": 0,
+    "expectedByType": {
+      "coffee": 15.504865208995353,
+      "energy_drink": 52,
+      "marijuana": 222.89914337054228,
+      "alcohol": 9.166666666666666,
+      "nicotine": 2.4319805153394642
+    },
+    "expectedTotalPenalty": 302.0026557615438
+  },
+  {
+    "name": "many_events_72h_cutoff_boundary",
+    "events": [
+      {
+        "type": "coffee",
+        "amount": "135",
+        "atHour": -71
+      },
+      {
+        "type": "coffee",
+        "amount": "135",
+        "atHour": -73
+      }
+    ],
+    "scoreAtHour": 0,
+    "expectedScore": 100,
+    "expectedByType": {},
+    "expectedTotalPenalty": 0
+  }
+]

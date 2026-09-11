@@ -1,8 +1,24 @@
 import XCTest
 
-// Exercises the real UI against a live backend (see ios/README.md for how to
-// point this at a local server). Requires the app's Keychain to start empty,
-// which -clearKeychainForTesting (set up in setUp) guarantees per test run.
+// Exercises the real UI against a live backend — point Debug builds at a
+// local `node server/server.js` (DATABASE_URL pointing at a throwaway
+// Postgres db) before running these. Requires the app's Keychain to start
+// empty, which -clearKeychainForTesting (set up in setUp) guarantees per
+// test run.
+//
+// KNOWN ENVIRONMENT LIMITATION: typing into a SecureField via XCUITest is
+// unreliable in the iOS 26 Simulator (Xcode 26.1) — individual keystrokes
+// are sometimes dropped even when the driver reports each one as
+// successfully synthesized, which can leave the password short enough that
+// the submit button never enables. This was confirmed to be a
+// Simulator/XCUITest issue rather than an app bug by temporarily swapping
+// the SecureField for a plain TextField, at which point the identical flow
+// passed reliably every time. `typeSlowly` (re-tapping the field before
+// every character, with a delay) reduces but does not eliminate the drop
+// rate. Because of this, CI runs only the DriftTests unit test target
+// (see .github/workflows/ios-tests.yml) — these UI tests are meant to be
+// run locally/manually against a real Simulator, and a failure here should
+// be treated as suspect until reproduced a few times.
 final class AuthFlowUITests: XCTestCase {
     private var app: XCUIApplication!
 
@@ -13,16 +29,11 @@ final class AuthFlowUITests: XCTestCase {
         app.launch()
     }
 
-    // XCUITest's typeText(_:) delivers only the first character to a
-    // SecureField reliably in the Simulator — a known XCUITest/secure-entry
-    // limitation, not an app bug (confirmed by swapping in a plain TextField
-    // during debugging: the same batched typeText worked perfectly). Typing
-    // one character at a time works around it.
     private func typeSlowly(_ text: String, into element: XCUIElement) {
         for character in text {
             element.tap()
             element.typeText(String(character))
-            Thread.sleep(forTimeInterval: 0.15)
+            Thread.sleep(forTimeInterval: 0.35)
         }
     }
 

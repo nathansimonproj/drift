@@ -23,12 +23,14 @@ struct QuickAddGridView: View {
                     } label: {
                         QuickAddTile(label: meta.quickLabel, meta: meta.quickMeta, showChevron: true)
                     }
+                    .accessibilityIdentifier("quickAdd_\(type.rawValue)")
                 } else {
                     Button {
                         onAdd(type, meta.defaultAmount)
                     } label: {
                         QuickAddTile(label: meta.quickLabel, meta: meta.quickMeta, showChevron: false)
                     }
+                    .accessibilityIdentifier("quickAdd_\(type.rawValue)")
                 }
             }
         }

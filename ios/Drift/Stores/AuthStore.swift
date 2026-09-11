@@ -3,7 +3,7 @@ import Observation
 
 @Observable
 final class AuthStore {
-    enum SessionState {
+    enum SessionState: Equatable {
         case signedOut
         case signedIn
     }

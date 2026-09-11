@@ -3,7 +3,11 @@ import Foundation
 // Thin async/await wrapper over URLSession. One-shot request/response only —
 // no streaming, so Combine buys nothing here.
 struct APIClient {
-    static let shared = APIClient()
+    // `var` (not `let`) so tests can substitute a mock-backed instance for
+    // the duration of a test and restore the real one afterward — the
+    // AuthAPI/EventsAPI/ProfileAPI call sites all go through `.shared`
+    // rather than taking a client parameter, so this is the seam.
+    static var shared = APIClient()
 
     private let session: URLSession
     private let keychain: KeychainStore

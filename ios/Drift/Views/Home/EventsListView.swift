@@ -39,10 +39,12 @@ struct EventsListView: View {
                                 Image(systemName: "pencil")
                             }
                             .tint(DriftTheme.text2)
+                            .accessibilityIdentifier("editEvent_\(event.id)")
                             Button(role: .destructive) { onDelete(event.id) } label: {
                                 Image(systemName: "xmark")
                             }
                             .tint(DriftTheme.bad)
+                            .accessibilityIdentifier("deleteEvent_\(event.id)")
                         }
                         .padding(.vertical, 8)
 
