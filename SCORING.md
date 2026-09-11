@@ -1,16 +1,21 @@
 # Sleep-effect literature behind the decay model
 
-What [`js/decay.js`](js/decay.js) assumes for caffeine, marijuana, and nicotine, the peer-reviewed
-studies that speak to it, and where the two agree or diverge. Compiled for the calibration pass
-described in [ROADMAP.md §3](ROADMAP.md#3-calibration-priority-depth-over-breadth) — a web-search
-literature scan, not a formal systematic review.
+What [`js/decay.js`](js/decay.js) assumes for every substance currently loggable in the app —
+caffeine, marijuana, alcohol, and nicotine — the peer-reviewed studies that speak to it, and where
+the two agree or diverge. Compiled for the calibration pass described in
+[ROADMAP.md §3](ROADMAP.md#3-calibration-priority-depth-over-breadth) — a web-search literature
+scan, not a formal systematic review. (`js/types.js` also has decay functions for stimulants, naps,
+workouts, meals, stress, bright light, and screens, but those are commented out of `TYPES` and
+aren't loggable yet, so they're out of scope here until they ship.)
 
-Originally compiled 2026-07-30; nicotine's model below reflects the two-phase recalibration that
-shipped 2026-08-14 in response to the gap this doc originally flagged (see "vs. current model" in
-that section).
+Originally compiled 2026-07-30 covering caffeine/marijuana/nicotine only; alcohol added and
+nicotine's model updated below to reflect what actually shipped 2026-08-14 (nicotine's two-phase
+recalibration was a direct response to the gap this doc originally flagged — see "vs. current
+model" in that section).
 
 - [Caffeine](#caffeine)
 - [Marijuana](#marijuana)
+- [Alcohol](#alcohol)
 - [Nicotine](#nicotine)
 
 ---
@@ -92,9 +97,61 @@ penalty = amount * 20 * 0.5^(h / 7)
 
 ---
 
+## Alcohol
+
+*Active in `TYPES` · logged as standard drinks (beer/wine/shot), recalibrated 2026-08-14.*
+
+**Current model**
+
+```
+one event = one standard drink (12oz beer / 5oz wine / 1.5oz shot, all ≈14g ethanol — NIAAA)
+elimination clears one drink in ~1.5h
+
+active phase (h < 1.5h):    penalty = 8 * (1 - 0.4 * (h / 1.5))
+rebound phase (0 <= h - 1.5 < 6h): penalty += 10 * (1 - (h - 1.5) / 6)
+```
+
+A multi-drink session isn't modeled with an exponent on total amount — each drink is logged (and
+scored) separately, so a real session's severity emerges from several drinks' active/rebound curves
+overlapping near bedtime.
+
+**Key findings**
+
+- Systematic review (27 studies, mostly polysomnography): alcohol delays REM onset and reduces REM
+  duration; effect on total sleep time was non-significant overall (−10.1 min pooled).
+- High doses can shorten sleep-onset latency short-term, but this appears to *worsen* subsequent
+  REM disruption rather than offset it — alcohol's reputation as a sleep aid doesn't hold up
+  structurally even when it feels like it helps falling asleep.
+- Wake-after-sleep-onset roughly doubles on alcohol nights vs. control in the source data behind
+  this model (66.9 vs. 38.7 min), concentrated in the second half of the night — the basis for this
+  model's wide 6h rebound window.
+- Average elimination rate ≈0.015 g/dL/hr, consistent with clearing one standard drink in roughly
+  1.5–2h and a moderate 2–3 drink dose in 4–5h.
+
+**Studies**
+
+- *The effect of alcohol on subsequent sleep in healthy adults: a systematic review and
+  meta-analysis* — Gardiner CL, Weakley J, Burke LM, Roach GD, Sargent C, Maniar N, Huynh M, Miller
+  DJ, Townshend A, Halson SL, Sleep Medicine Reviews, 2025;80:102030.
+  [sciencedirect.com/S1087079224001345](https://www.sciencedirect.com/science/article/pii/S1087079224001345)
+- *Alcohol Metabolism* — Bowling Green State University, Alcohol Education (elimination-rate
+  reference).
+  [bgsu.edu/.../alcohol-metabolism](https://www.bgsu.edu/recwell/wellness-connection/alcohol-education/alcohol-metabolism.html)
+
+> **vs. current model** — Well aligned. This is the same research group and journal as the caffeine
+> meta-analysis above; note the model's *elimination-rate* source (BGSU) is a straightforward
+> physiological constant, not the sleep-effect finding itself — the sleep-effect shape (active
+> sedation → rebound fragmentation, WASO roughly doubling) is what the model's active/rebound
+> structure is built to reproduce. One naming correction: `decay.js`'s comments and ROADMAP.md
+> attribute this meta-analysis to "Girschik et al." — that appears to be a citation error; the
+> actual lead author is Gardiner (same group as the caffeine paper above). Worth fixing in those
+> comments too.
+
+---
+
 ## Nicotine
 
-*Currently disabled in `TYPES`, decay function retained.*
+*Active in `TYPES`.*
 
 **Current model** — two-phase, shipped 2026-08-14 (acute + withdrawal rebound, see below)
 
@@ -138,4 +195,6 @@ rebound phase: starting at h = half-life, over a 4h window:
 ---
 
 Compiled via web search for the calibration pass in [ROADMAP.md §3](ROADMAP.md#3-calibration-priority-depth-over-breadth) —
-not a formal systematic review.
+not a formal systematic review. Covers every substance currently loggable in the app (caffeine,
+marijuana, alcohol, nicotine); stimulants, naps, workouts, meals, stress, bright light, and screens
+are built in `decay.js` but commented out of `TYPES` and not yet loggable.
