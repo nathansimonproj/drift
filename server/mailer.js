@@ -6,7 +6,7 @@ if (process.env.SENDGRID_API_KEY) sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 // Sender Authentication -> Single Sender Verification (no domain required,
 // just verifying that you own this one address).
 const FROM = process.env.EMAIL_FROM;
-const APP_URL = process.env.APP_URL || 'http://localhost:3000';
+const APP_URL = (process.env.APP_URL || 'http://localhost:3000').replace(/\/+$/, '');
 
 async function sendPasswordResetEmail(email, token) {
   const resetUrl = `${APP_URL}/pages/reset-password.html?token=${token}`;
