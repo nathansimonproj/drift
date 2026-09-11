@@ -10,11 +10,15 @@ struct DriftApp: App {
         }
         return AuthStore()
     }()
+    @State private var eventStore = EventStore()
+    @State private var profileStore = ProfileStore()
 
     var body: some Scene {
         WindowGroup {
             AppRootView()
                 .environment(authStore)
+                .environment(eventStore)
+                .environment(profileStore)
         }
     }
 }

@@ -2,10 +2,11 @@ import SwiftUI
 
 struct HomeView: View {
     @Environment(AuthStore.self) private var authStore
-    @State private var eventStore = EventStore()
-    @State private var profileStore = ProfileStore()
+    @Environment(EventStore.self) private var eventStore
+    @Environment(ProfileStore.self) private var profileStore
     @State private var editingEvent: LogEvent?
     @State private var showDeleteConfirm = false
+    @State private var showProfile = false
 
     var body: some View {
         NavigationStack {
@@ -46,6 +47,7 @@ struct HomeView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
+                        Button("Profile") { showProfile = true }
                         Button("Sign out") { Task { await authStore.logout() } }
                         Button("Delete account", role: .destructive) { showDeleteConfirm = true }
                     } label: {
@@ -70,6 +72,9 @@ struct HomeView: View {
                     Task { await eventStore.deleteEvent(id: id) }
                 }
             }
+            .sheet(isPresented: $showProfile) {
+                ProfileView()
+            }
         }
         .task {
             await eventStore.load()
@@ -83,5 +88,8 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView().environment(AuthStore())
+    HomeView()
+        .environment(AuthStore())
+        .environment(EventStore())
+        .environment(ProfileStore())
 }

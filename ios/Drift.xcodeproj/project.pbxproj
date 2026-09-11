@@ -10,8 +10,10 @@
 		0C0D7AB9611DA573EBCDFC65 /* Decay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2108FD5FCAAC13AA6E04B43A /* Decay.swift */; };
 		10A85A21C0B5D15BB78337BE /* AuthStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DDD70FB362977D6E747B02 /* AuthStore.swift */; };
 		187D4E92F5043DC3DEEA1BEC /* LogEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADC439B3C13A6A38BC718F5 /* LogEvent.swift */; };
+		1A9484FADC29C9E8F5B97EF0 /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B189D734168D72A48AF8505 /* ResetPasswordView.swift */; };
 		240482D7B3DF5F2D124FCAFB /* EditEventSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B070E4C2718BA7E292271BAA /* EditEventSheet.swift */; };
 		2F7F4C2E645E5862E163963E /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AF382484192788794727EF /* APIError.swift */; };
+		3253E954D70E7E0DDC209F94 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BC0A26E060D21A47D2A989 /* Profile.swift */; };
 		34E36DCE1AF0AC689E3A2316 /* EventsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062476A9E38F73BCE54E7E5F /* EventsAPI.swift */; };
 		386E68D834B57307D41921D0 /* Interpretation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBB942A42527A289CD974B4 /* Interpretation.swift */; };
 		3F287375496E33B25807B6F1 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74402C0A40DF247D6017F4FD /* AuthAPI.swift */; };
@@ -29,6 +31,7 @@
 		92586065A0EFB704F142E42B /* EventsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7248A33BB2D8DDF407B350 /* EventsListView.swift */; };
 		9477926F8ADECF21D15BAECF /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9030CD4C81EA925D8F12736 /* AuthView.swift */; };
 		A926815389E4A66809B37A75 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09FB74F3DFF7855E0F4974E /* HomeView.swift */; };
+		AA088C33D58BD7411A6E5C45 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4718ABED40823785042D6609 /* ProfileView.swift */; };
 		AA43792497E2FC36FF55F58C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08E33CA6BE80D735A37ED745 /* Assets.xcassets */; };
 		AB256133DF5EE72127C157A5 /* DriftTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2E72AA739B2BADE0E229EC /* DriftTheme.swift */; };
 		BC8787F345A99CEB6409D7CA /* TimeHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D0143B53297DE2F51ACF25 /* TimeHelpers.swift */; };
@@ -69,10 +72,13 @@
 		2108FD5FCAAC13AA6E04B43A /* Decay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decay.swift; sourceTree = "<group>"; };
 		217BB1C085DB6E1071C375F7 /* ProfileAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAPI.swift; sourceTree = "<group>"; };
 		268B2AECACC5A63CA8E1EF35 /* KeychainStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStoreTests.swift; sourceTree = "<group>"; };
+		2B189D734168D72A48AF8505 /* ResetPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordView.swift; sourceTree = "<group>"; };
 		2B75FD57E19E4A4AC58ED3BE /* EventStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStore.swift; sourceTree = "<group>"; };
 		2D53AC1035F94A89D5CD8A81 /* QuickAddGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAddGridView.swift; sourceTree = "<group>"; };
 		379E094C1F6C67216572E4EF /* ScoreHeroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreHeroView.swift; sourceTree = "<group>"; };
+		4718ABED40823785042D6609 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		507D976C93A8183CBA495619 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
+		53BC0A26E060D21A47D2A989 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		53D7D8879D1F1E2424A607CA /* CustomEntryFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEntryFormView.swift; sourceTree = "<group>"; };
 		552F5AE6789DA294DDB91E8B /* Drift.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Drift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5ADC439B3C13A6A38BC718F5 /* LogEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogEvent.swift; sourceTree = "<group>"; };
@@ -107,6 +113,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		1146D4ED8E06C68A78FBCC1F /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				4718ABED40823785042D6609 /* ProfileView.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
 		1DCFB184D941DDFAE30E78F8 = {
 			isa = PBXGroup;
 			children = (
@@ -138,6 +152,7 @@
 			children = (
 				BDE1FCA06BD29B3D1B762F71 /* Auth */,
 				6DE99B4BC43F2B1924FC7028 /* Home */,
+				1146D4ED8E06C68A78FBCC1F /* Profile */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -196,6 +211,7 @@
 			children = (
 				C9030CD4C81EA925D8F12736 /* AuthView.swift */,
 				0F814BA9A8172AE723E81515 /* ForgotPasswordView.swift */,
+				2B189D734168D72A48AF8505 /* ResetPasswordView.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -223,6 +239,7 @@
 			children = (
 				CF40BA95EF29B3E8B6782C1A /* EventType.swift */,
 				5ADC439B3C13A6A38BC718F5 /* LogEvent.swift */,
+				53BC0A26E060D21A47D2A989 /* Profile.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -381,9 +398,12 @@
 				386E68D834B57307D41921D0 /* Interpretation.swift in Sources */,
 				8744757CD7422BA2D8EE90B0 /* KeychainStore.swift in Sources */,
 				187D4E92F5043DC3DEEA1BEC /* LogEvent.swift in Sources */,
+				3253E954D70E7E0DDC209F94 /* Profile.swift in Sources */,
 				55E33F9FD4129F756C5667D6 /* ProfileAPI.swift in Sources */,
 				7D3BFF7ECD596FAB7187050B /* ProfileStore.swift in Sources */,
+				AA088C33D58BD7411A6E5C45 /* ProfileView.swift in Sources */,
 				D982B5B31D13069BBB357E12 /* QuickAddGridView.swift in Sources */,
+				1A9484FADC29C9E8F5B97EF0 /* ResetPasswordView.swift in Sources */,
 				66452A01C673E9D8171EE4AB /* ScoreHeroView.swift in Sources */,
 				4E5D7FE726B4A7676B5B165B /* Scoring.swift in Sources */,
 				BC8787F345A99CEB6409D7CA /* TimeHelpers.swift in Sources */,

@@ -16,6 +16,7 @@ struct AuthView: View {
     @State private var password = ""
     @State private var confirmPassword = ""
     @State private var showForgotPassword = false
+    @State private var showResetPassword = false
 
     private var confirmMismatch: Bool {
         mode == .register && !confirmPassword.isEmpty && confirmPassword != password
@@ -115,9 +116,12 @@ struct AuthView: View {
                 .accessibilityIdentifier("authSubmitButton")
 
                 if mode == .signIn {
-                    Button("Forgot password?") { showForgotPassword = true }
-                        .font(.footnote)
-                        .tint(DriftTheme.text2)
+                    HStack(spacing: 16) {
+                        Button("Forgot password?") { showForgotPassword = true }
+                        Button("Have a reset code?") { showResetPassword = true }
+                    }
+                    .font(.footnote)
+                    .tint(DriftTheme.text2)
                 }
             }
             .padding(24)
@@ -126,6 +130,9 @@ struct AuthView: View {
         .scrollContentBackground(.hidden)
         .sheet(isPresented: $showForgotPassword) {
             ForgotPasswordView()
+        }
+        .sheet(isPresented: $showResetPassword) {
+            ResetPasswordView()
         }
         .onChange(of: mode) { authStore.errorMessage = nil }
     }
