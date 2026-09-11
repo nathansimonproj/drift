@@ -7,6 +7,7 @@ const { pool, init } = require('./db');
 const authRoutes = require('./auth');
 const profileRoutes = require('./profile');
 const eventsRoutes = require('./events');
+const { requireAuth } = require('./middleware');
 
 const app = express();
 const ROOT = path.join(__dirname, '..');
@@ -21,12 +22,9 @@ app.use(session({
   cookie: { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 },
 }));
 
-function requireAuth(req, res, next) {
-  if (req.session.userId) return next();
-  res.redirect('/pages/login.html');
-}
-
-// Public: auth API and login page
+// Public: auth API and login page (DELETE /auth/account is individually
+// gated below since it needs an authenticated user).
+app.delete('/auth/account', requireAuth);
 app.use('/auth', authRoutes);
 
 // Protected API routes

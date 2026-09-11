@@ -6,7 +6,7 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   const result = await pool.query(
     'SELECT * FROM profiles WHERE user_id = $1',
-    [req.session.userId]
+    [req.userId]
   );
   res.json(result.rows[0] || {});
 });
@@ -26,7 +26,7 @@ router.put('/', async (req, res) => {
       target_bedtime  = excluded.target_bedtime,
       updated_at      = now()
   `, [
-    req.session.userId,
+    req.userId,
     name        || '',
     sex         || '',
     height      ? parseFloat(height) : null,

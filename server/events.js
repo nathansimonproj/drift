@@ -4,9 +4,9 @@ const { pool } = require('./db');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  const userId = req.session.userId;
+  const userId = req.userId;
   // Full history is kept (no retention prune) so the calendar/history view
-  // has past days to show — see ROADMAP.md §2. (This used to run a 30h
+  // has past days to show — see docs/ROADMAP.md §2. (This used to run a 30h
   // prune here on every request, silently deleting anything older — fixed
   // 2026-08-14, but anything it already deleted is gone for good.)
   const result = await pool.query(
@@ -23,7 +23,7 @@ router.post('/', async (req, res) => {
 
   await pool.query(
     'INSERT INTO events (id, user_id, type, amount, occurred_at) VALUES ($1, $2, $3, $4, $5)',
-    [id, req.session.userId, type, String(amount), time]
+    [id, req.userId, type, String(amount), time]
   );
   res.json({ ok: true });
 });
@@ -35,7 +35,7 @@ router.put('/:id', async (req, res) => {
 
   await pool.query(
     'UPDATE events SET type = $1, amount = $2, occurred_at = $3 WHERE id = $4 AND user_id = $5',
-    [type, String(amount), time, req.params.id, req.session.userId]
+    [type, String(amount), time, req.params.id, req.userId]
   );
   res.json({ ok: true });
 });
@@ -43,7 +43,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   await pool.query(
     'DELETE FROM events WHERE id = $1 AND user_id = $2',
-    [req.params.id, req.session.userId]
+    [req.params.id, req.userId]
   );
   res.json({ ok: true });
 });

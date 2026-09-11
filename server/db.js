@@ -48,6 +48,22 @@ async function init() {
     );
     CREATE INDEX IF NOT EXISTS password_reset_tokens_user_id_idx ON password_reset_tokens(user_id);
 
+    -- Long-lived bearer tokens for the native (iOS) client, issued alongside
+    -- the existing cookie session on login/register. Only a hash is stored,
+    -- same principle as the password hash, so a DB leak doesn't leak usable
+    -- tokens. Revocable (unlike a stateless JWT) so logout/"forgot password"
+    -- can actually invalidate a lost device.
+    CREATE TABLE IF NOT EXISTS api_tokens (
+      token_hash TEXT PRIMARY KEY,
+      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      created_at TIMESTAMPTZ DEFAULT now(),
+      last_used_at TIMESTAMPTZ,
+      device_label TEXT,
+      expires_at TIMESTAMPTZ,
+      revoked_at TIMESTAMPTZ
+    );
+    CREATE INDEX IF NOT EXISTS api_tokens_user_id_idx ON api_tokens(user_id);
+
     CREATE TABLE IF NOT EXISTS profiles (
       user_id INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
       name TEXT NOT NULL DEFAULT '',
