@@ -51,6 +51,14 @@ jobs:
       # XCUITest, unrelated to app correctness — see the header comment on
       # AuthFlowUITests.swift for the full writeup and how it was confirmed).
       # Run DriftUITests locally/manually against a real Simulator instead.
+      # CODE_SIGN_IDENTITY=- ad-hoc signs the test app (no certificate/team
+      # needed for Simulator) rather than leaving it fully unsigned
+      # (CODE_SIGNING_ALLOWED=NO): an unsigned app has no
+      # "application-identifier" entitlement, and the Simulator's Keychain
+      # rejects SecItemAdd/SecItemCopyMatching from a process without one —
+      # every KeychainStore test failed with exactly that silent-failure
+      # signature (write appears to succeed, read-back is nil) until this
+      # was added.
       - name: Run unit tests (DriftTests)
         run: |
           set -o pipefail
@@ -59,5 +67,6 @@ jobs:
             -scheme Drift \
             -destination "platform=iOS Simulator,id=$SIM_UDID" \
             -only-testing:DriftTests \
-            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGN_IDENTITY=- \
+            CODE_SIGNING_REQUIRED=NO \
             test
