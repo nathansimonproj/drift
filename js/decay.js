@@ -1,8 +1,13 @@
 // Browser usage (plain <script> globals, TYPES supplied by types.js loading
 // first) is untouched — this only runs under Node/CommonJS, i.e. when
-// required from the test suite.
+// required from the test suite. Assigns to global.TYPES rather than
+// declaring a local `TYPES` — multiple classic <script> tags share one
+// top-level lexical scope in a real browser, so a `var`/`let`/`const TYPES`
+// declared here would collide with types.js's `const TYPES` and throw a
+// SyntaxError that kills this entire script on every page load. (Learned
+// the hard way: this exact mistake shipped to production once already.)
 if (typeof module !== "undefined" && typeof TYPES === "undefined") {
-  var TYPES = require("./types.js").TYPES;
+  global.TYPES = require("./types.js").TYPES;
 }
 
 const hoursSince = (eventTime, t) => (t - eventTime) / 3600000;
