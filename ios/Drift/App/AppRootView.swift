@@ -9,7 +9,7 @@ struct AppRootView: View {
             case .signedOut:
                 AuthView()
             case .signedIn:
-                HomeView()
+                MainTabView()
             }
         }
         // The web app ships one fixed dark theme regardless of system

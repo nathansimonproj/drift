@@ -59,14 +59,18 @@ final class AuthFlowUITests: XCTestCase {
 
         app.buttons["authSubmitButton"].tap()
 
-        // The quick-add grid only exists on the real HomeView, so its
-        // presence is proof registration landed us there.
-        let coffeeQuickAdd = app.staticTexts["Coffee (12oz)"]
-        XCTAssertTrue(coffeeQuickAdd.waitForExistence(timeout: 10), "expected to land on HomeView after registering")
+        // Registration lands on the Forecast tab (the app's default tab) —
+        // its score value only exists once signed in, so its presence is
+        // proof registration succeeded.
+        let scoreValue = app.staticTexts["scoreValue"]
+        XCTAssertTrue(scoreValue.waitForExistence(timeout: 10), "expected to land on the Forecast tab after registering")
 
-        // Sign out (behind the toolbar menu) drops back to the auth screen.
-        app.buttons["accountMenuButton"].tap()
-        app.buttons["Sign out"].tap()
+        // Sign out lives in Profile now (tapping the profile icon opens it
+        // directly — no menu).
+        app.buttons["profileButton"].tap()
+        let signOutButton = app.buttons["Sign out"]
+        XCTAssertTrue(signOutButton.waitForExistence(timeout: 5))
+        signOutButton.tap()
         XCTAssertTrue(emailField.waitForExistence(timeout: 5))
 
         // Signing back in with the same credentials works too.
@@ -76,6 +80,6 @@ final class AuthFlowUITests: XCTestCase {
         typeSlowly(password, into: passwordField)
         app.buttons["authSubmitButton"].tap()
 
-        XCTAssertTrue(coffeeQuickAdd.waitForExistence(timeout: 10), "expected to sign back in with the same credentials")
+        XCTAssertTrue(scoreValue.waitForExistence(timeout: 10), "expected to sign back in with the same credentials")
     }
 }

@@ -5,10 +5,12 @@ import SwiftUI
 // one PUT /profile call.
 struct ProfileView: View {
     @Environment(ProfileStore.self) private var profileStore
+    @Environment(AuthStore.self) private var authStore
     @Environment(\.dismiss) private var dismiss
 
     @State private var draft = Profile()
     @State private var showSaved = false
+    @State private var showDeleteConfirm = false
 
     private let sexOptions = [("", "Prefer not to say"), ("male", "Male"), ("female", "Female")]
 
@@ -95,6 +97,21 @@ struct ProfileView: View {
                 }
                 .listRowBackground(DriftTheme.accent)
                 .foregroundStyle(DriftTheme.bg)
+
+                Section("Account") {
+                    Button("Sign out") {
+                        Task { await authStore.logout() }
+                    }
+                    Button("Delete account", role: .destructive) {
+                        showDeleteConfirm = true
+                    }
+                    if let errorMessage = authStore.errorMessage {
+                        Text(errorMessage)
+                            .font(.footnote)
+                            .foregroundStyle(DriftTheme.bad)
+                    }
+                }
+                .listRowBackground(DriftTheme.surface2)
             }
             .scrollContentBackground(.hidden)
             .background(DriftTheme.bg)
@@ -105,8 +122,17 @@ struct ProfileView: View {
                     Button("Close") { dismiss() }
                 }
             }
+            .confirmationDialog(
+                "Delete your account? This permanently deletes your event history and cannot be undone.",
+                isPresented: $showDeleteConfirm,
+                titleVisibility: .visible
+            ) {
+                Button("Delete account", role: .destructive) { Task { await authStore.deleteAccount() } }
+                Button("Cancel", role: .cancel) {}
+            }
         }
         .preferredColorScheme(.dark)
+        .fontDesign(.rounded)
         .onAppear { draft = profileStore.profile }
         .task {
             await profileStore.load()
@@ -124,5 +150,7 @@ struct ProfileView: View {
 }
 
 #Preview {
-    ProfileView().environment(ProfileStore())
+    ProfileView()
+        .environment(ProfileStore())
+        .environment(AuthStore())
 }

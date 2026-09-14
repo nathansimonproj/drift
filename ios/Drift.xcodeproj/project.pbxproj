@@ -29,6 +29,7 @@
 		66452A01C673E9D8171EE4AB /* ScoreHeroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379E094C1F6C67216572E4EF /* ScoreHeroView.swift */; };
 		6B30FC938FC400C3523ABF45 /* ProfileStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40BE017164872B474E0D6CE /* ProfileStoreTests.swift */; };
 		6B6279DC880508B4B9AF7D5F /* AuthStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279B193CE149AC658F831934 /* AuthStoreTests.swift */; };
+		77A3E54D9076B72EA8075BD5 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D847AE13EC94BFF91B0E395 /* MainTabView.swift */; };
 		7D3BFF7ECD596FAB7187050B /* ProfileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16825E54E48D45087107C571 /* ProfileStore.swift */; };
 		7E36CD3E8D3E960E2D4D24A3 /* ForecastChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C6BC511776165ED94CEEDA /* ForecastChartView.swift */; };
 		8744757CD7422BA2D8EE90B0 /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC432A536C8574D64F9523F /* KeychainStore.swift */; };
@@ -36,11 +37,13 @@
 		8B2CB45001FEF37D1631A13E /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D9A99C3EA36058888654E8 /* APIClient.swift */; };
 		92586065A0EFB704F142E42B /* EventsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7248A33BB2D8DDF407B350 /* EventsListView.swift */; };
 		9477926F8ADECF21D15BAECF /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9030CD4C81EA925D8F12736 /* AuthView.swift */; };
+		9FB5EFB5DBCBC57EBC9CFA8D /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A73ED9AEBE42AE25CBE19B /* LogView.swift */; };
+		A6456878D40370557620D2D1 /* ForecastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DBD17CD4F676AEBEA76588 /* ForecastView.swift */; };
 		A8A0A5550C6D1A86D80AD4E4 /* DecayParityCases.json in Resources */ = {isa = PBXBuildFile; fileRef = 3692D7D567091185377864D5 /* DecayParityCases.json */; };
-		A926815389E4A66809B37A75 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09FB74F3DFF7855E0F4974E /* HomeView.swift */; };
 		AA088C33D58BD7411A6E5C45 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4718ABED40823785042D6609 /* ProfileView.swift */; };
 		AA43792497E2FC36FF55F58C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08E33CA6BE80D735A37ED745 /* Assets.xcassets */; };
 		AB256133DF5EE72127C157A5 /* DriftTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2E72AA739B2BADE0E229EC /* DriftTheme.swift */; };
+		ABD5E1E831F12FB611FDB48D /* ProfileToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE17010CF12042E246AADEF5 /* ProfileToolbar.swift */; };
 		BC8787F345A99CEB6409D7CA /* TimeHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D0143B53297DE2F51ACF25 /* TimeHelpers.swift */; };
 		BE2991720B8AD75F8ED959E0 /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F814BA9A8172AE723E81515 /* ForgotPasswordView.swift */; };
 		C8417A1D5126AC3DB3009E6A /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507D976C93A8183CBA495619 /* AppEnvironment.swift */; };
@@ -79,6 +82,7 @@
 		0F814BA9A8172AE723E81515 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		13D0143B53297DE2F51ACF25 /* TimeHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeHelpers.swift; sourceTree = "<group>"; };
 		16825E54E48D45087107C571 /* ProfileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStore.swift; sourceTree = "<group>"; };
+		17A73ED9AEBE42AE25CBE19B /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		2108FD5FCAAC13AA6E04B43A /* Decay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decay.swift; sourceTree = "<group>"; };
 		217BB1C085DB6E1071C375F7 /* ProfileAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAPI.swift; sourceTree = "<group>"; };
 		268B2AECACC5A63CA8E1EF35 /* KeychainStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStoreTests.swift; sourceTree = "<group>"; };
@@ -88,6 +92,7 @@
 		2B75FD57E19E4A4AC58ED3BE /* EventStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStore.swift; sourceTree = "<group>"; };
 		2D53AC1035F94A89D5CD8A81 /* QuickAddGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAddGridView.swift; sourceTree = "<group>"; };
 		2E143746CE45AC2C262AA7CD /* EventStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStoreTests.swift; sourceTree = "<group>"; };
+		30DBD17CD4F676AEBEA76588 /* ForecastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastView.swift; sourceTree = "<group>"; };
 		3692D7D567091185377864D5 /* DecayParityCases.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DecayParityCases.json; sourceTree = "<group>"; };
 		379E094C1F6C67216572E4EF /* ScoreHeroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreHeroView.swift; sourceTree = "<group>"; };
 		4718ABED40823785042D6609 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -98,6 +103,7 @@
 		5ADC439B3C13A6A38BC718F5 /* LogEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogEvent.swift; sourceTree = "<group>"; };
 		668D8D5951EB119A1624DDB2 /* DriftTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = DriftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		74402C0A40DF247D6017F4FD /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
+		7D847AE13EC94BFF91B0E395 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		80473000068BB96DF392A468 /* DriftApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriftApp.swift; sourceTree = "<group>"; };
 		80B66D57D7CFE7B36848955F /* AppRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRootView.swift; sourceTree = "<group>"; };
 		91C6BC511776165ED94CEEDA /* ForecastChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastChartView.swift; sourceTree = "<group>"; };
@@ -105,8 +111,8 @@
 		990D0BC0CCFF28CD1F46A93A /* BreakdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakdownView.swift; sourceTree = "<group>"; };
 		A40BE017164872B474E0D6CE /* ProfileStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStoreTests.swift; sourceTree = "<group>"; };
 		B070E4C2718BA7E292271BAA /* EditEventSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEventSheet.swift; sourceTree = "<group>"; };
+		BE17010CF12042E246AADEF5 /* ProfileToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileToolbar.swift; sourceTree = "<group>"; };
 		BFBB942A42527A289CD974B4 /* Interpretation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interpretation.swift; sourceTree = "<group>"; };
-		C09FB74F3DFF7855E0F4974E /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		C1AF382484192788794727EF /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		C9030CD4C81EA925D8F12736 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		CCEFE6DE17296939668D0338 /* AuthFlowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFlowUITests.swift; sourceTree = "<group>"; };
@@ -121,6 +127,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		051D5C6D96D513530CE06F00 /* Log */ = {
+			isa = PBXGroup;
+			children = (
+				17A73ED9AEBE42AE25CBE19B /* LogView.swift */,
+			);
+			path = Log;
+			sourceTree = "<group>";
+		};
 		0EA67573775347F2DA7F1A99 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -137,6 +151,14 @@
 				4718ABED40823785042D6609 /* ProfileView.swift */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		193D111B6FE080CA0284572A /* Forecast */ = {
+			isa = PBXGroup;
+			children = (
+				30DBD17CD4F676AEBEA76588 /* ForecastView.swift */,
+			);
+			path = Forecast;
 			sourceTree = "<group>";
 		};
 		1DCFB184D941DDFAE30E78F8 = {
@@ -179,12 +201,23 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		48E205BFDDA2A32A8B8879CA /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				BE17010CF12042E246AADEF5 /* ProfileToolbar.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
 		4A7204948841850DFF3D940D /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				BDE1FCA06BD29B3D1B762F71 /* Auth */,
+				193D111B6FE080CA0284572A /* Forecast */,
 				6DE99B4BC43F2B1924FC7028 /* Home */,
+				051D5C6D96D513530CE06F00 /* Log */,
 				1146D4ED8E06C68A78FBCC1F /* Profile */,
+				48E205BFDDA2A32A8B8879CA /* Shared */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -225,7 +258,6 @@
 				B070E4C2718BA7E292271BAA /* EditEventSheet.swift */,
 				DC7248A33BB2D8DDF407B350 /* EventsListView.swift */,
 				91C6BC511776165ED94CEEDA /* ForecastChartView.swift */,
-				C09FB74F3DFF7855E0F4974E /* HomeView.swift */,
 				2D53AC1035F94A89D5CD8A81 /* QuickAddGridView.swift */,
 				379E094C1F6C67216572E4EF /* ScoreHeroView.swift */,
 			);
@@ -239,6 +271,7 @@
 				80B66D57D7CFE7B36848955F /* AppRootView.swift */,
 				80473000068BB96DF392A468 /* DriftApp.swift */,
 				FA2E72AA739B2BADE0E229EC /* DriftTheme.swift */,
+				7D847AE13EC94BFF91B0E395 /* MainTabView.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -461,14 +494,17 @@
 				34E36DCE1AF0AC689E3A2316 /* EventsAPI.swift in Sources */,
 				92586065A0EFB704F142E42B /* EventsListView.swift in Sources */,
 				7E36CD3E8D3E960E2D4D24A3 /* ForecastChartView.swift in Sources */,
+				A6456878D40370557620D2D1 /* ForecastView.swift in Sources */,
 				BE2991720B8AD75F8ED959E0 /* ForgotPasswordView.swift in Sources */,
-				A926815389E4A66809B37A75 /* HomeView.swift in Sources */,
 				386E68D834B57307D41921D0 /* Interpretation.swift in Sources */,
 				8744757CD7422BA2D8EE90B0 /* KeychainStore.swift in Sources */,
 				187D4E92F5043DC3DEEA1BEC /* LogEvent.swift in Sources */,
+				9FB5EFB5DBCBC57EBC9CFA8D /* LogView.swift in Sources */,
+				77A3E54D9076B72EA8075BD5 /* MainTabView.swift in Sources */,
 				3253E954D70E7E0DDC209F94 /* Profile.swift in Sources */,
 				55E33F9FD4129F756C5667D6 /* ProfileAPI.swift in Sources */,
 				7D3BFF7ECD596FAB7187050B /* ProfileStore.swift in Sources */,
+				ABD5E1E831F12FB611FDB48D /* ProfileToolbar.swift in Sources */,
 				AA088C33D58BD7411A6E5C45 /* ProfileView.swift in Sources */,
 				D982B5B31D13069BBB357E12 /* QuickAddGridView.swift in Sources */,
 				1A9484FADC29C9E8F5B97EF0 /* ResetPasswordView.swift in Sources */,

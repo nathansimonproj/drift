@@ -42,25 +42,34 @@ final class LoggingFlowUITests: XCTestCase {
         app.buttons["authSubmitButton"].tap()
     }
 
+    private func switchToTab(_ name: String) {
+        let tab = app.tabBars.buttons[name]
+        XCTAssertTrue(tab.waitForExistence(timeout: 5), "expected a \(name) tab")
+        tab.tap()
+    }
+
     func testQuickAddCoffeeUpdatesScoreAndAppearsInTodaysList() throws {
         registerFreshAccount()
 
+        // Registration lands on the Forecast tab.
         let scoreValue = app.staticTexts["scoreValue"]
         XCTAssertTrue(scoreValue.waitForExistence(timeout: 10))
         XCTAssertEqual(scoreValue.label, "100", "a brand-new account should start at a clean 100")
 
+        switchToTab("Log")
         app.buttons["quickAdd_coffee"].tap()
-
-        // The score should move off 100 once a real penalty is logged.
-        let scoreChanged = NSPredicate(format: "label != '100'")
-        expectation(for: scoreChanged, evaluatedWith: scoreValue)
-        waitForExpectations(timeout: 10)
 
         // "No events logged yet." must be gone, and the logged coffee shows
         // up with its resolved name/amount (see LogEvent.description).
         XCTAssertFalse(app.staticTexts["No events logged yet."].exists)
         XCTAssertTrue(app.staticTexts["Coffee"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["135 mg"].waitForExistence(timeout: 5))
+
+        switchToTab("Forecast")
+        // The score should move off 100 once a real penalty is logged.
+        let scoreChanged = NSPredicate(format: "label != '100'")
+        expectation(for: scoreChanged, evaluatedWith: scoreValue)
+        waitForExpectations(timeout: 10)
     }
 
     func testDeletingALoggedEventRemovesItAndRestoresScore() throws {
@@ -69,6 +78,7 @@ final class LoggingFlowUITests: XCTestCase {
         let scoreValue = app.staticTexts["scoreValue"]
         XCTAssertTrue(scoreValue.waitForExistence(timeout: 10))
 
+        switchToTab("Log")
         app.buttons["quickAdd_coffee"].tap()
         XCTAssertTrue(app.staticTexts["Coffee"].waitForExistence(timeout: 5))
 
@@ -77,8 +87,9 @@ final class LoggingFlowUITests: XCTestCase {
         let deleteButton = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH 'deleteEvent_'")).firstMatch
         XCTAssertTrue(deleteButton.waitForExistence(timeout: 5))
         deleteButton.tap()
-
         XCTAssertTrue(app.staticTexts["No events logged yet."].waitForExistence(timeout: 5))
+
+        switchToTab("Forecast")
         let scoreRestored = NSPredicate(format: "label == '100'")
         expectation(for: scoreRestored, evaluatedWith: scoreValue)
         waitForExpectations(timeout: 10)
