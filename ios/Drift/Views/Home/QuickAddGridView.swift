@@ -21,14 +21,14 @@ struct QuickAddGridView: View {
                             Button(option.label) { onAdd(type, option.value) }
                         }
                     } label: {
-                        QuickAddTile(label: meta.quickLabel, meta: meta.quickMeta, showChevron: true)
+                        QuickAddTile(label: meta.quickLabel, meta: meta.quickMeta, icon: "chevron.down")
                     }
                     .accessibilityIdentifier("quickAdd_\(type.rawValue)")
                 } else {
                     Button {
                         onAdd(type, meta.defaultAmount)
                     } label: {
-                        QuickAddTile(label: meta.quickLabel, meta: meta.quickMeta, showChevron: false)
+                        QuickAddTile(label: meta.quickLabel, meta: meta.quickMeta, icon: "plus")
                     }
                     .accessibilityIdentifier("quickAdd_\(type.rawValue)")
                 }
@@ -40,7 +40,11 @@ struct QuickAddGridView: View {
 private struct QuickAddTile: View {
     let label: String
     let meta: String
-    let showChevron: Bool
+    // "chevron.down" (opens a menu of options) or "plus" (adds the shown
+    // default amount immediately) — every tile gets one, so it's always
+    // clear what tapping it does rather than only variant types having an
+    // affordance.
+    let icon: String
 
     var body: some View {
         HStack {
@@ -53,11 +57,9 @@ private struct QuickAddTile: View {
                     .foregroundStyle(DriftTheme.text3)
             }
             Spacer()
-            if showChevron {
-                Image(systemName: "chevron.down")
-                    .font(.caption2)
-                    .foregroundStyle(DriftTheme.text3)
-            }
+            Image(systemName: icon)
+                .font(.caption2)
+                .foregroundStyle(DriftTheme.text3)
         }
         .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)

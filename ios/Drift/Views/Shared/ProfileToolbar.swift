@@ -15,6 +15,7 @@ extension View {
                         Image(systemName: "person.circle")
                     }
                     .tint(DriftTheme.text2)
+                    .accessibilityLabel("Profile")
                     .accessibilityIdentifier("profileButton")
                 }
             }

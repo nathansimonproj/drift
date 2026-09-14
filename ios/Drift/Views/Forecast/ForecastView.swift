@@ -18,7 +18,7 @@ struct ForecastView: View {
                         let result = Scoring.score(events: nearEvents, at: bedtime)
                         let interpretation = InterpretationEngine.interpret(score: result.score, byType: result.byType)
 
-                        ScoreHeroView(result: result, interpretation: interpretation, bedtime: bedtime)
+                        ScoreHeroView(result: result, interpretation: interpretation)
                         ForecastChartView(events: nearEvents, bedtime: bedtime)
                         BreakdownView(byType: result.byType)
 

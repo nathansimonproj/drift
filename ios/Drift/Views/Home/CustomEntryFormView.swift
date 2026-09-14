@@ -10,7 +10,7 @@ struct CustomEntryFormView: View {
     @State private var selectedType: EventType = .coffee
     @State private var numberAmount = ""
     @State private var variantAmount = ""
-    @State private var timeString = ""
+    @State private var time = Date()
 
     private var meta: EventMetadata { selectedType.metadata }
 
@@ -36,11 +36,10 @@ struct CustomEntryFormView: View {
                     .font(.footnote)
                     .foregroundStyle(DriftTheme.text2)
                 Spacer()
-                TextField("now (HH:MM)", text: $timeString)
-                    .keyboardType(.numbersAndPunctuation)
-                    .multilineTextAlignment(.trailing)
-                    .foregroundStyle(DriftTheme.text)
-                    .frame(width: 120)
+                DatePicker("Time", selection: $time, displayedComponents: .hourAndMinute)
+                    .labelsHidden()
+                    .datePickerStyle(.compact)
+                    .tint(DriftTheme.text)
             }
 
             Button {
@@ -112,9 +111,12 @@ struct CustomEntryFormView: View {
         default:
             amount = variantAmount
         }
-        let time = timeString.isEmpty ? Date() : (TimeHelpers.parseTimeStrToToday(timeString) ?? Date())
-        onAdd(selectedType, amount, time)
-        timeString = ""
+        // Round-trips through the same "assume yesterday if >12h in the
+        // future" heuristic the old HH:MM text field used, so logging
+        // something from just after midnight still lands on the right day.
+        let resolvedTime = TimeHelpers.parseTimeStrToToday(TimeHelpers.toTimeInputValue(time)) ?? time
+        onAdd(selectedType, amount, resolvedTime)
+        time = Date()
     }
 }
 

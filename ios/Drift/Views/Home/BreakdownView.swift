@@ -18,7 +18,10 @@ struct BreakdownView: View {
                     Text(category.label)
                         .foregroundStyle(DriftTheme.text)
                     Spacer()
-                    Text("−\(category.cost, specifier: "%.1f")")
+                    // A literal "−0.0" for nothing logged reads like a
+                    // glitch rather than "nothing here yet" — a dash is
+                    // unambiguous.
+                    Text(category.cost == 0 ? "—" : "−\(category.cost, specifier: "%.1f")")
                         .foregroundStyle(color(for: category.cost))
                         .fontWeight(.medium)
                 }

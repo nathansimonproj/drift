@@ -73,7 +73,10 @@ struct ForecastChartView: View {
                 }
             }
             .chartXAxis {
-                AxisMarks(values: .stride(by: .hour)) { _ in
+                // Samples span "now" through bedtime+2h, which can be over
+                // 12h — an hourly tick for each would overlap on a phone-
+                // width chart, so space them out every 3h instead.
+                AxisMarks(values: .stride(by: .hour, count: 3)) { _ in
                     AxisGridLine().foregroundStyle(.clear)
                     AxisValueLabel(format: .dateTime.hour(), centered: true)
                         .foregroundStyle(DriftTheme.text3)

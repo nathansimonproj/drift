@@ -12,7 +12,7 @@ struct EditEventSheet: View {
     @State private var selectedType: EventType
     @State private var numberAmount = ""
     @State private var variantAmount = ""
-    @State private var timeString: String
+    @State private var time: Date
     @State private var showDeleteConfirm = false
 
     init(event: LogEvent, onSave: @escaping (String, EventType, String, Date) -> Void, onDelete: @escaping (String) -> Void) {
@@ -20,7 +20,7 @@ struct EditEventSheet: View {
         self.onSave = onSave
         self.onDelete = onDelete
         _selectedType = State(initialValue: event.type)
-        _timeString = State(initialValue: TimeHelpers.toTimeInputValue(event.time))
+        _time = State(initialValue: event.time)
         switch event.type.metadata.amountKind {
         case .number: _numberAmount = State(initialValue: event.amount)
         default: _variantAmount = State(initialValue: event.amount)
@@ -42,13 +42,7 @@ struct EditEventSheet: View {
 
                     amountField
 
-                    HStack {
-                        Text("Time")
-                        Spacer()
-                        TextField("HH:MM", text: $timeString)
-                            .keyboardType(.numbersAndPunctuation)
-                            .multilineTextAlignment(.trailing)
-                    }
+                    DatePicker("Time", selection: $time, displayedComponents: .hourAndMinute)
                 }
                 .listRowBackground(DriftTheme.surface2)
 
@@ -131,8 +125,8 @@ struct EditEventSheet: View {
         default:
             amount = variantAmount
         }
-        let time = timeString.isEmpty ? event.time : (TimeHelpers.parseTimeStrToToday(timeString) ?? event.time)
-        onSave(event.id, selectedType, amount, time)
+        let resolvedTime = TimeHelpers.parseTimeStrToToday(TimeHelpers.toTimeInputValue(time)) ?? time
+        onSave(event.id, selectedType, amount, resolvedTime)
         dismiss()
     }
 }
