@@ -80,6 +80,7 @@ struct EditEventSheet: View {
             }
         }
         .preferredColorScheme(.dark)
+        .fontDesign(.rounded)
     }
 
     @ViewBuilder

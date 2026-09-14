@@ -89,6 +89,7 @@ struct ResetPasswordView: View {
             }
         }
         .preferredColorScheme(.dark)
+        .fontDesign(.rounded)
     }
 
     private func submit() async {

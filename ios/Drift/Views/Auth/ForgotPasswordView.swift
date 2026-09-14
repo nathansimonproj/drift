@@ -56,6 +56,7 @@ struct ForgotPasswordView: View {
             }
         }
         .preferredColorScheme(.dark)
+        .fontDesign(.rounded)
     }
 
     private func send() async {

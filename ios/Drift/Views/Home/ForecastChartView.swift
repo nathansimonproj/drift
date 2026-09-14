@@ -114,11 +114,11 @@ struct ForecastChartView: View {
                 }
                 .padding(10)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(DriftTheme.surface2, in: RoundedRectangle(cornerRadius: 8))
+                .background(DriftTheme.surface2, in: RoundedRectangle(cornerRadius: DriftTheme.Radius.field))
             }
         }
         .padding(16)
-        .background(DriftTheme.surface, in: RoundedRectangle(cornerRadius: 14))
-        .overlay(RoundedRectangle(cornerRadius: 14).stroke(DriftTheme.border))
+        .background(DriftTheme.surface, in: RoundedRectangle(cornerRadius: DriftTheme.Radius.card))
+        .overlay(RoundedRectangle(cornerRadius: DriftTheme.Radius.card).stroke(DriftTheme.border))
     }
 }

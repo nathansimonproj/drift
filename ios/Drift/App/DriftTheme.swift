@@ -17,6 +17,15 @@ enum DriftTheme {
     static let good = Color(hex: 0xC0C0C0)
     static let warn = Color(hex: 0xAAAAAA)
     static let bad = Color(hex: 0x888888)
+
+    // Softer, more generous rounding across cards/fields/tiles — same dark
+    // palette as the web app, but a friendlier, less clinical shape
+    // language (buttons go fully pill-shaped via Capsule).
+    enum Radius {
+        static let card: CGFloat = 22
+        static let field: CGFloat = 14
+        static let tile: CGFloat = 18
+    }
 }
 
 extension Color {
@@ -29,14 +38,14 @@ extension Color {
     }
 }
 
-// Mirrors css/app.css's `input` styling: surface-2 background, 1px border,
-// 8px corner radius.
+// Mirrors css/app.css's `input` styling: surface-2 background, 1px border —
+// rounded well past the web's 8px for a softer, friendlier field shape.
 private struct DriftFieldStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
             .padding(12)
-            .background(DriftTheme.surface2, in: RoundedRectangle(cornerRadius: 8))
-            .overlay(RoundedRectangle(cornerRadius: 8).stroke(DriftTheme.border))
+            .background(DriftTheme.surface2, in: RoundedRectangle(cornerRadius: DriftTheme.Radius.field))
+            .overlay(RoundedRectangle(cornerRadius: DriftTheme.Radius.field).stroke(DriftTheme.border))
     }
 }
 
@@ -48,16 +57,18 @@ extension View {
 
 // Mirrors css/app.css's `.btn-primary`: light accent background with dark
 // (bg-colored) text — an inverted look, not the system's white-on-tint.
+// Fully pill-shaped (Capsule) rather than a slightly-rounded rectangle, for
+// a softer, friendlier button shape.
 struct DriftPrimaryButtonStyle: ButtonStyle {
     @Environment(\.isEnabled) private var isEnabled
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .foregroundStyle(DriftTheme.bg)
-            .padding(.vertical, 11)
+            .padding(.vertical, 13)
             .background(
                 configuration.isPressed ? Color.white : DriftTheme.accent,
-                in: RoundedRectangle(cornerRadius: 8)
+                in: Capsule()
             )
             .opacity(isEnabled ? 1 : 0.5)
     }

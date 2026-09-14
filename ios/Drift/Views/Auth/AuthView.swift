@@ -51,8 +51,8 @@ struct AuthView: View {
                     .foregroundStyle(DriftTheme.text2)
                     .padding(12)
                     .frame(maxWidth: .infinity)
-                    .background(DriftTheme.accent.opacity(0.05), in: RoundedRectangle(cornerRadius: 10))
-                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(DriftTheme.border))
+                    .background(DriftTheme.accent.opacity(0.05), in: RoundedRectangle(cornerRadius: DriftTheme.Radius.tile))
+                    .overlay(RoundedRectangle(cornerRadius: DriftTheme.Radius.tile).stroke(DriftTheme.border))
 
                 Picker("Mode", selection: $mode) {
                     ForEach(Mode.allCases, id: \.self) { Text($0.rawValue).tag($0) }

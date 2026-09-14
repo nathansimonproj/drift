@@ -17,6 +17,11 @@ struct AppRootView: View {
         // match that here instead of following the device's light/dark mode.
         .preferredColorScheme(.dark)
         .tint(DriftTheme.accent)
+        // Rounded system font design — SF Symbols automatically render in
+        // their rounded glyph variant under this too, so this one modifier
+        // covers both the "friendlier font" and "softer iconography" asks
+        // without touching every individual Text/Image call site.
+        .fontDesign(.rounded)
     }
 }
 

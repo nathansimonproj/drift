@@ -30,8 +30,8 @@ struct BreakdownView: View {
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 4)
-        .background(DriftTheme.surface, in: RoundedRectangle(cornerRadius: 14))
-        .overlay(RoundedRectangle(cornerRadius: 14).stroke(DriftTheme.border))
+        .background(DriftTheme.surface, in: RoundedRectangle(cornerRadius: DriftTheme.Radius.card))
+        .overlay(RoundedRectangle(cornerRadius: DriftTheme.Radius.card).stroke(DriftTheme.border))
     }
 }
 

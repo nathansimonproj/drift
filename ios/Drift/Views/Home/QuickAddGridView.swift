@@ -61,8 +61,8 @@ private struct QuickAddTile: View {
         }
         .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(DriftTheme.surface2, in: RoundedRectangle(cornerRadius: 10))
-        .overlay(RoundedRectangle(cornerRadius: 10).stroke(DriftTheme.border))
+        .background(DriftTheme.surface2, in: RoundedRectangle(cornerRadius: DriftTheme.Radius.tile))
+        .overlay(RoundedRectangle(cornerRadius: DriftTheme.Radius.tile).stroke(DriftTheme.border))
     }
 }
 
