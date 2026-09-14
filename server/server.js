@@ -39,6 +39,9 @@ app.get('/pages/forgot-password.html', (_req, res) =>
 app.get('/pages/reset-password.html', (_req, res) =>
   res.sendFile(path.join(ROOT, 'pages', 'reset-password.html'))
 );
+app.get('/pages/privacy.html', (_req, res) =>
+  res.sendFile(path.join(ROOT, 'pages', 'privacy.html'))
+);
 
 // Root redirects to home page
 app.get('/', (_req, res) => res.redirect('/pages/home.html'));

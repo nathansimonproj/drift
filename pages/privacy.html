@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drift — Privacy Policy</title>
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --surface: #141414;
+      --surface-2: #1e1e1e;
+      --border: #2e2e2e;
+      --text: #f0f0f0;
+      --text-2: #999999;
+      --text-3: #555555;
+      --accent: #e0e0e0;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 48px 24px 96px;
+    }
+
+    h1 {
+      font-size: 26px;
+      letter-spacing: -0.02em;
+      margin: 0 0 6px;
+    }
+
+    .updated {
+      color: var(--text-3);
+      font-size: 13px;
+      margin: 0 0 36px;
+    }
+
+    h2 {
+      font-size: 16px;
+      margin: 32px 0 10px;
+      color: var(--accent);
+    }
+
+    p, li {
+      font-size: 14.5px;
+      line-height: 1.65;
+      color: var(--text-2);
+    }
+
+    ul { padding-left: 20px; margin: 8px 0; }
+    li { margin-bottom: 6px; }
+
+    strong { color: var(--text); font-weight: 600; }
+
+    a { color: var(--text); }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 20px;
+      margin: 8px 0 0;
+    }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 24px;
+      color: var(--text-2);
+      font-size: 13px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="/pages/login.html">&larr; Back to Drift</a>
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated September 14, 2026</p>
+
+    <p>
+      Drift is a sleep-forecast tool: you log things that affect your sleep
+      (caffeine, alcohol, nicotine, marijuana) and Drift estimates how they'll
+      affect you tonight. This page explains, in plain language, what
+      information Drift collects, why, and what it does — and doesn't — do
+      with it.
+    </p>
+
+    <h2>What we collect</h2>
+    <ul>
+      <li><strong>Account info:</strong> the email address and password you sign up with. Your password is never stored — only a one-way bcrypt hash of it.</li>
+      <li><strong>Profile info (optional):</strong> name, sex, height, weight, and your target bedtime, if you choose to fill them in under Profile.</li>
+      <li><strong>Sleep-affecting event logs:</strong> what you log (type, amount, and time) — caffeine, alcohol, nicotine, or marijuana entries. This is the data your forecast score is calculated from.</li>
+    </ul>
+
+    <h2>What we don't collect</h2>
+    <p>
+      Drift has no analytics SDK, no advertising SDK, no crash-reporting
+      service, and doesn't use device location, contacts, camera, or
+      HealthKit. We don't know how you use the app beyond the data you
+      explicitly log.
+    </p>
+
+    <h2>How your data is used</h2>
+    <p>
+      Solely to run Drift for you: computing your sleep forecast and score,
+      and showing your own history back to you. Nothing more.
+    </p>
+
+    <div class="card">
+      <strong>We do not sell, share, rent, or report your data to anyone</strong> —
+      not to advertisers, employers, insurers, researchers, or any other
+      third party. Your logs are visible only to you.
+    </div>
+
+    <h2>Third parties</h2>
+    <p>
+      Drift uses <strong>SendGrid</strong> to send password-reset emails.
+      SendGrid only ever sees the email address needed to deliver that one
+      email — never your profile or event data. That's the only third-party
+      service Drift uses.
+    </p>
+
+    <h2>Data retention &amp; deletion</h2>
+    <p>
+      Your data is kept for as long as your account exists. You can delete
+      your account at any time from <strong>Profile → Account → Delete
+      account</strong> in the app. This immediately and permanently deletes
+      your account and all associated event history — this cannot be undone
+      and we cannot recover it afterward.
+    </p>
+
+    <h2>Security</h2>
+    <p>
+      Passwords are hashed with bcrypt, never stored in plain text. The iOS
+      app stores your session token in the device Keychain (not in a plain
+      preferences file). All network traffic runs over HTTPS.
+    </p>
+
+    <h2>Children's privacy</h2>
+    <p>
+      Drift is not directed at, and is not knowingly used by, children under
+      13. If you believe a child has created an account, contact us and
+      we'll delete it.
+    </p>
+
+    <h2>Changes to this policy</h2>
+    <p>
+      If this policy changes in any meaningful way, the "last updated" date
+      above will change accordingly.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Questions about this policy or your data: <a href="mailto:nsimon06@uw.edu">nsimon06@uw.edu</a>.
+    </p>
+  </div>
+</body>
+</html>

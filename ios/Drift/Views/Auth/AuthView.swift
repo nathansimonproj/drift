@@ -46,13 +46,23 @@ struct AuthView: View {
                 }
                 .padding(.top, 40)
 
-                Label("We will never share, sell, or report your data.", systemImage: "lock.fill")
-                    .font(.footnote)
-                    .foregroundStyle(DriftTheme.text2)
-                    .padding(12)
-                    .frame(maxWidth: .infinity)
-                    .background(DriftTheme.accent.opacity(0.05), in: RoundedRectangle(cornerRadius: DriftTheme.Radius.tile))
-                    .overlay(RoundedRectangle(cornerRadius: DriftTheme.Radius.tile).stroke(DriftTheme.border))
+                VStack(spacing: 4) {
+                    Label("We will never share, sell, or report your data.", systemImage: "lock.fill")
+                        .font(.footnote)
+                        .foregroundStyle(DriftTheme.text2)
+                    // App Review guideline 5.1.1(i): the privacy policy must be
+                    // reachable from inside the app itself, not just the App
+                    // Store listing. Always points at production — it's a
+                    // static legal page, same content regardless of build config.
+                    Link("Privacy policy", destination: URL(string: "https://drift-hs0w.onrender.com/pages/privacy.html")!)
+                        .font(.footnote)
+                        .foregroundStyle(DriftTheme.text2)
+                        .underline()
+                }
+                .padding(12)
+                .frame(maxWidth: .infinity)
+                .background(DriftTheme.accent.opacity(0.05), in: RoundedRectangle(cornerRadius: DriftTheme.Radius.tile))
+                .overlay(RoundedRectangle(cornerRadius: DriftTheme.Radius.tile).stroke(DriftTheme.border))
 
                 Picker("Mode", selection: $mode) {
                     ForEach(Mode.allCases, id: \.self) { Text($0.rawValue).tag($0) }
