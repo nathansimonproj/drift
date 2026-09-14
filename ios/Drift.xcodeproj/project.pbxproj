@@ -30,6 +30,7 @@
 		6B30FC938FC400C3523ABF45 /* ProfileStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40BE017164872B474E0D6CE /* ProfileStoreTests.swift */; };
 		6B6279DC880508B4B9AF7D5F /* AuthStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279B193CE149AC658F831934 /* AuthStoreTests.swift */; };
 		77A3E54D9076B72EA8075BD5 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D847AE13EC94BFF91B0E395 /* MainTabView.swift */; };
+		7B533C676433BDF7A684760D /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 033908422786A719AB3A95D3 /* PrivacyInfo.xcprivacy */; };
 		7D3BFF7ECD596FAB7187050B /* ProfileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16825E54E48D45087107C571 /* ProfileStore.swift */; };
 		7E36CD3E8D3E960E2D4D24A3 /* ForecastChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C6BC511776165ED94CEEDA /* ForecastChartView.swift */; };
 		8744757CD7422BA2D8EE90B0 /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC432A536C8574D64F9523F /* KeychainStore.swift */; };
@@ -75,6 +76,7 @@
 
 /* Begin PBXFileReference section */
 		02D9A99C3EA36058888654E8 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		033908422786A719AB3A95D3 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		062476A9E38F73BCE54E7E5F /* EventsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAPI.swift; sourceTree = "<group>"; };
 		08E33CA6BE80D735A37ED745 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0A1374012173C4F87954F93B /* DriftUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = DriftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -321,6 +323,7 @@
 			isa = PBXGroup;
 			children = (
 				08E33CA6BE80D735A37ED745 /* Assets.xcassets */,
+				033908422786A719AB3A95D3 /* PrivacyInfo.xcprivacy */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -466,6 +469,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA43792497E2FC36FF55F58C /* Assets.xcassets in Resources */,
+				7B533C676433BDF7A684760D /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -25,6 +25,7 @@ targets:
         CFBundleDisplayName: Drift
         UILaunchScreen: {}
         API_BASE_URL: $(API_BASE_URL)
+        ITSAppUsesNonExemptEncryption: false
         NSAppTransportSecurity:
           NSExceptionDomains:
             localhost:
